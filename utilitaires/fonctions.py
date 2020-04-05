@@ -3,6 +3,8 @@ import csv
 from .constantes import *
 import datetime
 
+DATA_PATH = "full_data.csv"
+
 def clean_folder():
 	try:
 		os.remove('full_data.csv')
@@ -58,3 +60,24 @@ def get_data_today(data):
 		return dictionnary_data_today
 	else:
 		return dictionnary_data_today
+
+
+def get_list_countries_to_process(country, full, liste):
+	# list of countries to process
+	list_countries_to_process = []
+	if country in get_list_countries_available(DATA_PATH):
+		list_countries_to_process.append(country)
+	elif full:
+		list_countries_to_process = get_list_countries_available(DATA_PATH)
+	elif liste :
+		liste = liste[1:-1]
+		countries = liste.split(',')
+		for one_country in countries:
+			if one_country in get_list_countries_available(DATA_PATH):
+				list_countries_to_process.append(one_country)
+			else:
+				print(one_country + ' not found in the available countries list.')
+	else:
+		print("Country not found, please check the available countries in the following list.")
+		print(get_list_countries(DATA_PATH))
+	return list_countries_to_process

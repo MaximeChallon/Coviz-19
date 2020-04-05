@@ -55,41 +55,23 @@ def country(country, output_folder, full, liste):
 def country_to_csv (country, output_folder, full, liste):
 	start_time = time.time()
 
-	# list of countries to process
-	list_countries_to_process = []
-	if country in get_list_countries(DATA_PATH):
-		list_countries_to_process.append(country)
-	elif full:
-		list_countries_to_process = get_list_countries(DATA_PATH)
-	elif liste :
-		liste = liste[1:-1]
-		countries = liste.split(',')
-		for one_country in countries:
-			if one_country in get_list_countries(DATA_PATH):
-				list_countries_to_process.append(one_country)
-			else:
-				print(one_country + ' not found in the available countries list.')
-	else:
-		print("Country not found, please check the available countries in the following list.")
-		print(get_list_countries(DATA_PATH))
-
 	# managing the folders...
 	folder_path = output_folder + '/countries'
 	os.system('mkdir ' + output_folder)
 	os.system('mkdir ' + output_folder + '/countries')
 
-	for country in list_countries_to_process:
+	for country in get_list_countries_to_process(country=country, full=full, liste=liste):
 		print(country + ' processing...')
 		# creation of one folder for each country
-		os.system('mkdir ' + folder_path + '/' + country)
-		csv_path = folder_path + '/' + country + '/' +  country + '.csv'
+		os.system('mkdir ' + folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_'))
+		csv_path = folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '/' +  country.replace(')', '_').replace('(', '_').replace(' ', '_').replace('\'', '_') + '.csv'
 
 		with open(DATA_PATH, 'r') as f:
 			f_o = csv.reader(f)
 			next(f_o)
 			for line in f_o:
 				# écriture des lignes que quand le nombre de cas est supérieur à CAS_MIN_GRAPHIQUE
-				if line[1] == country and line[4] >= GRAPH_MIN_CASES:
+				if line[1] == country and line[4] >= PLOT_MIN_CASES:
 					with open(csv_path, 'a') as f_e:
 						writer = csv.writer(f_e)
 						writer.writerow(line)
