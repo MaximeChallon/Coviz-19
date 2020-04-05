@@ -75,30 +75,40 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 
 	if total_deaths:
 		csv_path = output_folder + '/total_deaths.csv'
-		for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-			with open(csv_path, 'a') as f:
+		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				writer.writerow([country, get_data_today(DATA_PATH)[country][3]])
+				writer.writerow(["country", "total_deaths"])
+				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					writer.writerow([country, get_data_today(DATA_PATH)[country][3]])
 	elif total_cases:
 		csv_path = output_folder + '/total_cases.csv'
-		for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-			with open(csv_path, 'a') as f:
+		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				writer.writerow([country, get_data_today(DATA_PATH)[country][2]])
+				writer.writerow(["country", "total_cases"])
+				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					writer.writerow([country, get_data_today(DATA_PATH)[country][2]])
 	elif cases_of_the_day:
 		csv_path = output_folder + '/cases_of_the_day.csv'
-		for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-			with open(csv_path, 'a') as f:
+		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				writer.writerow([country, get_data_today(DATA_PATH)[country][0]])
+				writer.writerow(["country", "cases_of_the_day"])
+				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					writer.writerow([country, get_data_today(DATA_PATH)[country][0]])
 	elif deaths_of_the_day:
 		csv_path = output_folder + '/deaths_of_the_day.csv'
-		for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-			with open(csv_path, 'a') as f:
+		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				writer.writerow([country, get_data_today(DATA_PATH)[country][1]])
+				writer.writerow(["country", "deaths_of_the_day"])
+				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					writer.writerow([country, get_data_today(DATA_PATH)[country][1]])
 	else: # create a CSV with all the data (total_deaths, total_cases, cases_of_the_day, deaths_of_the_day)
-		pass
+		csv_path = output_folder + '/deaths_of_the_day.csv'
+		with open(csv_path, 'w') as f:
+			writer = csv.writer(f)
+			writer.writerow(["country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+				if country in get_data_today(DATA_PATH):
+					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3]])
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 

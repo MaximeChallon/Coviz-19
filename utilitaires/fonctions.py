@@ -46,8 +46,7 @@ def get_data_today(data):
 		dictionnary_data_today = {}
 		for line in f_o:
 			if line[0] == TODAY:
-				data = [line[2], line[3], line[4], line[5]]
-				dictionnary_data_today[line[1]] = data
+				dictionnary_data_today[line[1]] = [line[2], line[3], line[4], line[5]]
 	if len(dictionnary_data_today) == 0:
 		with open(data, 'r') as f:
 			f_o = csv.reader(f)
