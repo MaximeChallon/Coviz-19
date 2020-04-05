@@ -10,7 +10,7 @@ clean_folder()
 DATA = os.system('wget https://covid.ourworldindata.org/data/ecdc/full_data.csv')
 DATA_PATH = 'full_data.csv'
 
-@click.group()
+@click.group(context_settings={'help_option_names':['-h','--help']})
 def main():
     pass
 
@@ -43,14 +43,16 @@ def main():
 	is_flag=True,
 	help='Create a CSV file as output with the cumulative cases')
 @click.option('-ccd',
-	'--csv_deaths_of_the_day',
+	'--csv_cases_of_the_day',
 	is_flag=True,
 	help='Create a CSV file as output with the cases of the day')
-@click.option('-p',
-	'--plot',
+@click.option('-pf',
+	'--plot_full',
 	is_flag=True,
 	help='Create a PNG plot from the deaths of the day')
-def world(output_folder, today, full, csv_full, csv_deaths_of_the_day, csv_total_deaths, csv_total_cases, plot):
+def world(output_folder, today, full, 
+	csv_full, csv_deaths_of_the_day, csv_total_deaths, csv_total_cases, csv_cases_of_the_day, 
+	plot_full):
 	"""
 	Create a CSV file or a PNG image from the world's data of today or all the available dates.
 	\f
@@ -60,10 +62,18 @@ def world(output_folder, today, full, csv_full, csv_deaths_of_the_day, csv_total
 	:type today: bool
 	:param full: if given, all the data are using in the process
 	:type full: bool
-	:param csv: if given, create a CSV file as output
-	:type csv: bool
-	:param plot: if given, create a PNG image as output
-	:type csv: bool
+	:param csv_full: if given, create a CSV file as output
+	:type csv_full: bool
+	:param csv_deaths_of_the_day: if given, create a CSV file as output with deaths of the day's data
+	:type csv_deaths_of_the_day: bool
+	:param csv_cases_of_the_day: if given, create a CSV file as output with cases of the day's data
+	:type csv_cases_of_the_day: bool
+	:param csv_total_deaths: if given, create a CSV file as output with the cumulative deaths's data
+	:type csv_total_deaths: bool
+	:param csv_total_cases: if given, create a CSV file as output with the cumulative cases's data
+	:type csv_total_cases: bool
+	:param plot_full: if given, create a PNG image as output
+	:type plot_full: bool
 	"""
 	start_time = time.time()
 
@@ -116,7 +126,7 @@ def world(output_folder, today, full, csv_full, csv_deaths_of_the_day, csv_total
 			for day in world_dictionnary:
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[2]])
-	elif csv_deaths_of_the_day:
+	elif csv_cases_of_the_day:
 		csv_path = output_folder + "/world_cases_of_the_day.csv"
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
