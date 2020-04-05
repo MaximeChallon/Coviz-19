@@ -81,3 +81,13 @@ def get_list_countries_to_process(country, full, liste):
 		print("Country not found, please check the available countries in the following list.")
 		print(get_list_countries_available(DATA_PATH))
 	return list_countries_to_process
+
+def get_world_data(data):
+	with open(data, 'r') as f:
+		f_o = csv.reader(f)
+		next(f_o)
+		dictionnary_data_world = {}
+		for line in f_o:
+			if line[1] == 'World':
+				dictionnary_data_world[line[0]] = line[2] + ',' + line[3] + ',' + line[4] + ',' + line[5]
+	return dictionnary_data_world

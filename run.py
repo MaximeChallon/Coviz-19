@@ -14,6 +14,73 @@ DATA_PATH = 'full_data.csv'
 def main():
     pass
 
+
+@main.command("world")
+@click.argument("output_folder",
+              default="out")
+@click.option('-t',
+	'--today',
+	is_flag=True,
+	help="Process the data of today")
+@click.option('-f',
+	'--full',
+	is_flag=True,
+	help='Process all the data from all the dates available')
+@click.option('-c',
+	'--csv_o',
+	is_flag=True,
+	help='Create a CSV file as output')
+@click.option('-p',
+	'--plot',
+	is_flag=True,
+	help='Create a PNG plot from the deaths of the day')
+def world(output_folder, today, full, csv_o, plot):
+	"""
+	Create a CSV file or a PNG image from the world's data of today or all the available dates.
+	If -t or -f is not precised, the full data will be using.
+	\f
+	:param output_folder: name of the folder which will have the CSVs
+	:type output_folder: str
+	:param today: if given, only the data of the day are using in the process
+	:type today: bool
+	:param full: if given, all the data are using in the process
+	:type full: bool
+	:param csv: if given, create a CSV file as output
+	:type csv: bool
+	:param plot: if given, create a PNG image as output
+	:type csv: bool
+	"""
+	start_time = time.time()
+
+	# managing the folders...
+	os.system('mkdir ' + output_folder)
+	
+	if csv_o:
+		csv_path = output_folder + "/world.csv"
+		with open(csv_path, 'w') as f:
+			writer = csv.writer(f)
+			print("Writing headers...")
+			writer.writerow(["date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+
+			day_dictionnary = {}
+			if today:
+				day_dictionnary[TODAY] = get_world_data(DATA_PATH)[TODAY]
+			elif full:
+				day_dictionnary = get_world_data(DATA_PATH)
+
+			print("Writing the body...")
+			for day in day_dictionnary:
+				data_split = day_dictionnary[day].split(',')
+				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3]])
+			
+	elif plot:
+		pass
+	else:
+		print("Please specify the output")
+
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
+
+
 @main.command("today")
 @click.argument("output_folder",
               default="out")
