@@ -15,7 +15,7 @@ def clean_folder():
 		pass
 
 
-def get_list_countries(data):
+def get_list_countries_available(data):
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
 		next(f_o)
@@ -26,7 +26,7 @@ def get_list_countries(data):
 		return list_countries
 
 
-def get_all_dates(data):
+def get_all_dates_available(data):
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
 		next(f_o)
