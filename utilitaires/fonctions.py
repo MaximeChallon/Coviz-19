@@ -57,6 +57,7 @@ def get_data_today(data):
 				if line[0] == YESTERDAY_CUT:
 					data = [line[2], line[3], line[4], line[5]]
 					dictionnary_data_today[line[1]] = data
+		print("Only yesterday's data are available now.")
 		return dictionnary_data_today
 	else:
 		return dictionnary_data_today
@@ -79,5 +80,5 @@ def get_list_countries_to_process(country, full, liste):
 				print(one_country + ' not found in the available countries list.')
 	else:
 		print("Country not found, please check the available countries in the following list.")
-		print(get_list_countries(DATA_PATH))
+		print(get_list_countries_available(DATA_PATH))
 	return list_countries_to_process
