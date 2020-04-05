@@ -77,40 +77,50 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 		csv_path = output_folder + '/total_deaths.csv'
 		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
+				print('Writing headers...')
 				writer.writerow(["country", "total_deaths"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					print(country + ' on process...')
 					if country in get_data_today(DATA_PATH):
 						writer.writerow([country, get_data_today(DATA_PATH)[country][3]])
 	elif total_cases:
 		csv_path = output_folder + '/total_cases.csv'
 		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
+				print('Writing headers...')
 				writer.writerow(["country", "total_cases"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					print(country + ' on process...')
 					if country in get_data_today(DATA_PATH):
 						writer.writerow([country, get_data_today(DATA_PATH)[country][2]])
 	elif cases_of_the_day:
 		csv_path = output_folder + '/cases_of_the_day.csv'
 		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
+				print('Writing headers...')
 				writer.writerow(["country", "cases_of_the_day"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					print(country + ' on process...')
 					if country in get_data_today(DATA_PATH):
 						writer.writerow([country, get_data_today(DATA_PATH)[country][0]])
 	elif deaths_of_the_day:
 		csv_path = output_folder + '/deaths_of_the_day.csv'
 		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
+				print('Writing headers...')
 				writer.writerow(["country", "deaths_of_the_day"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+					print(country + ' on process...')
 					if country in get_data_today(DATA_PATH):
 						writer.writerow([country, get_data_today(DATA_PATH)[country][1]])
 	else: # create a CSV with all the data (total_deaths, total_cases, cases_of_the_day, deaths_of_the_day)
 		csv_path = output_folder + '/deaths_of_the_day.csv'
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
+			print('Writing headers...')
 			writer.writerow(["country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
 			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+				print(country + ' on process...')
 				if country in get_data_today(DATA_PATH):
 					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3]])
 
@@ -156,7 +166,7 @@ def country_to_csv (country, output_folder, full, liste):
 	os.system('mkdir ' + output_folder + '/countries')
 
 	for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-		print(country + ' processing...')
+		print(country + ' on process...')
 		# creation of one folder for each country
 		os.system('mkdir ' + folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_'))
 		csv_path = folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '/' +  country.replace(')', '_').replace('(', '_').replace(' ', '_').replace('\'', '_') + '.csv'
@@ -164,11 +174,14 @@ def country_to_csv (country, output_folder, full, liste):
 		with open(DATA_PATH, 'r') as f:
 			f_o = csv.reader(f)
 			next(f_o)
-			for line in f_o:
-				# écriture des lignes que quand le nombre de cas est supérieur à PLOT_MIN_CASES
-				if line[1] == country and line[4] >= PLOT_MIN_CASES:
-					with open(csv_path, 'a') as f_e:
-						writer = csv.writer(f_e)
+			with open(csv_path, 'a') as f_e:
+				writer = csv.writer(f_e)
+				print("Writing headers...")
+				writer.writerow(["date", "country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+				print("Writing body...")
+				for line in f_o:
+					# écriture des lignes que quand le nombre de cas est supérieur à PLOT_MIN_CASES
+					if line[1] == country and line[4] >= PLOT_MIN_CASES:
 						writer.writerow(line)
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
