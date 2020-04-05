@@ -1,11 +1,8 @@
 import click
-from utilitaires.fonctions import clean_folder, get_list_countries
+from utilitaires.fonctions import *
 import os
 import time
-from datetime import datetime
 import csv
-
-TODAY = datetime.today().strftime('%Y-%m-%d')
 
 clean_folder()
 
@@ -33,7 +30,9 @@ def main():
 	help="Execute the command for a list of countries")
 def country(country, output_folder, full, list):
 	start_time = time.time()
-	print()
+	
+
+
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -76,12 +75,14 @@ def country_to_csv (country, output_folder, full, liste):
 
 	# managing the folders...
 	folder_path = output_folder + '/countries'
-	os.makedirs(folder_path)
+	os.system('mkdir ' + output_folder)
+	os.system('mkdir ' + output_folder + '/countries')
 
 	for country in list_countries_to_process:
 		print(country + ' processing...')
 		# creation of one folder for each country
-		csv_path = folder_path + '/' + country + '.csv'
+		os.system('mkdir ' + folder_path + '/' + country)
+		csv_path = folder_path + '/' + country + '/' +  country + '.csv'
 
 		with open(DATA_PATH, 'r') as f:
 			f_o = csv.reader(f)
