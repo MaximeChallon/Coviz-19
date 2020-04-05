@@ -3,12 +3,12 @@ from utilitaires.fonctions import *
 import os
 import time
 import csv
+from utilitaires.constantes import *
 
 clean_folder()
 
 DATA = os.system('wget https://covid.ourworldindata.org/data/ecdc/full_data.csv')
 DATA_PATH = 'full_data.csv'
-GRAPH_MIN_CASES = '100'
 
 @click.group()
 def main():
@@ -28,10 +28,10 @@ def main():
 	"--liste", 
 	default=[],
 	help="Execute the command for a list of countries")
-def country(country, output_folder, full, list):
+def country(country, output_folder, full, liste):
 	start_time = time.time()
 	
-
+	print(get_data_today(DATA_PATH))
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 

@@ -1,9 +1,7 @@
 import os
 import csv
-from datetime import datetime
-
-
-TODAY = datetime.today().strftime('%Y-%m-%d')
+from .constantes import *
+import datetime
 
 def clean_folder():
 	try:
@@ -48,4 +46,15 @@ def get_data_today(data):
 			if line[0] == TODAY:
 				data = [line[2], line[3], line[4], line[5]]
 				dictionnary_data_today[line[1]] = data
+	if len(dictionnary_data_today) == 0:
+		with open(data, 'r') as f:
+			f_o = csv.reader(f)
+			next(f_o)
+			dictionnary_data_today = {}
+			for line in f_o:
+				if line[0] == YESTERDAY_CUT:
+					data = [line[2], line[3], line[4], line[5]]
+					dictionnary_data_today[line[1]] = data
+		return dictionnary_data_today
+	else:
 		return dictionnary_data_today
