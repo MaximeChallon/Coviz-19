@@ -79,28 +79,32 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 				writer = csv.writer(f)
 				writer.writerow(["country", "total_deaths"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-					writer.writerow([country, get_data_today(DATA_PATH)[country][3]])
+					if country in get_data_today(DATA_PATH):
+						writer.writerow([country, get_data_today(DATA_PATH)[country][3]])
 	elif total_cases:
 		csv_path = output_folder + '/total_cases.csv'
 		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
 				writer.writerow(["country", "total_cases"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-					writer.writerow([country, get_data_today(DATA_PATH)[country][2]])
+					if country in get_data_today(DATA_PATH):
+						writer.writerow([country, get_data_today(DATA_PATH)[country][2]])
 	elif cases_of_the_day:
 		csv_path = output_folder + '/cases_of_the_day.csv'
 		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
 				writer.writerow(["country", "cases_of_the_day"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-					writer.writerow([country, get_data_today(DATA_PATH)[country][0]])
+					if country in get_data_today(DATA_PATH):
+						writer.writerow([country, get_data_today(DATA_PATH)[country][0]])
 	elif deaths_of_the_day:
 		csv_path = output_folder + '/deaths_of_the_day.csv'
 		with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
 				writer.writerow(["country", "deaths_of_the_day"])
 				for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-					writer.writerow([country, get_data_today(DATA_PATH)[country][1]])
+					if country in get_data_today(DATA_PATH):
+						writer.writerow([country, get_data_today(DATA_PATH)[country][1]])
 	else: # create a CSV with all the data (total_deaths, total_cases, cases_of_the_day, deaths_of_the_day)
 		csv_path = output_folder + '/deaths_of_the_day.csv'
 		with open(csv_path, 'w') as f:
@@ -115,7 +119,7 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 
 
 
-@main.command("csv")
+@main.command("csv_country")
 @click.argument("output_folder", 
 	default="out")
 @click.option("-c", 
