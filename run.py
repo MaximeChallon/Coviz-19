@@ -26,18 +26,33 @@ def main():
 	'--full',
 	is_flag=True,
 	help='Process all the data from all the dates available')
-@click.option('-c',
-	'--csv_o',
+@click.option('-cf',
+	'--csv_full',
 	is_flag=True,
-	help='Create a CSV file as output')
+	help='Create a CSV file as output with all data')
+@click.option('-cdd',
+	'--csv_deaths_of_the_day',
+	is_flag=True,
+	help='Create a CSV file as output with the deaths of the day')
+@click.option('-ctd',
+	'--csv_total_deaths',
+	is_flag=True,
+	help='Create a CSV file as output with the cumulative deaths')
+@click.option('-ctc',
+	'--csv_total_cases',
+	is_flag=True,
+	help='Create a CSV file as output with the cumulative cases')
+@click.option('-ccd',
+	'--csv_deaths_of_the_day',
+	is_flag=True,
+	help='Create a CSV file as output with the cases of the day')
 @click.option('-p',
 	'--plot',
 	is_flag=True,
 	help='Create a PNG plot from the deaths of the day')
-def world(output_folder, today, full, csv_o, plot):
+def world(output_folder, today, full, csv_full, csv_deaths_of_the_day, csv_total_deaths, csv_total_cases, plot):
 	"""
 	Create a CSV file or a PNG image from the world's data of today or all the available dates.
-	If -t or -f is not precised, the full data will be using.
 	\f
 	:param output_folder: name of the folder which will have the CSVs
 	:type output_folder: str
@@ -54,25 +69,63 @@ def world(output_folder, today, full, csv_o, plot):
 
 	# managing the folders...
 	os.system('mkdir ' + output_folder)
+
+	world_dictionnary = {}
+	if today:
+		world_dictionnary[TODAY] = get_world_data(DATA_PATH)[TODAY]
+	elif full:
+		world_dictionnary = get_world_data(DATA_PATH)
 	
-	if csv_o:
-		csv_path = output_folder + "/world.csv"
+	if csv_full:
+		csv_path = output_folder + "/world_full.csv"
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
 			print("Writing headers...")
 			writer.writerow(["date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
-
-			day_dictionnary = {}
-			if today:
-				day_dictionnary[TODAY] = get_world_data(DATA_PATH)[TODAY]
-			elif full:
-				day_dictionnary = get_world_data(DATA_PATH)
-
 			print("Writing the body...")
-			for day in day_dictionnary:
-				data_split = day_dictionnary[day].split(',')
+			for day in world_dictionnary:
+				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3]])
-			
+	elif csv_deaths_of_the_day:
+		csv_path = output_folder + "/world_deaths_of_the_day.csv"
+		with open(csv_path, 'w') as f:
+			writer = csv.writer(f)
+			print("Writing headers...")
+			writer.writerow(["date", "deaths_of_the_day"])
+			print("Writing the body...")
+			for day in world_dictionnary:
+				data_split = world_dictionnary[day].split(',')
+				writer.writerow([day, data_split[1]])
+	elif csv_total_deaths:
+		csv_path = output_folder + "/world_total_deaths.csv"
+		with open(csv_path, 'w') as f:
+			writer = csv.writer(f)
+			print("Writing headers...")
+			writer.writerow(["date", "total_deaths"])
+			print("Writing the body...")
+			for day in world_dictionnary:
+				data_split = world_dictionnary[day].split(',')
+				writer.writerow([day, data_split[3]])
+	elif csv_total_cases:
+		csv_path = output_folder + "/world_total_cases.csv"
+		with open(csv_path, 'w') as f:
+			writer = csv.writer(f)
+			print("Writing headers...")
+			writer.writerow(["date", "total_cases"])
+			print("Writing the body...")
+			for day in world_dictionnary:
+				data_split = world_dictionnary[day].split(',')
+				writer.writerow([day, data_split[2]])
+	elif csv_deaths_of_the_day:
+		csv_path = output_folder + "/world_cases_of_the_day.csv"
+		with open(csv_path, 'w') as f:
+			writer = csv.writer(f)
+			print("Writing headers...")
+			writer.writerow(["date", "cases_of_the_day"])
+			print("Writing the body...")
+			for day in world_dictionnary:
+				data_split = world_dictionnary[day].split(',')
+				writer.writerow([day, data_split[0]])
 	elif plot:
 		pass
 	else:
