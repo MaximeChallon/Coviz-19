@@ -125,3 +125,22 @@ def get_csv(output_folder, csv_path, index, world_dictionnary, country):
 		for day in world_dictionnary:
 			data_split = world_dictionnary[day].split(',')
 			writer.writerow([country, day, data_split[index]])
+
+def get_csv_today(output_folder, csv_path, index, country, full, liste):
+	csv_path = output_folder + '/' + csv_path
+	with open(csv_path, 'w') as f:
+			writer = csv.writer(f)
+			print('Writing headers...')
+			if index == 0:
+				header = "cases_of_the_day"
+			elif index == 1 :
+				header = "deaths_of_the_day"
+			elif index == 2:
+				header = "total_cases"
+			elif index == 3:
+				header = "total_deaths"
+			writer.writerow(["country", header])
+			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+				print(country + ' on process...')
+				if country in get_data_today(DATA_PATH):
+					writer.writerow([country, get_data_today(DATA_PATH)[country][index]])
