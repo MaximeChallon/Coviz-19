@@ -4,7 +4,6 @@ import os
 import time
 import csv
 from utilitaires.constantes import *
-import matplotlib.pyplot as plt
 
 clean_folder()
 
@@ -147,29 +146,10 @@ def world(output_folder, today, full,
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0]])
 	elif plot_deaths_of_the_day:
-		print("Creating plot with deaths of the day...")
-		img_path = output_folder + "/world_deaths_of_the_day.png"
-		fig = plt.figure(figsize=MORE_30D)
-		plt.xticks(rotation=45)
-		ax = plt.subplot()
-		ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[1]) for day in world_dictionnary], COLOR, label='Décès par jour')
-		ax.set_xlabel('Date')
-		ax.set_ylabel('Nombre de décès quotidiens')
-		plt.tight_layout()
-		plt.savefig(img_path)
-		plt.close(fig)
+		simple_plot("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 	elif plot_cases_of_the_day:
-		print("Creating plot with cases of the day...")
-		img_path = output_folder + "/world_cases_of_the_day.png"
-		fig = plt.figure(figsize=MORE_30D)
-		plt.xticks(rotation=45)
-		ax = plt.subplot()
-		ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[0]) for day in world_dictionnary], COLOR, label='Cas par jour')
-		ax.set_xlabel('Date')
-		ax.set_ylabel('Nombre de décès quotidiens')
-		plt.tight_layout()
-		plt.savefig(img_path)
-		plt.close(fig)
+		simple_plot("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
+
 	else:
 		print("Please specify the output")
 

@@ -2,6 +2,7 @@ import os
 import csv
 from .constantes import *
 import datetime
+import matplotlib.pyplot as plt
 
 DATA_PATH = "full_data.csv"
 
@@ -91,3 +92,17 @@ def get_world_data(data):
 			if line[1] == 'World':
 				dictionnary_data_world[line[0]] = line[2] + ',' + line[3] + ',' + line[4] + ',' + line[5]
 	return dictionnary_data_world
+
+
+def simple_plot(message, name_img, index, y_label, output_folder, world_dictionnary):
+	print(message)
+	img_path = output_folder + name_img
+	fig = plt.figure(figsize=MORE_30D)
+	plt.xticks(rotation=45)
+	ax = plt.subplot()
+	ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[index]) for day in world_dictionnary], COLOR)
+	ax.set_xlabel('Date')
+	ax.set_ylabel(y_label)
+	plt.tight_layout()
+	plt.savefig(img_path)
+	plt.close(fig)
