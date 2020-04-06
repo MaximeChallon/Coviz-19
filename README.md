@@ -65,6 +65,7 @@ De nombreuses options sont disponibles:
 * `-ctd`, `--csv_total_deaths` : Create a CSV file as output with the cumulative deaths
 * `-ctc`, `--csv_total_cases` : Create a CSV file as output with the cumulative cases
 * `-ccd`, `--csv_cases_of_the_day` : Create a CSV file as output with the cases of the day
+* `-pf`, `--plot_full` : Create all the 4 plots available
 * `-pdd`, `--plot_deaths_of_the_day` : Create a PNG plot from the deaths of the day
 * `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot from the cases of the day
 * `-ptd`, `--plot_total_deaths` : Create a PNG plot from the cumulative deaths
