@@ -97,7 +97,7 @@ def get_world_data(data):
 	return dictionnary_data_world
 
 
-def simple_plot(message, name_img, index, y_label, output_folder, world_dictionnary):
+def simple_plot_world(message, name_img, index, y_label, output_folder, world_dictionnary):
 	print(message)
 	img_path = output_folder + name_img
 	fig = plt.figure(figsize=MORE_30D)
@@ -149,3 +149,38 @@ def get_csv_today(output_folder, csv_path, index, country, full, liste):
 				print(country + ' on process...')
 				if country in get_data_today(DATA_PATH):
 					writer.writerow([country, get_data_today(DATA_PATH)[country][index]])
+
+
+def simple_plot_country(img_path, index, country, full, liste, output_folder):
+	img_path = output_folder + '/' + img_path
+	fig = plt.figure()
+	fig, ax = plt.subplots(1,figsize=MORE_30D)
+	plt.xticks(rotation=90)
+
+	dictionnaire_for_plotting = {}
+	for country in get_list_countries_to_process(country=country, full=full, liste=liste):
+		list_country = []
+		with open(DATA_PATH, 'r') as f:
+			f_o = csv.reader(f)
+			next(f_o)
+			for line in f_o:
+				if line[1] == country:
+					list_country.append([line[0], line[index]])
+		dictionnaire_for_plotting[country] = list_country
+
+	for country in dictionnaire_for_plotting:
+		dates_country = []
+		data_country = []
+		for data in dictionnaire_for_plotting[country]:
+			date, data = data
+			dates_country.append(date)
+			data_country.append(int(data))
+		ax.plot(dates_country, data_country, label=country)
+
+	ax.set_xlabel('Date')
+	ax.set_ylabel(img_path.replace('.png', '').replace('out/', '').replace('_', ' '))
+	plt.margins(0, 0)
+	plt.tight_layout()
+	plt.legend(loc="upper left", title="Countries", frameon=False)
+	plt.savefig(img_path)
+	plt.close(fig)

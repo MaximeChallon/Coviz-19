@@ -10,7 +10,12 @@ Cloner ce dépôt et disposer de Python3.
 
 # Commandes
 
-## `csv_country`
+* `csv_country`
+* `today`
+* `world`
+* `plot`
+
+## `csv_country` 
 
 `csv_country` permet de générer des fichiers CSV pour un plusieurs pays avec les informations suivantes:
 
@@ -85,3 +90,23 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (don
 |`-pcd`|inutile||
 |`-ptd`|inutile||
 |`-ptc`|inutile||
+
+## `plot`
+
+`plot` permet de générer des graphiques en fonction des pays, un pays par graphique, ou plusieurs pays par graphique, en fonction d'un indicateur parmi les suivants:
+
+* cases_of_the_day
+* deaths_of_the_day
+* total_cases
+* total_deaths
+
+Plusieurs options sont disponibles:
+
+* `-c`, `--country` : Execute the command for the country
+* `-f`, `--full` : Execute the command for all the countries
+* `-l`, `--liste` : Execute the command for a list of countries
+* `-ptd`, `--plot_total_deaths` : Create a PNG plot with the data of cumulative deaths of the given country(ies)
+* `-pdd`, `--plot_deaths_of_the_day` : Create a PNG plot with the data of the deaths of the day of the given country(ies)
+* `-ptc`, `--plot_total_cases` : Create a PNG plot with the data of cumulative cases of the given country(ies)
+* `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot with the data of the cases of the day of the given country(ies)
+* `-h`, `--help` : Show this message and exit.

@@ -4,6 +4,7 @@ import os
 import time
 import csv
 from utilitaires.constantes import *
+import matplotlib.pyplot as plt
 
 clean_folder()
 
@@ -13,6 +14,78 @@ DATA_PATH = 'full_data.csv'
 @click.group(context_settings={'help_option_names':['-h','--help']})
 def main():
     pass
+
+
+@main.command("plot")
+@click.argument("output_folder",
+              default="out")
+@click.option("-c", 
+	'--country' ,
+	help='Execute the command for the country')
+@click.option("-f", 
+	"--full", 
+	is_flag=True, 
+	help="Execute the command for all the countries")
+@click.option("-l", 
+	"--liste", 
+	default=[],
+	help="Execute the command for a list of countries")
+@click.option('-ptd',
+	'--plot_total_deaths',
+	is_flag=True,
+	help="Create a PNG plot with the data of cumulative deaths of the given country(ies)")
+@click.option('-pdd',
+	'--plot_deaths_of_the_day',
+	is_flag=True,
+	help="Create a PNG plot with the data of the deaths of the day of the given country(ies)")
+@click.option('-ptc',
+	'--plot_total_cases',
+	is_flag=True,
+	help="Create a PNG plot with the data of cumulative cases of the given country(ies)")
+@click.option('-pcd',
+	'--plot_cases_of_the_day',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cases of the day of the given country(ies)")
+def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_the_day, plot_total_cases, plot_cases_of_the_day):
+	"""
+	Create PNG plot for the data of the given country(ies)
+	\f
+	:param country: name of a country, with a capital letter at the beginning
+	:type country: str
+	:param output_folder: name of the folder which will have the CSVs
+	:type output_folder: str
+	:param full: if given, all the countries available are process
+	:type full: bool
+	:param liste: list of countries to be process
+	:type liste: list
+	:param plot_total_deaths: PNG plot with data of the cumulative deaths of the given country(ies)
+	:type plot_total_deaths: img
+	:param plot_deaths_of_the_day: PNG plot with data of the deaths of the day of the given country(ies)
+	:type plot_deaths_of_the_day: img
+	:param plot_total_cases: PNG plot with data of the cumulative cases of the given country(ies)
+	:type plot_total_cases: img
+	:param plot_cases_of_the_day: PNG plot with data of the cases of the day of the given country(ies)
+	:type plot_cases_of_the_day: img
+	:return: nothing
+	:rtype: None
+	"""
+	start_time = time.time()
+
+	os.system(DATA)
+
+	# managing the folders...
+	os.system('mkdir ' + output_folder)
+
+	if plot_total_deaths:
+		simple_plot_country(index=5, img_path='plot_total_deaths.png', country=country, full=full, liste=liste, output_folder=output_folder)
+	elif plot_deaths_of_the_day:
+		simple_plot_country(index=3, img_path='plot_deaths_of_the_day.png', country=country, full=full, liste=liste, output_folder=output_folder)
+	elif plot_total_cases:
+		simple_plot_country(index=4, img_path='plot_total_cases.png', country=country, full=full, liste=liste, output_folder=output_folder)
+	elif plot_cases_of_the_day:
+		simple_plot_country(index=2, img_path='plot_total_cases.png', country=country, full=full, liste=liste, output_folder=output_folder)
+
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
 @main.command("world")
@@ -98,6 +171,8 @@ def world(output_folder, today, full,
 	:type plot_total_deaths: bool
 	:param plot_total_cases: if given, create a PNG image as output for the total of cases
 	:type plot_total_cases: bool
+	:return: nothing
+	:rtype: None
 	"""
 	start_time = time.time()
 
@@ -134,18 +209,18 @@ def world(output_folder, today, full,
 	elif csv_cases_of_the_day:
 		get_csv_world(output_folder, "/world_cases_of_the_day.csv", 0, world_dictionnary, "World")
 	elif plot_full:
-		simple_plot("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
-		simple_plot("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
-		simple_plot("Creating plot with total deaths...", "/world_total deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
-		simple_plot("Creating plot with total cases...", "/world_total cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total deaths...", "/world_total deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total cases...", "/world_total cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
 	elif plot_deaths_of_the_day:
-		simple_plot("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 	elif plot_cases_of_the_day:
-		simple_plot("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
 	elif plot_total_deaths:
-		simple_plot("Creating plot with total deaths...", "/world_total deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total deaths...", "/world_total deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
 	elif plot_total_cases:
-		simple_plot("Creating plot with total cases...", "/world_total cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total cases...", "/world_total cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
 	else:
 		print("Please specify the output")
 
@@ -203,7 +278,7 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 	:type deaths_of_the_day: bool
 	:param cases_of_the_day: if given, create a CSV for the cases of the day
 	:type cases_of_the_day: bool
-	:return: create CSV files
+	:return: nothing
 	:rtype: None
 	"""
 	start_time = time.time()
