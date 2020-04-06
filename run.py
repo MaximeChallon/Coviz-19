@@ -124,45 +124,13 @@ def world(output_folder, today, full,
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3]])
 	elif csv_deaths_of_the_day:
-		csv_path = output_folder + "/world_deaths_of_the_day.csv"
-		with open(csv_path, 'w') as f:
-			writer = csv.writer(f)
-			print("Writing headers...")
-			writer.writerow(["date", "deaths_of_the_day"])
-			print("Writing the body...")
-			for day in world_dictionnary:
-				data_split = world_dictionnary[day].split(',')
-				writer.writerow([day, data_split[1]])
+		get_csv(output_folder, "/world_deaths_of_the_day.csv", 1, world_dictionnary)
 	elif csv_total_deaths:
-		csv_path = output_folder + "/world_total_deaths.csv"
-		with open(csv_path, 'w') as f:
-			writer = csv.writer(f)
-			print("Writing headers...")
-			writer.writerow(["date", "total_deaths"])
-			print("Writing the body...")
-			for day in world_dictionnary:
-				data_split = world_dictionnary[day].split(',')
-				writer.writerow([day, data_split[3]])
+		get_csv(output_folder, "/world_total_deaths.csv", 3, world_dictionnary)
 	elif csv_total_cases:
-		csv_path = output_folder + "/world_total_cases.csv"
-		with open(csv_path, 'w') as f:
-			writer = csv.writer(f)
-			print("Writing headers...")
-			writer.writerow(["date", "total_cases"])
-			print("Writing the body...")
-			for day in world_dictionnary:
-				data_split = world_dictionnary[day].split(',')
-				writer.writerow([day, data_split[2]])
+		get_csv(output_folder, "/world_total_cases.csv", 2, world_dictionnary)
 	elif csv_cases_of_the_day:
-		csv_path = output_folder + "/world_cases_of_the_day.csv"
-		with open(csv_path, 'w') as f:
-			writer = csv.writer(f)
-			print("Writing headers...")
-			writer.writerow(["date", "cases_of_the_day"])
-			print("Writing the body...")
-			for day in world_dictionnary:
-				data_split = world_dictionnary[day].split(',')
-				writer.writerow([day, data_split[0]])
+		get_csv(output_folder, "/world_cases_of_the_day.csv", 0, world_dictionnary)
 	elif plot_full:
 		simple_plot("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 		simple_plot("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)

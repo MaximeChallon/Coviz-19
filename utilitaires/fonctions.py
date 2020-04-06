@@ -106,3 +106,22 @@ def simple_plot(message, name_img, index, y_label, output_folder, world_dictionn
 	plt.tight_layout()
 	plt.savefig(img_path)
 	plt.close(fig)
+
+def get_csv(output_folder, csv_path, index, world_dictionnary):
+	csv_path = output_folder + csv_path
+	with open(csv_path, 'w') as f:
+		writer = csv.writer(f)
+		print("Writing headers...")
+		if index == 0:
+			header = "cases_of_the_day"
+		elif index == 1 :
+			header = "deaths_of_the_day"
+		elif index == 2:
+			header = "total_cases"
+		elif index == 3:
+			header = "total_deaths"
+		writer.writerow(["date", header])
+		print("Writing the body...")
+		for day in world_dictionnary:
+			data_split = world_dictionnary[day].split(',')
+			writer.writerow([day, data_split[index]])
