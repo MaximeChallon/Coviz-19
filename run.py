@@ -4,6 +4,7 @@ import os
 import time
 import csv
 from utilitaires.constantes import *
+import matplotlib.pyplot as plt
 
 clean_folder()
 
@@ -46,13 +47,17 @@ def main():
 	'--csv_cases_of_the_day',
 	is_flag=True,
 	help='Create a CSV file as output with the cases of the day')
-@click.option('-pf',
-	'--plot_full',
+@click.option('-pdd',
+	'--plot_deaths_of_the_day',
 	is_flag=True,
 	help='Create a PNG plot from the deaths of the day')
+@click.option('-pcd',
+	'--plot_cases_of_the_day',
+	is_flag=True,
+	help='Create a PNG plot from the cases of the day')
 def world(output_folder, today, full, 
 	csv_full, csv_deaths_of_the_day, csv_total_deaths, csv_total_cases, csv_cases_of_the_day, 
-	plot_full):
+	plot_deaths_of_the_day, plot_cases_of_the_day):
 	"""
 	Create a CSV file or a PNG image from the world's data of today or all the available dates.
 	\f
@@ -72,8 +77,10 @@ def world(output_folder, today, full,
 	:type csv_total_deaths: bool
 	:param csv_total_cases: if given, create a CSV file as output with the cumulative cases's data
 	:type csv_total_cases: bool
-	:param plot_full: if given, create a PNG image as output
-	:type plot_full: bool
+	:param plot_deaths_of_the_day: if given, create a PNG image as output for the deaths of the day
+	:type plot_deaths_of_the_day: bool
+	:param plot_cases_of_the_day: if given, create a PNG image as output for the cases of the day
+	:type plot_cases_of_the_day: bool
 	"""
 	start_time = time.time()
 
@@ -82,7 +89,10 @@ def world(output_folder, today, full,
 
 	world_dictionnary = {}
 	if today:
-		world_dictionnary[TODAY] = get_world_data(DATA_PATH)[TODAY]
+		try:
+			world_dictionnary[TODAY] = get_world_data(DATA_PATH)[TODAY]
+		except:
+			world_dictionnary[YESTERDAY_CUT] = get_world_data(DATA_PATH)[YESTERDAY_CUT]
 	elif full:
 		world_dictionnary = get_world_data(DATA_PATH)
 	
@@ -136,8 +146,30 @@ def world(output_folder, today, full,
 			for day in world_dictionnary:
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0]])
-	elif plot:
-		pass
+	elif plot_deaths_of_the_day:
+		print("Creating plot with deaths of the day...")
+		img_path = output_folder + "/world_deaths_of_the_day.png"
+		fig = plt.figure(figsize=MORE_30D)
+		plt.xticks(rotation=45)
+		ax = plt.subplot()
+		ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[1]) for day in world_dictionnary], COLOR, label='Décès par jour')
+		ax.set_xlabel('Date')
+		ax.set_ylabel('Nombre de décès quotidiens')
+		plt.tight_layout()
+		plt.savefig(img_path)
+		plt.close(fig)
+	elif plot_cases_of_the_day:
+		print("Creating plot with cases of the day...")
+		img_path = output_folder + "/world_cases_of_the_day.png"
+		fig = plt.figure(figsize=MORE_30D)
+		plt.xticks(rotation=45)
+		ax = plt.subplot()
+		ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[0]) for day in world_dictionnary], COLOR, label='Cas par jour')
+		ax.set_xlabel('Date')
+		ax.set_ylabel('Nombre de décès quotidiens')
+		plt.tight_layout()
+		plt.savefig(img_path)
+		plt.close(fig)
 	else:
 		print("Please specify the output")
 
@@ -178,6 +210,7 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 	"""
 	Create a CSV file with today's data for today's deaths, total deaths, today's cases, total cases for the country(ies) given in parameter.
 	If -a, -b, -d or -e are not precised, they are all process.
+
 	\f
 	:param country: name of a country, with a capital letter at the beginning
 	:type country: str

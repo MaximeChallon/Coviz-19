@@ -65,7 +65,8 @@ De nombreuses options sont disponibles:
 * `-ctd`, `--csv_total_deaths` : Create a CSV file as output with the cumulative deaths
 * `-ctc`, `--csv_total_cases` : Create a CSV file as output with the cumulative cases
 * `-ccd`, `--csv_cases_of_the_day` : Create a CSV file as output with the cases of the day
-* `-pf`, `--plot_full` : 
+* `-pdd`, `--plot_deaths_of_the_day` : Create a PNG plot from the deaths of the day
+* `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot from the cases of the day
 * `-h`, `--help` : Show this message and exit.
 
 Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (données d'exemple):
@@ -77,3 +78,5 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (don
 |`-ctd`|date_today, total_deaths </br> 2020-04-06, 50000|for_each_date, total_deaths </br> 2020-12-31, 0 </br> ... </br> 2020-04-05, 40000 </br> 2020-04-06, 50000|
 |`-ctc`|date_today, total_cases </br> 2020-04-06, 100000|for_each_date, total_cases </br> 2020-12-31, 0 </br> ... </br> 2020-04-05, 90000 </br> 2020-04-06, 100000|
 |`-ccd`|date_today, cases_of_the_day </br> 2020-04-06, 10000|for_each_date, cases_of_the_day </br> 2020-12-31, 0 </br> ... </br> 2020-04-05, 9000 </br> 2020-04-06, 10000|
+|`-pdd`|inutile||
+|`-pcd`|inutile||
