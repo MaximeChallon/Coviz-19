@@ -7,7 +7,7 @@ from utilitaires.constantes import *
 
 clean_folder()
 
-DATA = os.system('wget https://covid.ourworldindata.org/data/ecdc/full_data.csv')
+DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
 DATA_PATH = 'full_data.csv'
 
 @click.group(context_settings={'help_option_names':['-h','--help']})
@@ -100,6 +100,8 @@ def world(output_folder, today, full,
 	:type plot_total_cases: bool
 	"""
 	start_time = time.time()
+
+	os.system(DATA)
 
 	# managing the folders...
 	os.system('mkdir ' + output_folder)
@@ -207,6 +209,8 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 	"""
 	start_time = time.time()
 
+	os.system(DATA)
+
 	# managing the folders...
 	os.system('mkdir ' + output_folder)	
 
@@ -297,6 +301,8 @@ def country_to_csv (country, output_folder, full, liste):
 	"""
 	start_time = time.time()
 
+	os.system(DATA)
+	
 	# managing the folders...
 	folder_path = output_folder + '/countries'
 	os.system('mkdir ' + output_folder)
