@@ -126,13 +126,13 @@ def world(output_folder, today, full,
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3]])
 	elif csv_deaths_of_the_day:
-		get_csv(output_folder, "/world_deaths_of_the_day.csv", 1, world_dictionnary, "World")
+		get_csv_world(output_folder, "/world_deaths_of_the_day.csv", 1, world_dictionnary, "World")
 	elif csv_total_deaths:
-		get_csv(output_folder, "/world_total_deaths.csv", 3, world_dictionnary, "World")
+		get_csv_world(output_folder, "/world_total_deaths.csv", 3, world_dictionnary, "World")
 	elif csv_total_cases:
-		get_csv(output_folder, "/world_total_cases.csv", 2, world_dictionnary, "World")
+		get_csv_world(output_folder, "/world_total_cases.csv", 2, world_dictionnary, "World")
 	elif csv_cases_of_the_day:
-		get_csv(output_folder, "/world_cases_of_the_day.csv", 0, world_dictionnary, "World")
+		get_csv_world(output_folder, "/world_cases_of_the_day.csv", 0, world_dictionnary, "World")
 	elif plot_full:
 		simple_plot("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 		simple_plot("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
@@ -186,7 +186,6 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 	"""
 	Create a CSV file with today's data for today's deaths, total deaths, today's cases, total cases for the country(ies) given in parameter.
 	If -a, -b, -d or -e are not precised, they are all process.
-
 	\f
 	:param country: name of a country, with a capital letter at the beginning
 	:type country: str

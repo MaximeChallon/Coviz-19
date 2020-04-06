@@ -4,7 +4,9 @@ from .constantes import *
 import datetime
 import matplotlib.pyplot as plt
 
+
 DATA_PATH = "full_data.csv"
+
 
 def clean_folder():
 	try:
@@ -83,6 +85,7 @@ def get_list_countries_to_process(country, full, liste):
 		print(get_list_countries_available(DATA_PATH))
 	return list_countries_to_process
 
+
 def get_world_data(data):
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
@@ -107,7 +110,8 @@ def simple_plot(message, name_img, index, y_label, output_folder, world_dictionn
 	plt.savefig(img_path)
 	plt.close(fig)
 
-def get_csv(output_folder, csv_path, index, world_dictionnary, country):
+
+def get_csv_world(output_folder, csv_path, index, world_dictionnary, country):
 	csv_path = output_folder + csv_path
 	with open(csv_path, 'w') as f:
 		writer = csv.writer(f)
@@ -125,6 +129,7 @@ def get_csv(output_folder, csv_path, index, world_dictionnary, country):
 		for day in world_dictionnary:
 			data_split = world_dictionnary[day].split(',')
 			writer.writerow([country, day, data_split[index]])
+
 
 def get_csv_today(output_folder, csv_path, index, country, full, liste):
 	csv_path = output_folder + '/' + csv_path
