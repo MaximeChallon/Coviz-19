@@ -1,3 +1,7 @@
+# Installation
+
+Cloner ce dépôt et disposer de Python3.
+
 # Lancement
 
 `python3 run.py [COMMANDE] [OPTIONS] [OUTPUT_FOLDER]`
