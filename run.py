@@ -378,11 +378,15 @@ def country_to_csv (country, output_folder, full, liste):
 	'--total_deaths',
 	is_flag=True,
 	help="Process the cumulative deaths data")
+@click.option('-tc',
+	'--total_cases',
+	is_flag=True,
+	help="Process the cumulative cases data")
 @click.option('-c',
 	'--csv_o',
 	is_flag=True,
 	help="Create a CSV file in output")
-def country(output_folder, country, total_deaths, csv_o):
+def country(output_folder, country, total_deaths, total_cases, csv_o):
 	"""
 	For the given country, create CSV files or PNG plots for the given data.
 	\f
@@ -392,6 +396,8 @@ def country(output_folder, country, total_deaths, csv_o):
 	:type country: str
 	:param total_deaths: if given, the total deaths data are process
 	:type total_deaths: bool
+	:param total_cases: if given, the total cases data are process
+	:type total_cases: bool
 	:param csv: if given, a CSV file is created
 	:type csv: bool
 	"""
@@ -412,8 +418,11 @@ def country(output_folder, country, total_deaths, csv_o):
 
 	if csv_o:
 		if total_deaths:
-			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '.csv'
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.csv'
 			get_csv_world(output_folder, csv_path, 3, world_dictionnary, country)
+		if total_cases:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases.csv'
+			get_csv_world(output_folder, csv_path, 2, world_dictionnary, country)
 			
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
