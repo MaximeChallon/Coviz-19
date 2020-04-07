@@ -471,6 +471,9 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 		elif cases_of_the_day:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day.png' 
 			simple_plot_country(img_path, 2, country, full=False, liste=[], output_folder=output_folder)
+		elif deaths_of_the_day:
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
+			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
