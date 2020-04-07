@@ -104,7 +104,7 @@ def simple_plot_world(message, name_img, index, y_label, output_folder, world_di
 	fig = plt.figure(figsize=MORE_30D)
 	plt.xticks(rotation=45)
 	ax = plt.subplot()
-	ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[index]) for day in world_dictionnary], COLOR)
+	ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[index]) for day in world_dictionnary], COLOR, linewidth=2.5)
 	ax.set_xlabel('Date')
 	ax.set_ylabel(y_label)
 	plt.tight_layout()
@@ -172,6 +172,13 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 					list_country.append([line[0], line[index]])
 		dictionnaire_for_plotting[country] = list_country
 
+
+	dates_conf = []
+	dates_deconf = []
+	value_at_date_conf = []
+	value_at_date_deconf = []
+
+	# création d'une courbe par pays donné
 	for country in dictionnaire_for_plotting:
 		dates_country = []
 		data_country = []
@@ -179,24 +186,30 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 			date, data = data
 			dates_country.append(date)
 			data_country.append(int(data))
-		ax.plot(dates_country, data_country, label=country)
+		ax.plot(dates_country, data_country, label=country, linewidth=2.5)
 
+		# ajout des points de confinement et de déconfinement
 		for date in dates_country:
 			if country in confinement["beginning"]:
 				if date == confinement["beginning"][country]:
-					value_at_date = data_country[dates_country.index(date)]
-					ax.scatter(confinement["beginning"][country], value_at_date, s=140, c="r", marker='X', label="Confinement")
+					dates_conf.append(date)
+					value_at_date_conf.append(data_country[dates_country.index(date)])
 			if country in confinement["end"]:
 				if date == confinement["end"][country]:
-					value_at_date = data.country[dates_country.index(date)]
-					ax.scatter(confinement["beginning"][country], value_at_date, s=140, c="g", marker='X', label="Déconfinement")
+					dates_deconf.append(date)
+					value_at_date_deconf.append(data.country[dates_country.index(date)])
+	
+	if dates_conf != []:
+		ax.scatter(dates_conf, value_at_date_conf, s=140, c="r", marker='X', label="Confinement")
+	if dates_deconf != []:
+		ax.scatter(dates_deconf, value_at_date_deconf, s=140, c="g", marker='X', label="Déconfinement")
 
 
-	ax.set_xlabel('Date')
-	ax.set_ylabel(img_path.replace('.png', '').replace('out/', '').replace('_', ' '))
+	ax.set_xlabel('Date', fontsize=16)
+	ax.set_ylabel(img_path.replace('.png', '').replace('out/', '').replace('_', ' '), fontsize=16)
 	plt.margins(0, 0)
 	plt.tight_layout()
-	plt.legend(loc="upper left", title="Countries", frameon=False)
+	plt.legend(loc="upper left", title="Countries", title_fontsize=18, fontsize=16)
 	plt.savefig(img_path)
 	plt.close(fig)
 
