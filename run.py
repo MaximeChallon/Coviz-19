@@ -398,7 +398,11 @@ def country_to_csv (country, output_folder, full, liste):
 	'--csv_o',
 	is_flag=True,
 	help="Create a CSV file in output")
-def country(output_folder, country, total_deaths, total_cases, cases_of_the_day, deaths_of_the_day, full_data, csv_o):
+@click.option('-p',
+	'--plot',
+	is_flag=True,
+	help="Create a PNG plot in output")
+def country(output_folder, country, total_deaths, total_cases, cases_of_the_day, deaths_of_the_day, full_data, csv_o, plot):
 	"""
 	For the given country, create CSV files or PNG plots for the given data.
 	\f
@@ -457,7 +461,10 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3]])
-			
+	elif plot:
+		if total_deaths:
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.png' 
+			simple_plot_country(img_path, 5, country, full=False, liste=[], output_folder=output_folder)
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 

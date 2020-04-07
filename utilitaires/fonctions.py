@@ -72,7 +72,7 @@ def get_list_countries_to_process(country, full, liste):
 		list_countries_to_process.append(country)
 	elif full:
 		list_countries_to_process = get_list_countries_available(DATA_PATH)
-	elif liste :
+	elif liste != [] :
 		liste = liste[1:-1]
 		countries = liste.split(',')
 		for one_country in countries:
