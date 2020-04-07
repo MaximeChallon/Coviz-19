@@ -370,5 +370,55 @@ def country_to_csv (country, output_folder, full, liste):
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
+@main.command("country")
+@click.argument("output_folder", 
+	default="out")
+@click.argument("country")
+@click.option('-td',
+	'--total_deaths',
+	is_flag=True,
+	help="Process the cumulative deaths data")
+@click.option('-c',
+	'--csv_o',
+	is_flag=True,
+	help="Create a CSV file in output")
+def country(output_folder, country, total_deaths, csv_o):
+	"""
+	For the given country, create CSV files or PNG plots for the given data.
+	\f
+	:param output_folder: name of the folder which will have the CSVs
+	:type output_folder: str
+	:param country: name of a country, with a capital letter at the beginning
+	:type country: str
+	:param total_deaths: if given, the total deaths data are process
+	:type total_deaths: bool
+	:param csv: if given, a CSV file is created
+	:type csv: bool
+	"""
+	start_time = time.time()
+
+	os.system(DATA)
+
+	# managing the folders...
+	os.system('mkdir ' + output_folder)	
+
+	if csv_o:
+		if total_deaths:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '.csv'
+			with open(DATA_PATH, 'r') as f:
+				f_o = csv.reader(f)
+				next(f_o)
+				with open(csv_path, 'a') as f_e:
+					writer = csv.writer(f_e)
+					print("Writing headers...")
+					writer.writerow(["date", "total_deaths"])
+					print("Writing body...")
+					for line in f_o:
+						if line[1] == country:
+							writer.writerow([line[0], line[5]])
+
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
+
+
 if __name__ == "__main__":
     main()
