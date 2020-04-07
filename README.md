@@ -11,6 +11,7 @@ Cloner ce dépôt et disposer de Python3.
 # Commandes
 
 * `csv_country`
+* `country`
 * `today`
 * `world`
 * `plot`
@@ -33,6 +34,27 @@ Pour spécifier le(s) pays dont on souhaite les données depuis le 31 décembre 
 * `-l`, `--liste` : Execute the command for a list of countries
 * `-h`, `--help` : Show this message and exit.
 
+
+## `country`
+
+`country` est une commande qui rassemble pour le pays donné toutes les sorties possibles. Elle permet soit de sortir toutes les sorties avec `-fo -fd`, soit de choisir la donnée d'entrée et le fichier de sortie (CSV ou graphique PNG).
+
+Les arguments suivants sont disponibles:
+
+* `output_folder` : indiquer le dossier où les fichiers seront crées (default='out')
+* `country` : indiquer le nom du pays voulu (pas de valeur défaut)
+
+Les options suivantes sont disponibles:
+
+* `-td`, `--total_deaths` : Process the cumulative deaths data
+* `-tc`, `--total_cases` : Process the cumulative cases data
+* `-cd`, `--cases_of_the_day` : Process the cases of the day data
+* `-dd`, `--deaths_of_the_day` : Process the deaths of the day data
+* `-fd`, `--full_data` : Process all the available data
+* `-c`, `--csv_o` : Create a CSV file in output
+* `-p`, `--plot` : Create a PNG plot in output
+* `-fo`, `--full_outputs` : Create CSV files and PNG plots in output
+* `-h`, `--help` : Show this message and exit.
 
 ## `today`
 
