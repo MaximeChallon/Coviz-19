@@ -390,11 +390,15 @@ def country_to_csv (country, output_folder, full, liste):
 	'--deaths_of_the_day',
 	is_flag=True,
 	help="Process the deaths of the day data")
+@click.option('-fd',
+	'--full_data',
+	is_flag=True,
+	help="Process all the available data")
 @click.option('-c',
 	'--csv_o',
 	is_flag=True,
 	help="Create a CSV file in output")
-def country(output_folder, country, total_deaths, total_cases, cases_of_the_day, deaths_of_the_day csv_o):
+def country(output_folder, country, total_deaths, total_cases, cases_of_the_day, deaths_of_the_day, full_data, csv_o):
 	"""
 	For the given country, create CSV files or PNG plots for the given data.
 	\f
@@ -410,6 +414,8 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 	:type cases_of_the_day: bool
 	:param deaths_of_the_day: if given, the deaths of the day data are process
 	:type deaths_of_the_day: bool
+	:param full_data: if given, process all the available data of the country
+	:type full_data: bool
 	:param csv: if given, a CSV file is created
 	:type csv: bool
 	"""
@@ -441,6 +447,16 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 		elif deaths_of_the_day:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.csv'
 			get_csv_world(output_folder, csv_path, 1, world_dictionnary, country)
+		elif full_data:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
+			with open(csv_path, 'w') as f:
+				writer = csv.writer(f)
+				print("Writing headers...")
+				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+				print("Writing the body...")
+				for day in world_dictionnary:
+					data_split = world_dictionnary[day].split(',')
+					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3]])
 			
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
