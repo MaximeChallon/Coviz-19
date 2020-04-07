@@ -3,6 +3,7 @@ import csv
 from .constantes import *
 import datetime
 import matplotlib.pyplot as plt
+import json
 
 
 DATA_PATH = "full_data.csv"
@@ -156,6 +157,10 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 	fig, ax = plt.subplots(1,figsize=MORE_30D)
 	plt.xticks(rotation=90)
 
+	# open the json file with dates of quarantine
+	json_file = open('utilitaires/data/data_confinement.json')
+	confinement = json.load(json_file)
+
 	dictionnaire_for_plotting = {}
 	for country in get_list_countries_to_process(country=country, full=full, liste=liste):
 		list_country = []
@@ -176,6 +181,17 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 			data_country.append(int(data))
 		ax.plot(dates_country, data_country, label=country)
 
+		for date in dates_country:
+			if date == confinement["beginning"][country]:
+				value_at_date = data_country[dates_country.index(date)]
+
+		ax.annotate('confinement',
+         xy=(confinement["beginning"][country], value_at_date),
+         xycoords='data',
+         xytext=(confinement["beginning"][country], value_at_date + 130),
+         textcoords='offset points', fontsize=16,
+         arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.1", facecolor='red', edgecolor='red', color='red'))
+
 	ax.set_xlabel('Date')
 	ax.set_ylabel(img_path.replace('.png', '').replace('out/', '').replace('_', ' '))
 	plt.margins(0, 0)
@@ -183,3 +199,5 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 	plt.legend(loc="upper left", title="Countries", frameon=False)
 	plt.savefig(img_path)
 	plt.close(fig)
+
+	json_file.close()
