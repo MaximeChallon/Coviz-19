@@ -402,7 +402,11 @@ def country_to_csv (country, output_folder, full, liste):
 	'--plot',
 	is_flag=True,
 	help="Create a PNG plot in output")
-def country(output_folder, country, total_deaths, total_cases, cases_of_the_day, deaths_of_the_day, full_data, csv_o, plot):
+@click.option('-fo',
+	'--full_outputs',
+	is_flag=True,
+	help="Create CSV files and PNG plots in output")
+def country(output_folder, country, total_deaths, total_cases, cases_of_the_day, deaths_of_the_day, full_data, full_outputs, csv_o, plot):
 	"""
 	For the given country, create CSV files or PNG plots for the given data.
 	\f
@@ -420,6 +424,8 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 	:type deaths_of_the_day: bool
 	:param full_data: if given, process all the available data of the country
 	:type full_data: bool
+	:param full_outputs: if given, create CSV and PNG files
+	:type full_ouptuts: bool
 	:param csv: if given, a CSV file is created
 	:type csv: bool
 	"""
@@ -474,6 +480,46 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 		elif deaths_of_the_day:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
+	elif full_outputs:
+		if total_deaths:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.csv'
+			get_csv_world(output_folder, csv_path, 3, world_dictionnary, country)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.png' 
+			simple_plot_country(img_path, 5, country, full=False, liste=[], output_folder=output_folder)
+		elif total_cases:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases.csv'
+			get_csv_world(output_folder, csv_path, 2, world_dictionnary, country)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases.png' 
+			simple_plot_country(img_path, 4, country, full=False, liste=[], output_folder=output_folder)
+		elif cases_of_the_day:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day.csv'
+			get_csv_world(output_folder, csv_path, 0, world_dictionnary, country)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day.png' 
+			simple_plot_country(img_path, 2, country, full=False, liste=[], output_folder=output_folder)
+		elif deaths_of_the_day:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.csv'
+			get_csv_world(output_folder, csv_path, 1, world_dictionnary, country)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
+			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
+		elif full_data:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
+			with open(csv_path, 'w') as f:
+				writer = csv.writer(f)
+				print("Writing headers...")
+				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+				print("Writing the body...")
+				for day in world_dictionnary:
+					data_split = world_dictionnary[day].split(',')
+					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3]])
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.png' 
+			simple_plot_country(img_path, 5, country, full=False, liste=[], output_folder=output_folder)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases.png' 
+			simple_plot_country(img_path, 4, country, full=False, liste=[], output_folder=output_folder)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day.png' 
+			simple_plot_country(img_path, 2, country, full=False, liste=[], output_folder=output_folder)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
+			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
+
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
