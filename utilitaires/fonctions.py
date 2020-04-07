@@ -86,13 +86,13 @@ def get_list_countries_to_process(country, full, liste):
 	return list_countries_to_process
 
 
-def get_world_data(data):
+def get_world_data(data, country):
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
 		next(f_o)
 		dictionnary_data_world = {}
 		for line in f_o:
-			if line[1] == 'World':
+			if line[1] == country:
 				dictionnary_data_world[line[0]] = line[2] + ',' + line[3] + ',' + line[4] + ',' + line[5]
 	return dictionnary_data_world
 
@@ -112,7 +112,6 @@ def simple_plot_world(message, name_img, index, y_label, output_folder, world_di
 
 
 def get_csv_world(output_folder, csv_path, index, world_dictionnary, country):
-	csv_path = output_folder + csv_path
 	with open(csv_path, 'w') as f:
 		writer = csv.writer(f)
 		print("Writing headers...")

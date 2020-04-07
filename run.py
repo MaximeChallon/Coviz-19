@@ -184,11 +184,11 @@ def world(output_folder, today, full,
 	world_dictionnary = {}
 	if today:
 		try:
-			world_dictionnary[TODAY] = get_world_data(DATA_PATH)[TODAY]
+			world_dictionnary[TODAY] = get_world_data(DATA_PATH, 'World')[TODAY]
 		except:
-			world_dictionnary[YESTERDAY_CUT] = get_world_data(DATA_PATH)[YESTERDAY_CUT]
+			world_dictionnary[YESTERDAY_CUT] = get_world_data(DATA_PATH, 'World')[YESTERDAY_CUT]
 	elif full:
-		world_dictionnary = get_world_data(DATA_PATH)
+		world_dictionnary = get_world_data(DATA_PATH, 'World')
 	
 	if csv_full:
 		csv_path = output_folder + "/world_full.csv"
@@ -201,13 +201,13 @@ def world(output_folder, today, full,
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3]])
 	elif csv_deaths_of_the_day:
-		get_csv_world(output_folder, "/world_deaths_of_the_day.csv", 1, world_dictionnary, "World")
+		get_csv_world(output_folder, output_folder + "/world_deaths_of_the_day.csv", 1, world_dictionnary, "World")
 	elif csv_total_deaths:
-		get_csv_world(output_folder, "/world_total_deaths.csv", 3, world_dictionnary, "World")
+		get_csv_world(output_folder, output_folder + "/world_total_deaths.csv", 3, world_dictionnary, "World")
 	elif csv_total_cases:
-		get_csv_world(output_folder, "/world_total_cases.csv", 2, world_dictionnary, "World")
+		get_csv_world(output_folder, output_folder + "/world_total_cases.csv", 2, world_dictionnary, "World")
 	elif csv_cases_of_the_day:
-		get_csv_world(output_folder, "/world_cases_of_the_day.csv", 0, world_dictionnary, "World")
+		get_csv_world(output_folder, output_folder + "/world_cases_of_the_day.csv", 0, world_dictionnary, "World")
 	elif plot_full:
 		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 		simple_plot_world("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
@@ -402,20 +402,19 @@ def country(output_folder, country, total_deaths, csv_o):
 	# managing the folders...
 	os.system('mkdir ' + output_folder)	
 
+	world_dictionnary = {}
+	with open(DATA_PATH, 'r') as f:
+		f_o = csv.reader(f)
+		next(f_o)
+		for line in f_o:
+			if line[1] == country:
+				world_dictionnary[line[0]]=get_world_data(DATA_PATH, country)[line[0]]
+
 	if csv_o:
 		if total_deaths:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '.csv'
-			with open(DATA_PATH, 'r') as f:
-				f_o = csv.reader(f)
-				next(f_o)
-				with open(csv_path, 'a') as f_e:
-					writer = csv.writer(f_e)
-					print("Writing headers...")
-					writer.writerow(["date", "total_deaths"])
-					print("Writing body...")
-					for line in f_o:
-						if line[1] == country:
-							writer.writerow([line[0], line[5]])
+			get_csv_world(output_folder, csv_path, 3, world_dictionnary, country)
+			
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
