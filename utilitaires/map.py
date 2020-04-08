@@ -20,12 +20,16 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     # gestion des titres pour la couche des pays
     if index_layer == 2:
         titre_layer = "Nouveaux cas recensés dans la journée d hier"
+        titre_fichier = "nouveaux_cas"
     elif index_layer == 3:
         titre_layer = "Nouveaux décès recensés dans la journée d hier"
+        titre_fichier = "nouveaux_deces"
     elif index_layer == 4:
         titre_layer = "Nombre de cas total recensés"
+        titre_fichier = "cas_total"
     elif index_layer == 5:
         titre_layer = "Nombre de décès total recensés"
+        titre_fichier = "deces_total"
 
     # gestion des titres pour les graphiques
     if index_plot == 2:
@@ -213,7 +217,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     folium.LayerControl().add_to(map)
 
     os.mkdir(output_folder)
-    map.save(output_folder + '/index.html')
+    map.save(output_folder + '/map' + titre_fichier + '.html')
 
     country_json.close()
     capitals_json.close()
