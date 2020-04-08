@@ -533,7 +533,7 @@ def map():
 
 	os.system(DATA)
 
-	map_chloro(3, 5, 'out', 'index.html')
+	map_chloro(index_layer=5, index_plot=2, min_plot=100, output_folder='out')
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 

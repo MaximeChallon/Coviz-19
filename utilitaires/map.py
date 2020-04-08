@@ -1,33 +1,48 @@
 from utilitaires.fonctions import *
 import os
-import time
 import csv
 from utilitaires.constantes import *
 import folium
 import pandas as pd
 import re
-import requests
 
-def map_chloro(index, min, output_folder, saving_file):
+def map_chloro(index_layer, index_plot, min_plot, output_folder):
+    print('Loading capitals data...')
     # open the json file with the json data of capitals
     capitals_json = open('utilitaires/data/data_capitals.geojson')
     capitals = json.load(capitals_json)
     
+    print("Loading countries data...")
     # open the json file with dates of quarantine
     country_json = open('utilitaires/data/data_countries.geojson')
     pays = json.load(country_json)
 
-    # gestion des titres des axes et des légendes
-    if index == 2:
-        titre = "Nouveaux cas recensés dans la journée d hier"
-    elif index == 3:
-        titre = "Nouveaux décès recensés dans la journée d hier"
-    elif index == 4:
-        titre = "Nombre de cas total recensés"
-    elif index == 5:
-        titre = "Nombre de décès total recensés"
+    # gestion des titres pour la couche des pays
+    if index_layer == 2:
+        titre_layer = "Nouveaux cas recensés dans la journée d hier"
+    elif index_layer == 3:
+        titre_layer = "Nouveaux décès recensés dans la journée d hier"
+    elif index_layer == 4:
+        titre_layer = "Nombre de cas total recensés"
+    elif index_layer == 5:
+        titre_layer = "Nombre de décès total recensés"
+
+    # gestion des titres pour les graphiques
+    if index_plot == 2:
+        x_plot = "Jours depuis le premier jour ayant " + str(min_plot) + " nouveaux cas recensés la veille"
+        y_plot = "Nombre de nouveaux cas recensés la veille"
+    elif index_plot == 3:
+        x_plot = "Jours depuis le premier jour ayant " + str(min_plot) + " nouveaux décès recensés la veille"
+        y_plot = "Nombre de nouveaux décès recensés la veille"
+    elif index_plot == 4:
+        x_plot = "Jours depuis un total de " + str(min_plot) + "  cas"
+        y_plot = "Nombre de cas recensés "
+    elif index_plot == 5:
+        x_plot = "Jours depuis un total de " + str(min_plot) + "  décès"
+        y_plot = "Nombre de décès recensés "
     
     
+    print("Processing your given dataset...")
     with open(DATA_PATH, 'r') as f:
     	f_o = csv.reader(f)
     	next(f_o)
@@ -38,12 +53,13 @@ def map_chloro(index, min, output_folder, saving_file):
           # data.csv prend en valeur la date de la veille avec le nombre de décès total, hors World: ça
           # permet de faire le fonds de carte de couleur en fonction du dernier chiffre du nombre de décès
     			if line[0] == str(YESTERDAY_CUT) and line[1] != 'World':
-    				writer.writerow([line[1], line[index]])
+    				writer.writerow([line[1], line[index_layer]])
     
     countries_geo = f'utilitaires/data/data_countries.geojson'
     data = f'data.csv'
     world_data = pd.read_csv(data)
     
+    print("Creating the countries's layer of the map...")
     map = folium.Map(location=[48, 0], zoom_start=3)
     
     # création du fonds de carte coloré en fonction des valeurs de la veille
@@ -56,10 +72,11 @@ def map_chloro(index, min, output_folder, saving_file):
         fill_color='OrRd',
         fill_opacity=0.7,
         line_opacity=0.2,
-        legend_name=titre
+        legend_name=titre_layer
     	).add_to(map)
     
     
+    print("Processing plots for each country...")
     # création d'un point par pays (sur la capitale) pour accueillir les graphiques ensuite
     for pays in capitals["features"]:
         data_country = []
@@ -70,11 +87,11 @@ def map_chloro(index, min, output_folder, saving_file):
             next(f_o)
             i = 1
             for line in f_o:
-                if pays['properties']['country'] == line[1] and int(line[5]) >= min:
+                if pays['properties']['country'] == line[1] and int(line[index_plot]) >= min_plot:
                     dico = {
     					"col": "Nombre",
     					"idx": i,
-    					"val": int(line[index])
+    					"val": int(line[index_plot])
     				}
                     data_country.append(dico)
                     i += 1
@@ -87,12 +104,12 @@ def map_chloro(index, min, output_folder, saving_file):
                     "axes": [
                       {
                         "scale": "x",
-                        "title": "Jours depuis le 5ème décès enregistré",
+                        "title": x_plot,
                         "type": "x"
                       },
                       {
                         "scale": "y",
-                        "title": titre,
+                        "title": y_plot,
                         "type": "y",
                         "grid": True
                       }
@@ -192,10 +209,11 @@ def map_chloro(index, min, output_folder, saving_file):
 
             os.remove('country.json')
 
+    print("Creating the HTML file...")
     folium.LayerControl().add_to(map)
 
     os.mkdir(output_folder)
-    map.save(output_folder + '/' + saving_file)
+    map.save(output_folder + '/index.html')
 
     country_json.close()
     capitals_json.close()
