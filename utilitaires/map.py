@@ -52,33 +52,37 @@ def map_chloro():
     
     # création d'un point par pays (sur la capitale) pour accueillir les graphiques ensuite
     for pays in capitals["features"]:
-    	data_country = []
-    	with open(DATA_PATH, 'r') as f_e:
-    		f_o = csv.reader(f_e)
-    		next(f_o)
-    		i = 1
-    		for line in f_o:
-    			if pays['properties']['country'] == line[1] and int(line[5]) >= 5:
-    				dico = {
+        data_country = []
+        # création d'un booléen pour savoir si le pays aura un graphique
+        data_plot = False
+        with open(DATA_PATH, 'r') as f_e:
+            f_o = csv.reader(f_e)
+            next(f_o)
+            i = 1
+            for line in f_o:
+                if pays['properties']['country'] == line[1] and int(line[5]) >= 5:
+                    dico = {
     					"col": "Nombre",
     					"idx": i,
     					"val": int(line[5])
     				}
-    				data_country.append(dico)
-    				i += 1
+                    data_country.append(dico)
+                    i += 1
+                    data_plot = True
     
-    	# créer le fichier json 
-    				with open('country.json', "w") as f:
-    					data = {
+    	# créer le fichier json
+        if data_plot:
+            with open('country.json', "w") as f:
+                data = {
                     "axes": [
                       {
                         "scale": "x",
-                        "title": "Jours ",
+                        "title": "Jours depuis le 5ème décès enregistré",
                         "type": "x"
                       },
                       {
                         "scale": "y",
-                        "title": "Nombre",
+                        "title": "Nombre de décès total",
                         "type": "y"
                       }
                     ],
@@ -162,27 +166,24 @@ def map_chloro():
                     ],
                     "width": 800
                   }
-    					f.write(json.dumps(data))
-              
-    				with open('country.json', 'r') as f:
-    					data_json = json.load(f)
-    	
-    				folium.Marker(location=pays['geometry']['coordinates'],
+                f.write(json.dumps(data))
+
+            with open('country.json', 'r') as f:
+                data_json = json.load(f)
+
+            folium.Marker(location=pays['geometry']['coordinates'],
                           popup=folium.Popup(max_width=900).add_child(
                               folium.Vega(data_json, width=900, height=450))
                       	).add_to(map)
-    
-    				os.remove('country.json')
-    
-    
-    
+
+            os.remove('country.json')
+
     folium.LayerControl().add_to(map)
-    
+
     os.mkdir('out')
     map.save('out/index.html')
-    
-    
+
     country_json.close()
     capitals_json.close()
-    
+
     os.remove('data.csv')   
