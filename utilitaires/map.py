@@ -8,7 +8,7 @@ import pandas as pd
 import re
 import requests
 
-def map_chloro():
+def map_chloro(index, min, output_folder, saving_file):
     # open the json file with the json data of capitals
     capitals_json = open('utilitaires/data/data_capitals.geojson')
     capitals = json.load(capitals_json)
@@ -16,6 +16,16 @@ def map_chloro():
     # open the json file with dates of quarantine
     country_json = open('utilitaires/data/data_countries.geojson')
     pays = json.load(country_json)
+
+    # gestion des titres des axes et des légendes
+    if index == 2:
+        titre = "Nouveaux cas recensés dans la journée d hier"
+    elif index == 3:
+        titre = "Nouveaux décès recensés dans la journée d hier"
+    elif index == 4:
+        titre = "Nombre de cas total recensés"
+    elif index == 5:
+        titre = "Nombre de décès total recensés"
     
     
     with open(DATA_PATH, 'r') as f:
@@ -28,13 +38,13 @@ def map_chloro():
           # data.csv prend en valeur la date de la veille avec le nombre de décès total, hors World: ça
           # permet de faire le fonds de carte de couleur en fonction du dernier chiffre du nombre de décès
     			if line[0] == str(YESTERDAY_CUT) and line[1] != 'World':
-    				writer.writerow([line[1], line[5]])
+    				writer.writerow([line[1], line[index]])
     
     countries_geo = f'utilitaires/data/data_countries.geojson'
     data = f'data.csv'
     world_data = pd.read_csv(data)
     
-    map = folium.Map(location=[48, -102], zoom_start=3)
+    map = folium.Map(location=[48, 0], zoom_start=3)
     
     # création du fonds de carte coloré en fonction des valeurs de la veille
     folium.Choropleth(
@@ -46,7 +56,7 @@ def map_chloro():
         fill_color='OrRd',
         fill_opacity=0.7,
         line_opacity=0.2,
-        legend_name='Nombre de décès total'
+        legend_name=titre
     	).add_to(map)
     
     
@@ -60,11 +70,11 @@ def map_chloro():
             next(f_o)
             i = 1
             for line in f_o:
-                if pays['properties']['country'] == line[1] and int(line[5]) >= 5:
+                if pays['properties']['country'] == line[1] and int(line[5]) >= min:
                     dico = {
     					"col": "Nombre",
     					"idx": i,
-    					"val": int(line[5])
+    					"val": int(line[index])
     				}
                     data_country.append(dico)
                     i += 1
@@ -82,8 +92,9 @@ def map_chloro():
                       },
                       {
                         "scale": "y",
-                        "title": "Nombre de décès total",
-                        "type": "y"
+                        "title": titre,
+                        "type": "y",
+                        "grid": True
                       }
                     ],
                     "data": [
@@ -183,8 +194,8 @@ def map_chloro():
 
     folium.LayerControl().add_to(map)
 
-    os.mkdir('out')
-    map.save('out/index.html')
+    os.mkdir(output_folder)
+    map.save(output_folder + '/' + saving_file)
 
     country_json.close()
     capitals_json.close()
