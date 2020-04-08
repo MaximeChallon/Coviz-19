@@ -171,9 +171,12 @@ def map_chloro():
             with open('country.json', 'r') as f:
                 data_json = json.load(f)
 
+            custom_icon = folium.features.CustomIcon(icon_image='utilitaires/coro.png', icon_size=(14, 14))
+
             folium.Marker(location=pays['geometry']['coordinates'],
                           popup=folium.Popup(max_width=900).add_child(
-                              folium.Vega(data_json, width=900, height=450))
+                              folium.Vega(data_json, width=900, height=450)),
+                            icon=custom_icon
                       	).add_to(map)
 
             os.remove('country.json')
