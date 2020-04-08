@@ -197,7 +197,7 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 			if country in confinement["end"]:
 				if date == confinement["end"][country]:
 					dates_deconf.append(date)
-					value_at_date_deconf.append(data.country[dates_country.index(date)])
+					value_at_date_deconf.append(data_country[dates_country.index(date)])
 	
 	if dates_conf != []:
 		ax.scatter(dates_conf, value_at_date_conf, s=140, c="r", marker='X', label="Confinement")
