@@ -4,7 +4,10 @@ import os
 import time
 import csv
 from utilitaires.constantes import *
+from utilitaires.map import *
 import matplotlib.pyplot as plt
+import folium
+import pandas as pd
 
 clean_folder()
 
@@ -520,6 +523,17 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
 
+
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
+
+
+@main.command('map')
+def map():
+	start_time = time.time()
+
+	os.system(DATA)
+
+	map_chloro()
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
