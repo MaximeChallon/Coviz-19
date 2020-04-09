@@ -214,16 +214,16 @@ def world(output_folder, today, full,
 	elif plot_full:
 		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 		simple_plot_world("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
-		simple_plot_world("Creating plot with total deaths...", "/world_total deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
-		simple_plot_world("Creating plot with total cases...", "/world_total cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total deaths...", "/world_total_deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total cases...", "/world_total_cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
 	elif plot_deaths_of_the_day:
 		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 	elif plot_cases_of_the_day:
 		simple_plot_world("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
 	elif plot_total_deaths:
-		simple_plot_world("Creating plot with total deaths...", "/world_total deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total deaths...", "/world_total_deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
 	elif plot_total_cases:
-		simple_plot_world("Creating plot with total cases...", "/world_total cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total cases...", "/world_total_cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
 	else:
 		print("Please specify the output")
 
