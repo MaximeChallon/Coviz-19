@@ -3,6 +3,7 @@
 # Installation
 
 Cloner ce dépôt et disposer de Python3.
+S'assurer de disposer des librairies du [`requirements.txt`](requirements.txt). `pip install -r requirements.txt` pour tout installer.
 
 # Lancement
 
