@@ -6,12 +6,17 @@ import matplotlib.pyplot as plt
 import json
 
 
-DATA_PATH = "full_data.csv"
+DATA_PATH = "full_data_with_pop.csv"
 
 
 def clean_folder():
 	try:
 		os.remove('full_data.csv')
+	except:
+		pass
+
+	try:
+		os.remove('full_data_with_pop.csv')
 	except:
 		pass
 
@@ -217,3 +222,42 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 	plt.close(fig)
 
 	json_file.close()
+
+def calcul_par_10000_hbts():
+	try:
+		os.remove('full_data_with_pop.csv')
+	except:
+		pass
+
+	liste_pays = get_list_countries_available('full_data.csv')
+
+	with open('full_data.csv', 'r') as f:
+		full_data = csv.reader(f)
+		next(full_data)
+		with open('full_data_with_pop.csv', "w") as f_p:
+			writer = csv.writer(f_p)
+			writer.writerow(["date", "location", "new_cases", "new_deaths", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
+			with open('utilitaires/data/data_population.csv', 'r') as f_pop:
+				f_pop_o = csv.reader(f_pop)
+				pays_l = []
+				for line in full_data:
+					with open('utilitaires/data/data_population.csv', 'r') as f_pop:
+						f_pop_o = csv.reader(f_pop)
+						for pays in  f_pop_o:
+							if pays[0] == line[1]:
+								total_deaths_per_10000 = int(line[5]) * 10000 / int(pays[1])
+								deaths_day_per_10000 = int(line[3]) * 10000 / int(pays[1])
+								total_cases_per_10000 = int(line[4]) * 10000 / int(pays[1])
+								cases_day_per_10000 = int(line[2]) * 10000 / int(pays[1])
+								pays_l.append(pays[0])
+								writer.writerow([line[0], line[1], line[2], line[3], line[4], line[5], cases_day_per_10000, deaths_day_per_10000, total_cases_per_10000, total_deaths_per_10000])
+	for pays in liste_pays:
+		if pays not in pays_l:
+			with open('full_data_with_pop.csv', "a") as f_p:
+				writer = csv.writer(f_p)
+				with open('full_data.csv', 'r') as f:
+					full_data = csv.reader(f)
+					next(full_data)
+					for line in full_data:
+						if line[1] == pays:
+							writer.writerow([line[0], line[1], line[2], line[3], line[4], line[5], 0,0,0,0])
