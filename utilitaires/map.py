@@ -203,7 +203,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
             with open('country.json', 'r') as f:
                 data_json = json.load(f)
 
-            custom_icon = folium.features.CustomIcon(icon_image='utilitaires/coro.png', icon_size=(14, 14))
+            custom_icon = folium.features.CustomIcon(icon_image='utilitaires/img/coro.png', icon_size=(14, 14))
 
             folium.Marker(location=pays['geometry']['coordinates'],
                           popup=folium.Popup(max_width=900).add_child(
