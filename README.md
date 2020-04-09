@@ -1,3 +1,5 @@
+[toc]
+
 # Installation
 
 Cloner ce dépôt et disposer de Python3.
@@ -10,13 +12,36 @@ Cloner ce dépôt et disposer de Python3.
 
 # Commandes
 
-* `csv_country`
-* `country`
-* `today`
-* `world`
-* `plot`
+## `map`
 
-## `csv_country` 
+`map` permet de générer des cartes Leaflet (JavaScript) selon les données voulues. On peut également associer à chaque pays un graphique avec les données souhaitées. Le début de ces graphiques (Jour 0) est définissable par l'utilisateur.
+
+Pour la carte et les graphiques, les jeux de données disponibles sont:
+
+* cases_of_the_day
+* deaths_of_the_day
+* total_cases
+* total_deaths
+
+Les options suivantes sont disponibles pour `map`:
+
+* `-mtd`, `--map_total_deaths` : Create a Leaflet layer with the cumulative deaths data
+* `-mtc`, `--map_total_cases` : Create a Leaflet layer with the cumulative cases data
+* `-mdd`, `--map_deaths_of_the_day` : Create a Leaflet layer with the deaths_of_the_day data
+* `-mcd`, `--map_cases_of_the_day` : Create a Leaflet layer with the cases_of_the_day data
+* `-ptd`, `--plot_total_deaths` : Create a Vega plot with the cumulative deaths data
+* `-ptc`, `--plot_total_cases` : Create a Vega plot with the cumulative cases data
+* `-pdd`, `--plot_deaths_of_the_day` : Create a Vega plot with the deaths_of_the_day data
+* `-pcd`, `--plot_cases_of_the_day` : Create a Vega plot with the cases_of_the_day data
+* `-pmin`, `--plot_min` : Define the value of the minimal value to process in the Vega plots
+* `-h`, `--help` : Show this message and exit.
+
+Les possibilités étant nombreuses, voici quelques exemples:
+
+* `python3 run.py map -mtd -ptd -pmin 5` ![`python3 run.py map -mtd -ptd -pmin 5`](doc/img/map_mtd_ptd.png)
+* `python3 run.py map -mcd -ptc -pmin 100` ![`python3 run.py map -mcd -ptc -pmin 100`](doc/img/map-mcd-ptc.png)
+
+## `csv_country`
 
 `csv_country` permet de générer des fichiers CSV pour un plusieurs pays avec les informations suivantes:
 
@@ -33,7 +58,6 @@ Pour spécifier le(s) pays dont on souhaite les données depuis le 31 décembre 
 * `-f`, `--full` : Execute the command for all the countries
 * `-l`, `--liste` : Execute the command for a list of countries
 * `-h`, `--help` : Show this message and exit.
-
 
 ## `country`
 
@@ -52,9 +76,14 @@ Les options suivantes sont disponibles:
 * `-dd`, `--deaths_of_the_day` : Process the deaths of the day data
 * `-fd`, `--full_data` : Process all the available data
 * `-c`, `--csv_o` : Create a CSV file in output
-* `-p`, `--plot` : Create a PNG plot in output
+* `-p`, `--plot` : Create a PNG plot in output, with beginning and end of quarantine dates
 * `-fo`, `--full_outputs` : Create CSV files and PNG plots in output
 * `-h`, `--help` : Show this message and exit.
+
+Exemples :
+
+* `python3 run.py country dossier France -td -p` ![`python3 run.py country dossier France -td -p`](doc/img/France_total_deaths.png)
+* `python3 run.py country dossier United\ States -cd -p` ![`python3 run.py country dossier United\ States -cd -p`](doc/img/United_States_cases_of_the_day.png)
 
 ## `today`
 
@@ -99,7 +128,7 @@ De nombreuses options sont disponibles:
 * `-ptc`, `--plot_total_cases` : Create a PNG plot from the cumulative cases
 * `-h`, `--help` : Show this message and exit.
 
-Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (données d'exemple):
+Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en CSV (données d'exemple):
 
 |Options|`-t`|`-f`|
 |:-:|:-:|:-:|
@@ -108,10 +137,10 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (don
 |`-ctd`|date_today, total_deaths </br> 2020-04-06, 50000|for_each_date, total_deaths </br> 2020-12-31, 0 </br> ... </br> 2020-04-05, 40000 </br> 2020-04-06, 50000|
 |`-ctc`|date_today, total_cases </br> 2020-04-06, 100000|for_each_date, total_cases </br> 2020-12-31, 0 </br> ... </br> 2020-04-05, 90000 </br> 2020-04-06, 100000|
 |`-ccd`|date_today, cases_of_the_day </br> 2020-04-06, 10000|for_each_date, cases_of_the_day </br> 2020-12-31, 0 </br> ... </br> 2020-04-05, 9000 </br> 2020-04-06, 10000|
-|`-pdd`|inutile||
-|`-pcd`|inutile||
-|`-ptd`|inutile||
-|`-ptc`|inutile||
+|`-pdd`|inutile|![-f -pdd](doc/img/world_deaths_of_the_day.png)|
+|`-pcd`|inutile|![-f -pcd](doc/img/world_cases_of_the_day.png)|
+|`-ptd`|inutile|![-f -ptd](doc/img/world_total_deaths.png)|
+|`-ptc`|inutile|![-f -ptc](doc/img/world_total_cases.png)|
 
 ## `plot`
 
@@ -132,3 +161,7 @@ Plusieurs options sont disponibles:
 * `-ptc`, `--plot_total_cases` : Create a PNG plot with the data of cumulative cases of the given country(ies)
 * `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot with the data of the cases of the day of the given country(ies)
 * `-h`, `--help` : Show this message and exit.
+
+Exemples:
+
+* 
