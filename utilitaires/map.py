@@ -217,7 +217,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     folium.LayerControl().add_to(map)
 
     os.mkdir(output_folder)
-    map.save(output_folder + '/map' + titre_fichier + '.html')
+    map.save(output_folder + '/map_' + titre_fichier + '.html')
 
     country_json.close()
     capitals_json.close()

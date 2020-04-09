@@ -339,7 +339,7 @@ def country_to_csv (country, output_folder, full, liste):
 	:type full: bool
 	:param liste: list of countries to be process
 	:type liste: list
-	:return: create CSV files
+	:return: nothing
 	:rtype: None
 	"""
 	start_time = time.time()
@@ -431,6 +431,8 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 	:type full_ouptuts: bool
 	:param csv: if given, a CSV file is created
 	:type csv: bool
+	:return: nothing
+	:rtype: None
 	"""
 	start_time = time.time()
 
@@ -528,12 +530,98 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 
 
 @main.command('map')
-def map():
+@click.argument("output_folder", 
+	default="out")
+@click.option('-mtd',
+	'--map_total_deaths',
+	is_flag=True,
+	help="Create a Leaflet layer with the cumulative deaths data")
+@click.option('-mtc',
+	'--map_total_cases',
+	is_flag=True,
+	help="Create a Leaflet layer with the cumulative cases data")
+@click.option('-mdd',
+	'--map_deaths_of_the_day',
+	is_flag=True,
+	help="Create a Leaflet layer with the deaths_of_the_day data")
+@click.option('-mcd',
+	'--map_cases_of_the_day',
+	is_flag=True,
+	help="Create a Leaflet layer with the cases_of_the_day data")
+@click.option('-ptd',
+	'--plot_total_deaths',
+	is_flag=True,
+	help="Create a Vega plot with the cumulative deaths data")
+@click.option('-ptc',
+	'--plot_total_cases',
+	is_flag=True,
+	help="Create a Vega plot with the cumulative cases data")
+@click.option('-pdd',
+	'--plot_deaths_of_the_day',
+	is_flag=True,
+	help="Create a Vega plot with the deaths_of_the_day data")
+@click.option('-pcd',
+	'--plot_cases_of_the_day',
+	is_flag=True,
+	help="Create a Vega plot with the cases_of_the_day data")
+@click.option('-pmin',
+	'--plot_min',
+	is_flag=True,
+	help="Define the value of the minimal value to process in the Vega plots")
+def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day, map_cases_of_the_day,
+	plot_cases_of_the_day, plot_total_cases, plot_total_deaths, plot_deaths_of_the_day, plot_min):
+	"""
+	Create a Leaflet map from the data you've given in option. You can add a Vega plot for each country with the same data, or others.
+	\f
+	:param output_folder: name of the folder which will have the CSVs
+	:type output_folder: str
+	:param map_total_deaths: if given, create a Leaflet map with the world's cumulative deaths data
+	:type map_total_deaths: bool
+	:param map_total_cases: if given, create a Leaflet map with the world's cumulative cases data
+	:type map_total_cases: bool
+	:param map_deaths_of_the_day: if given, create a Leaflet map with the world's deaths of the day data
+	:type map_deaths_of_the_day: bool
+	:param map_cases_of_the_day: if given, create a Leaflet map with the world's cases of the day data
+	:type map_cases_of_the_day: bool
+	:param plot_total_deaths: if given, create a Vega plot for each country with the world's cumulative deaths data
+	:type plot_total_deaths: bool
+	:param plot_total_cases: if given, create a Vega plot for each country with the world's cumulative cases data
+	:type plot_total_cases: bool
+	:param plot_deaths_of_the_day: if given, create a Vega plot for each country with the world's deaths of the day data
+	:type plot_deaths_of_the_day: bool
+	:param plot_cases_of_the_day: if given, create a Vega plot for each country with the world's cases of the day data
+	:type plot_cases_of_the_day: bool
+	:param plot_min: define the value of the minimal value to process in the Vega plots
+	:type plot_min: int
+	:return: nothing
+	:rtype: None 
+	"""
 	start_time = time.time()
 
 	os.system(DATA)
 
-	map_chloro(index_layer=5, index_plot=2, min_plot=100, output_folder='out')
+	if map_deaths_of_the_day or map_cases_of_the_day or map_total_deaths or map_total_cases:
+		if map_total_cases:
+			if plot_cases_of_the_day:
+				map_chloro(index_layer=4, index_plot=2, min_plot=plot_min, output_folder=output_folder)
+			elif plot_deaths_of_the_day:
+				map_chloro(index_layer=4, index_plot=3, min_plot=plot_min, output_folder=output_folder)
+			elif plot_total_cases:
+				map_chloro(index_layer=4, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+			elif plot_total_deaths:
+				map_chloro(index_layer=4, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+			elif nor plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
+				map_chloro(index_layer=4, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+		elif map_total_deaths:
+			map_chloro(index_layer=5, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+		elif map_deaths_of_the_day:
+			pass
+		elif map_cases_of_the_day:
+			pass
+			
+	if not map_deaths_of_the_day and not map_cases_of_the_day and not map_total_deaths and not map_total_cases:
+		print("Please give the data you want on the map")
+		os.system("python3 run.py map -h")
 
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
