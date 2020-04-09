@@ -14,7 +14,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     
     print("Loading countries data...")
     # open the json file with dates of quarantine
-    country_json = open('utilitaires/data/data_countries.geojson')
+    country_json = open('utilitaires/data/data_country.geojson')
     pays = json.load(country_json)
 
     # gestion des titres pour la couche des pays
@@ -59,7 +59,6 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     			if line[0] == str(YESTERDAY_CUT) and line[1] != 'World':
     				writer.writerow([line[1], line[index_layer]])
     
-    countries_geo = f'utilitaires/data/data_countries.geojson'
     data = f'data.csv'
     world_data = pd.read_csv(data)
     
@@ -68,7 +67,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     
     # création du fonds de carte coloré en fonction des valeurs de la veille
     folium.Choropleth(
-        geo_data=countries_geo,
+        geo_data=pays,
         name='choropleth',
         data=world_data,
         columns=['Country', 'Chiffre'],
