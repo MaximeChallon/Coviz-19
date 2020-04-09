@@ -613,12 +613,21 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 			elif nor plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
 				map_chloro(index_layer=4, index_plot=4, min_plot=plot_min, output_folder=output_folder)
 		elif map_total_deaths:
-			map_chloro(index_layer=5, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+			if plot_cases_of_the_day:
+				map_chloro(index_layer=5, index_plot=2, min_plot=plot_min, output_folder=output_folder)
+			elif plot_deaths_of_the_day:
+				map_chloro(index_layer=5, index_plot=3, min_plot=plot_min, output_folder=output_folder)
+			elif plot_total_cases:
+				map_chloro(index_layer=5, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+			elif plot_total_deaths:
+				map_chloro(index_layer=5, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+			elif nor plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
+				map_chloro(index_layer=5, index_plot=5, min_plot=plot_min, output_folder=output_folder)
 		elif map_deaths_of_the_day:
 			pass
 		elif map_cases_of_the_day:
 			pass
-			
+
 	if not map_deaths_of_the_day and not map_cases_of_the_day and not map_total_deaths and not map_total_cases:
 		print("Please give the data you want on the map")
 		os.system("python3 run.py map -h")
