@@ -102,11 +102,13 @@ def simple_plot_world(message, name_img, index, y_label, output_folder, world_di
 	print(message)
 	img_path = output_folder + name_img
 	fig = plt.figure(figsize=MORE_30D)
-	plt.xticks(rotation=45)
+	plt.xticks(rotation=90)
 	ax = plt.subplot()
 	ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[index]) for day in world_dictionnary], COLOR, linewidth=2.5)
 	ax.set_xlabel('Date')
 	ax.set_ylabel(y_label)
+	ax.yaxis.grid(True)
+	ax.margins(0, 0)
 	plt.tight_layout()
 	plt.savefig(img_path)
 	plt.close(fig)
@@ -207,6 +209,7 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 
 	ax.set_xlabel('Date', fontsize=16)
 	ax.set_ylabel(img_path.replace('.png', '').replace('out/', '').replace('_', ' '), fontsize=16)
+	ax.yaxis.grid(True)
 	plt.margins(0, 0)
 	plt.tight_layout()
 	plt.legend(loc="upper left", title="Countries", title_fontsize=18, fontsize=16)
