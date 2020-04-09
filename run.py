@@ -12,7 +12,8 @@ import pandas as pd
 clean_folder()
 
 DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
-DATA_PATH = 'full_data.csv'
+DATA_BEGINNING = 'full_data.csv'
+DATA_PATH = 'full_data_with_pop.csv'
 
 @click.group(context_settings={'help_option_names':['-h','--help']})
 def main():
@@ -75,6 +76,7 @@ def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_
 	start_time = time.time()
 
 	os.system(DATA)
+	calcul_par_10000_hbts()
 
 	# managing the folders...
 	os.system('mkdir ' + output_folder)
@@ -89,6 +91,7 @@ def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_
 		simple_plot_country(index=2, img_path='plot_total_cases.png', country=country, full=full, liste=liste, output_folder=output_folder)
 
 	os.remove(DATA_PATH)
+	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -181,6 +184,7 @@ def world(output_folder, today, full,
 	start_time = time.time()
 
 	os.system(DATA)
+	calcul_par_10000_hbts()
 
 	# managing the folders...
 	os.system('mkdir ' + output_folder)
@@ -229,6 +233,7 @@ def world(output_folder, today, full,
 		print("Please specify the output")
 
 	os.remove(DATA_PATH)
+	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -289,6 +294,7 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 	start_time = time.time()
 
 	os.system(DATA)
+	calcul_par_10000_hbts()
 
 	# managing the folders...
 	os.system('mkdir ' + output_folder)	
@@ -313,6 +319,7 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3]])
 
 	os.remove(DATA_PATH)
+	os;remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -348,6 +355,7 @@ def country_to_csv (country, output_folder, full, liste):
 	start_time = time.time()
 
 	os.system(DATA)
+	calcul_par_10000_hbts()
 
 	# managing the folders...
 	folder_path = output_folder + '/countries'
@@ -366,7 +374,7 @@ def country_to_csv (country, output_folder, full, liste):
 			with open(csv_path, 'a') as f_e:
 				writer = csv.writer(f_e)
 				print("Writing headers...")
-				writer.writerow(["date", "country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+				writer.writerow(["date", "country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
 				print("Writing body...")
 				for line in f_o:
 					# écriture des lignes que quand le nombre de cas est supérieur à PLOT_MIN_CASES
@@ -374,6 +382,7 @@ def country_to_csv (country, output_folder, full, liste):
 						writer.writerow(line)
 
 	os.remove(DATA_PATH)
+	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -441,6 +450,7 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 	start_time = time.time()
 
 	os.system(DATA)
+	calcul_par_10000_hbts()
 
 	# managing the folders...
 	os.system('mkdir ' + output_folder)	
@@ -476,6 +486,16 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3]])
+		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
+			with open(csv_path, 'w') as f:
+				writer = csv.writer(f)
+				print("Writing headers...")
+				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+				print("Writing the body...")
+				for day in world_dictionnary:
+					data_split = world_dictionnary[day].split(',')
+					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3]])
 	elif plot:
 		if total_deaths:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.png' 
@@ -489,6 +509,9 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 		elif deaths_of_the_day:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
+		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data:
+			print("Please choose a dataset")
+			os.system('python3 run.py country -h')
 	elif full_outputs:
 		if total_deaths:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.csv'
@@ -510,7 +533,7 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 			get_csv_world(output_folder, csv_path, 1, world_dictionnary, country)
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
-		elif full_data:
+		elif full_data or (not full_data and not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day):
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
@@ -531,6 +554,7 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 
 
 	os.remove(DATA_PATH)
+	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -603,6 +627,7 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 	start_time = time.time()
 
 	os.system(DATA)
+	calcul_par_10000_hbts()
 
 	if not plot_min:
 		plot_min = 5
@@ -658,6 +683,7 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 		os.system("python3 run.py map -h")
 
 	os.remove(DATA_PATH)
+	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
