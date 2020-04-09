@@ -154,7 +154,7 @@ def get_csv_today(output_folder, csv_path, index, country, full, liste):
 
 
 def simple_plot_country(img_path, index, country, full, liste, output_folder):
-	img_path = output_folder + '/' + img_path
+	img_path1 = output_folder + '/' + img_path
 	fig = plt.figure()
 	fig, ax = plt.subplots(1,figsize=MORE_30D)
 	plt.xticks(rotation=90)
@@ -213,7 +213,7 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 	plt.margins(0, 0)
 	plt.tight_layout()
 	plt.legend(loc="upper left", title="Countries", title_fontsize=18, fontsize=16)
-	plt.savefig(img_path)
+	plt.savefig(img_path1)
 	plt.close(fig)
 
 	json_file.close()
