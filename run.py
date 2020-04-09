@@ -88,6 +88,7 @@ def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_
 	elif plot_cases_of_the_day:
 		simple_plot_country(index=2, img_path='plot_total_cases.png', country=country, full=full, liste=liste, output_folder=output_folder)
 
+	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -227,6 +228,7 @@ def world(output_folder, today, full,
 	else:
 		print("Please specify the output")
 
+	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -310,6 +312,7 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 				if country in get_data_today(DATA_PATH):
 					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3]])
 
+	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -370,6 +373,7 @@ def country_to_csv (country, output_folder, full, liste):
 					if line[1] == country and line[4] >= PLOT_MIN_CASES:
 						writer.writerow(line)
 
+	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -526,6 +530,7 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
 
 
+	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -652,6 +657,7 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 		print("Please give the data you want on the map")
 		os.system("python3 run.py map -h")
 
+	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
