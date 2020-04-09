@@ -566,7 +566,6 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 	help="Create a Vega plot with the cases_of_the_day data")
 @click.option('-pmin',
 	'--plot_min',
-	is_flag=True,
 	help="Define the value of the minimal value to process in the Vega plots")
 def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day, map_cases_of_the_day,
 	plot_cases_of_the_day, plot_total_cases, plot_total_deaths, plot_deaths_of_the_day, plot_min):
@@ -606,37 +605,37 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 	if map_deaths_of_the_day or map_cases_of_the_day or map_total_deaths or map_total_cases:
 		if map_total_cases:
 			if plot_cases_of_the_day:
-				map_chloro(index_layer=4, index_plot=2, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=2, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_deaths_of_the_day:
-				map_chloro(index_layer=4, index_plot=3, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_total_cases:
-				map_chloro(index_layer=4, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_total_deaths:
-				map_chloro(index_layer=4, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
-				map_chloro(index_layer=4, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
 		elif map_total_deaths:
 			if plot_cases_of_the_day:
-				map_chloro(index_layer=5, index_plot=2, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=2, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_deaths_of_the_day:
-				map_chloro(index_layer=5, index_plot=3, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_total_cases:
-				map_chloro(index_layer=5, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_total_deaths:
-				map_chloro(index_layer=5, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
-				map_chloro(index_layer=5, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
 		elif map_deaths_of_the_day:
 			if plot_cases_of_the_day:
-				map_chloro(index_layer=3, index_plot=2, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=2, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_deaths_of_the_day:
-				map_chloro(index_layer=3, index_plot=3, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_total_cases:
-				map_chloro(index_layer=3, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
 			elif plot_total_deaths:
-				map_chloro(index_layer=3, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
-				map_chloro(index_layer=3, index_plot=3, min_plot=plot_min, output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
 		elif map_cases_of_the_day:
 			if plot_cases_of_the_day:
 				map_chloro(index_layer=2, index_plot=2, min_plot=plot_min, output_folder=output_folder)

@@ -91,7 +91,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
             next(f_o)
             i = 1
             for line in f_o:
-                if pays['properties']['country'] == line[1] and int(line[index_plot]) >= min_plot:
+                if pays['properties']['country'] == line[1] and int(line[index_plot]) >= int(min_plot):
                     dico = {
     					"col": "Nombre",
     					"idx": i,
