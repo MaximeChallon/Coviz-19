@@ -31,6 +31,10 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
         titre_layer = "Nombre de décès total recensés"
         titre_fichier = "deces_total"
 
+    elif index_layer == 6:
+        titre_layer = "Nombre de cas recensés dans la journée d'hier pour 10000 habitants"
+        titre_fichier = "nouveaux_cas_10000"
+
     # gestion des titres pour les graphiques
     if index_plot == 2:
         x_plot = "Jours depuis le premier jour ayant " + str(min_plot) + " nouveaux cas recensés la veille"
@@ -44,6 +48,9 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     elif index_plot == 5:
         x_plot = "Jours depuis un total de " + str(min_plot) + "  décès"
         y_plot = "Nombre de décès recensés "
+    elif index_plot == 6:
+        x_plot = "Jours depuis le premier jour ayant " + str(min_plot) + " nouveaux cas recensés la veille pour 10000 habitants"
+        y_plot = "Nombre de nouveaux cas recensés la veille pour 10000 habitants"
     
     
     print("Processing your given dataset...")
@@ -90,11 +97,11 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
             next(f_o)
             i = 1
             for line in f_o:
-                if pays['properties']['country'] == line[1] and int(line[index_plot]) >= int(min_plot):
+                if pays['properties']['country'] == line[1] and float(line[index_plot]) >= float(min_plot):
                     dico = {
     					"col": "Nombre",
     					"idx": i,
-    					"val": int(line[index_plot])
+    					"val": float(line[index_plot])
     				}
                     data_country.append(dico)
                     i += 1

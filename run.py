@@ -125,7 +125,7 @@ def plot(output_folder, country, full, liste,
 		simple_plot_country(index=8, img_path='plot_total_cases_per_10000_inhabitants.png', full=full, liste=liste, country=country, output_folder=output_folder)
 
 	os.remove(DATA_PATH)
-	print("Execution time : %s seconds ---" % (time.time() - start_time))
+	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
 @main.command("world")
@@ -285,9 +285,9 @@ def world(output_folder, today, full,
 		csv_path = output_folder + "/world_full.csv"
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
-			print("Writing headers...")
+			prfloat("Writing headers...")
 			writer.writerow(["date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-			print("Writing the body...")
+			prfloat("Writing the body...")
 			for day in world_dictionnary:
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -333,11 +333,11 @@ def world(output_folder, today, full,
 	elif plot_total_deaths_per_10000_inhabitants:
 		simple_plot_world("Creating plot with total deaths per 10000 inhabitants...", "/world_total_deaths_per_10000_inhabitants.png", 7, "Nombre total de décès pour 10000 habitants", output_folder, world_dictionnary)
 	else:
-		print("Please specify the output")
-		print(os.system('python3 run.py world -h'))
+		prfloat("Please specify the output")
+		prfloat(os.system('python3 run.py world -h'))
 
 	os.remove(DATA_PATH)
-	print("Execution time : %s seconds ---" % (time.time() - start_time))
+	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
 @main.command("today")
@@ -447,15 +447,15 @@ def country(country, output_folder, full, liste,
 		csv_path = output_folder + '/today_all_data.csv'
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
-			print('Writing headers...')
+			prfloat('Writing headers...')
 			writer.writerow(["country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
 			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-				print(country + ' on process...')
+				prfloat(country + ' on process...')
 				if country in get_data_today(DATA_PATH):
 					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3], get_data_today(DATA_PATH)[country][4], get_data_today(DATA_PATH)[country][5], get_data_today(DATA_PATH)[country][6], get_data_today(DATA_PATH)[country][7]])
 
 	os.remove(DATA_PATH)
-	print("Execution time : %s seconds ---" % (time.time() - start_time))
+	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
 @main.command("csv_country")
@@ -498,7 +498,7 @@ def country_to_csv (country, output_folder, full, liste):
 	os.system('mkdir ' + output_folder + '/countries')
 
 	for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-		print(country + ' on process...')
+		prfloat(country + ' on process...')
 		# creation of one folder for each country
 		os.system('mkdir ' + folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_'))
 		csv_path = folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '/' +  country.replace(')', '_').replace('(', '_').replace(' ', '_').replace('\'', '_') + '.csv'
@@ -508,16 +508,16 @@ def country_to_csv (country, output_folder, full, liste):
 			next(f_o)
 			with open(csv_path, 'a') as f_e:
 				writer = csv.writer(f_e)
-				print("Writing headers...")
+				prfloat("Writing headers...")
 				writer.writerow(["date", "country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				print("Writing body...")
+				prfloat("Writing body...")
 				for line in f_o:
 					# écriture des lignes que quand le nombre de cas est supérieur à PLOT_MIN_CASES
 					if line[1] == country and line[4] >= PLOT_MIN_CASES:
 						writer.writerow(line)
 
 	os.remove(DATA_PATH)
-	print("Execution time : %s seconds ---" % (time.time() - start_time))
+	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
 @main.command("country")
@@ -653,9 +653,9 @@ def country(output_folder, country,
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				print("Writing headers...")
+				prfloat("Writing headers...")
 				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				print("Writing the body...")
+				prfloat("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -663,9 +663,9 @@ def country(output_folder, country,
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				print("Writing headers...")
+				prfloat("Writing headers...")
 				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				print("Writing the body...")
+				prfloat("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -696,7 +696,7 @@ def country(output_folder, country,
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths_per_10000_inhabitants.png' 
 			simple_plot_country(img_path, 9, country, full=False, liste=[], output_folder=output_folder)
 		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data and not cases_of_the_day_per_10000_inhabitants and not deaths_of_the_day_per_10000_inhabitants and not total_cases_per_10000_inhabitants and not total_deaths_per_10000_inhabitants:
-			print("Please choose a dataset")
+			prfloat("Please choose a dataset")
 			os.system('python3 run.py country -h')
 	
 	elif full_outputs:
@@ -744,9 +744,9 @@ def country(output_folder, country,
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				print("Writing headers...")
+				prfloat("Writing headers...")
 				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				print("Writing the body...")
+				prfloat("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -768,7 +768,7 @@ def country(output_folder, country,
 			simple_plot_country(img_path, 9, country, full=False, liste=[], output_folder=output_folder)
 
 	os.remove(DATA_PATH)
-	print("Execution time : %s seconds ---" % (time.time() - start_time))
+	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
 @main.command('map')
@@ -806,11 +806,30 @@ def country(output_folder, country,
 	'--plot_cases_of_the_day',
 	is_flag=True,
 	help="Create a Vega plot with the cases_of_the_day data")
+
+@click.option('-pcdpi',
+	'--plot_cases_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cases of the day per 10000 inhabitants of the given country(ies)")
+@click.option('-pddpi',
+	'--plot_deaths_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the deaths of the day per 10000 inhabitants of the given country(ies)")
+@click.option('-ptcpi',
+	'--plot_total_cases_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cumulative cases per 10000 inhabitants of the given country(ies)")
+@click.option('-ptdpi',
+	'--plot_total_deaths_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cumulative deaths per 10000 inhabitants of the given country(ies)")
 @click.option('-pmin',
 	'--plot_min',
 	help="Define the value of the minimal value to process in the Vega plots")
 def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day, map_cases_of_the_day,
-	plot_cases_of_the_day, plot_total_cases, plot_total_deaths, plot_deaths_of_the_day, plot_min):
+	plot_cases_of_the_day, plot_total_cases, plot_total_deaths, plot_deaths_of_the_day, 
+	plot_cases_of_the_day_per_10000_inhabitants, plot_deaths_of_the_day_per_10000_inhabitants, plot_total_cases_per_10000_inhabitants, plot_total_deaths_per_10000_inhabitants,
+	plot_min):
 	"""
 	Create a Leaflet map from the data you've given in option. You can add a Vega plot for each country with the same data, or others.
 	\f
@@ -832,6 +851,14 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 	:type plot_deaths_of_the_day: bool
 	:param plot_cases_of_the_day: if given, create a Vega plot for each country with the world's cases of the day data
 	:type plot_cases_of_the_day: bool
+	:param plot_cases_of_the_day_per_10000_inhabitants: if given, PNG plot with data of the cases of the day per 10000 inhabitants of the given country(ies)
+	:type plot_cases_of_the_day: bool
+	:param plot_deaths_of_the_day_per_10000_inhabitants: if given, PNG plot with data of the deaths of the day per 10000 inhabitants of the given country(ies)
+	:type plot_deaths_of_the_day: bool
+	:param plot_total_cases_per_10000_inhabitants: if given, PNG plot with data of the cumulative cases per 10000 inhabitants of the given country(ies)
+	:type plot_total_cases_per_10000_inhabitants: bool
+	:param plot_total_deaths_per_10000_inhabitants: if given, PNG plot with data of the cumulative deaths per 10000 inhabitants of the given country(ies)
+	:type plot_total_deaths_per_10000_inhabitants: bool
 	:param plot_min: define the value of the minimal value to process in the Vega plots
 	:type plot_min: int
 	:return: nothing
@@ -848,37 +875,40 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 	if map_deaths_of_the_day or map_cases_of_the_day or map_total_deaths or map_total_cases:
 		if map_total_cases:
 			if plot_cases_of_the_day:
-				map_chloro(index_layer=4, index_plot=2, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=2, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_deaths_of_the_day:
-				map_chloro(index_layer=4, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=3, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_total_cases:
-				map_chloro(index_layer=4, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=4, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_total_deaths:
-				map_chloro(index_layer=4, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=5, min_plot=float(plot_min), output_folder=output_folder)
+			elif plot_cases_of_the_day_per_10000_inhabitants:
+				map_chloro(index_layer=4, index_plot=6, min_plot=float(plot_min), output_folder=output_folder)
+
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
-				map_chloro(index_layer=4, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=4, index_plot=4, min_plot=float(plot_min), output_folder=output_folder)
 		elif map_total_deaths:
 			if plot_cases_of_the_day:
-				map_chloro(index_layer=5, index_plot=2, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=2, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_deaths_of_the_day:
-				map_chloro(index_layer=5, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=3, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_total_cases:
-				map_chloro(index_layer=5, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=4, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_total_deaths:
-				map_chloro(index_layer=5, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=5, min_plot=float(plot_min), output_folder=output_folder)
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
-				map_chloro(index_layer=5, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=5, index_plot=5, min_plot=float(plot_min), output_folder=output_folder)
 		elif map_deaths_of_the_day:
 			if plot_cases_of_the_day:
-				map_chloro(index_layer=3, index_plot=2, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=2, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_deaths_of_the_day:
-				map_chloro(index_layer=3, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=3, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_total_cases:
-				map_chloro(index_layer=3, index_plot=4, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=4, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_total_deaths:
-				map_chloro(index_layer=3, index_plot=5, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=5, min_plot=float(plot_min), output_folder=output_folder)
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
-				map_chloro(index_layer=3, index_plot=3, min_plot=int(plot_min), output_folder=output_folder)
+				map_chloro(index_layer=3, index_plot=3, min_plot=float(plot_min), output_folder=output_folder)
 		elif map_cases_of_the_day:
 			if plot_cases_of_the_day:
 				map_chloro(index_layer=2, index_plot=2, min_plot=plot_min, output_folder=output_folder)
@@ -892,7 +922,7 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 				map_chloro(index_layer=2, index_plot=2, min_plot=plot_min, output_folder=output_folder)
 
 	if not map_deaths_of_the_day and not map_cases_of_the_day and not map_total_deaths and not map_total_cases:
-		print("Please give the data you want on the map")
+		prfloat("Please give the data you want on the map")
 		os.system("python3 run.py map -h")
 
 	os.remove(DATA_PATH)
