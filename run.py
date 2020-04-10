@@ -695,7 +695,7 @@ def country(output_folder, country,
 		elif total_deaths_per_10000_inhabitants:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths_per_10000_inhabitants.png' 
 			simple_plot_country(img_path, 9, country, full=False, liste=[], output_folder=output_folder)
-		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data:
+		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data and not cases_of_the_day_per_10000_inhabitants and not deaths_of_the_day_per_10000_inhabitants and not total_cases_per_10000_inhabitants and not total_deaths_per_10000_inhabitants:
 			print("Please choose a dataset")
 			os.system('python3 run.py country -h')
 	
