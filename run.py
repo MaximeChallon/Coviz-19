@@ -303,6 +303,8 @@ def world(output_folder, today, full,
 		get_csv_world(output_folder, output_folder + "/world_cases_of_the_day_per_10000_inhabitants.csv", 4, world_dictionnary, "World")
 	elif csv_deaths_of_the_day_per_10000_inhabitants:
 		get_csv_world(output_folder, output_folder + "/world_deaths_of_the_day_per_10000_inhabitants.csv", 5, world_dictionnary, "World")
+	elif csv_total_cases_per_10000_inhabitants:
+		get_csv_world(output_folder, output_folder + "/world_total_cases_per_10000_inhabitants.csv", 6, world_dictionnary, "World")
 	
 	elif plot_full:
 		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)

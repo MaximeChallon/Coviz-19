@@ -124,6 +124,7 @@ De nombreuses options sont disponibles:
 * `-ccd`, `--csv_cases_of_the_day` : Create a CSV file as output with the cases of the day
 * `-ccdpi`, `csv_cases_of_the_day_per_10000_inhabitants` : Create a CSV file with the data of the cases of the day per 10000 inhabitants
 * `-cddpi`, `csv_deaths_of_the_day_per_10000_inhabitants` : Create a CSV file with the data of the deaths of the day per 10000 inhabitants
+* `-ctcpi`, `csv_total_cases_per_10000_inhabitants` : Create a CSV file with the data of the cumulative cases per 10000 inhabitants)
 * `-pf`, `--plot_full` : Create all the 4 plots available
 * `-pdd`, `--plot_deaths_of_the_day` : Create a PNG plot from the deaths of the day
 * `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot from the cases of the day
@@ -146,6 +147,7 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en C
 |`-ccd`|date_today, cases_of_the_day </br> 2020-04-06, 10000|for_each_date, cases_of_the_day </br> 2020-12-31, 0 </br> ... </br> 2020-04-05, 9000 </br> 2020-04-06, 10000|
 |`-ccdpi`|date_today, cases_of_the_day_per_10000 </br> 2020-04-06, 0.01|for_each_date, cases_of_the_day_per_10000 </br> 2020-12-31, 00.01 </br> ... </br> 2020-04-05, 0.02 </br> 2020-04-06, 0.03|
 |`-cddpi`|date_today, deaths_of_the_day_per_10000 </br> 2020-04-06, 0.01|for_each_date, deaths_of_the_day_per_10000 </br> 2020-12-31, 00.01 </br> ... </br> 2020-04-05, 0.02 </br> 2020-04-06, 0.03|
+|`-ctcpi`|date_today, total_cases_per_10000 </br> 2020-04-06, 0.01|for_each_date, total_cases_per_10000 </br> 2020-12-31, 00.01 </br> ... </br> 2020-04-05, 0.02 </br> 2020-04-06, 0.03|
 |`-pdd`|inutile|![-f -pdd](doc/img/world_deaths_of_the_day.png)|
 |`-pcd`|inutile|![-f -pcd](doc/img/world_cases_of_the_day.png)|
 |`-ptd`|inutile|![-f -ptd](doc/img/world_total_deaths.png)|
@@ -163,6 +165,10 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en C
 * deaths_of_the_day
 * total_cases
 * total_deaths
+* cases_of_the_day_per_10000
+* deaths_of_the_day_per_10000
+* total_cases_per_10000
+* total_deaths_per_10000
 
 Plusieurs options sont disponibles:
 
