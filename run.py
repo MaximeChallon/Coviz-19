@@ -279,6 +279,10 @@ def world(output_folder, today, full,
 		simple_plot_world("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
 		simple_plot_world("Creating plot with total deaths...", "/world_total_deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
 		simple_plot_world("Creating plot with total cases...", "/world_total_cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with cases of the day per 10000 inhabitants...", "/world_cases_of_the_day_per_10000_inhabitants.png", 4, "Nombre de cas quotidiens pour 10000 habitants", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with total cases per 10000 inhabitants...", "/world_total_cases_per_10000_inhabitants.png", 6, "Nombre total de cas pour 10000 habitants", output_folder, world_dictionnary)
+		simple_plot_world("Creating plot with deaths of the day per 10000 inhabitants...", "/world_deaths_of_the_day_per_10000_inhabitants.png", 5, "Nombre de décès quotidiens pour 10000 habitants", output_folder, world_dictionnary)
+
 	elif plot_deaths_of_the_day:
 		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 	elif plot_cases_of_the_day:
@@ -289,7 +293,8 @@ def world(output_folder, today, full,
 		simple_plot_world("Creating plot with total cases...", "/world_total_cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
 	elif plot_cases_of_the_day_per_10000_inhabitants:
 		simple_plot_world("Creating plot with cases of the day per 10000 inhabitants...", "/world_cases_of_the_day_per_10000_inhabitants.png", 4, "Nombre de cas quotidiens pour 10000 habitants", output_folder, world_dictionnary)
-	
+	elif plot_deaths_of_the_day_per_10000_inhabitants:
+		simple_plot_world("Creating plot with deaths of the day per 10000 inhabitants...", "/world_deaths_of_the_day_per_10000_inhabitants.png", 5, "Nombre de décès quotidiens pour 10000 habitants", output_folder, world_dictionnary)
 	elif plot_total_cases_per_10000_inhabitants:
 		simple_plot_world("Creating plot with total cases per 10000 inhabitants...", "/world_total_cases_per_10000_inhabitants.png", 6, "Nombre total de cas pour 10000 habitants", output_folder, world_dictionnary)
 	
