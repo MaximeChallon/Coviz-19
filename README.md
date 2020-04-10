@@ -55,9 +55,9 @@ Les possibilités étant nombreuses, voici quelques exemples:
 
 Pour spécifier le(s) pays dont on souhaite les données depuis le 31 décembre 2019, utiliser les options suivantes:
 
-* `-c`, `--country` : Execute the command for the country
+* `-c`, `--country` TEXT : Execute the command for the country
 * `-f`, `--full` : Execute the command for all the countries
-* `-l`, `--liste` : Execute the command for a list of countries
+* `-l`, `--liste` LIST : Execute the command for a list of countries
 * `-h`, `--help` : Show this message and exit.
 
 ## `country`
@@ -90,9 +90,9 @@ Exemples :
 
 `today` permet de créer un fichier CSV pour les données du jour-même selon les pays spécifiés et les données voulues. Si les données datent de la veille (car pas encore mises à jour sur le site soucre), un message s'affichera, et ces données de la veille seront utilisées. De nombreuses options sont disponibles et sont à combiner:
 
-* `-c`, `--country` : Execute the command for the country
+* `-c`, `--country` TEXT : Execute the command for the country
 * `-f`, `--full` : Execute the command for all the countries
-* `-l`, `--liste` : Execute the command for a list of countries
+* `-l`, `--liste` LIST : Execute the command for a list of countries
 * `-td`, `--total_deaths` : Process the cumulative deaths
 * `-cd`, `--cases_of_the_day` : Process the cases of the day
 * `-dd`, `--deaths_of_the_day` : Process the deaths of the day
@@ -175,9 +175,9 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en C
 
 Plusieurs options sont disponibles:
 
-* `-c`, `--country` : Execute the command for the country
+* `-c`, `--country` TEXT : Execute the command for the country
 * `-f`, `--full` : Execute the command for all the countries
-* `-l`, `--liste` : Execute the command for a list of countries
+* `-l`, `--liste` LIST : Execute the command for a list of countries
 * `-ptd`, `--plot_total_deaths` : Create a PNG plot with the data of cumulative deaths of the given country(ies)
 * `-pdd`, `--plot_deaths_of_the_day` : Create a PNG plot with the data of the deaths of the day of the given country(ies)
 * `-ptc`, `--plot_total_cases` : Create a PNG plot with the data of cumulative cases of the given country(ies)
