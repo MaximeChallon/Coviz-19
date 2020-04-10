@@ -163,6 +163,7 @@ Plusieurs options sont disponibles:
 * `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot with the data of the cases of the day of the given country(ies)
 * `-pcdpi`, `plot_cases_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the cases of the day per 10000 inhabitants of the given country(ies)
 * `-pddpi`, `plot_deaths_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the deaths of the day per 10000 inhabitants of the given country(ies)
+* `-ptdpi`, `plot_total_deaths_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative deaths per 10000 inhabitants of the given country(ies)
 * `-h`, `--help` : Show this message and exit.
 
 Exemples:
