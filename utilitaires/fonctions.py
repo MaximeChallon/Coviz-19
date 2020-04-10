@@ -257,5 +257,5 @@ def calcul_par_10000_hbts():
 				else:
 					writer.writerow([line[1], line[2], line[3], line[4], line[5], 0, 0, 0, 0])
 	
-	
+	os.remove('utilitaires/data/test.csv')
 	os.remove(DATA_BEGINNING)	
