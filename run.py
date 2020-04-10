@@ -13,7 +13,7 @@ clean_folder()
 
 DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
 DATA_BEGINNING = 'full_data.csv'
-DATA_PATH = 'full_data_with_pop.csv'
+DATA_PATH = 'utilitaires/data/data_full.csv'
 
 @click.group(context_settings={'help_option_names':['-h','--help']})
 def main():
@@ -91,7 +91,6 @@ def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_
 		simple_plot_country(index=2, img_path='plot_total_cases.png', country=country, full=full, liste=liste, output_folder=output_folder)
 
 	os.remove(DATA_PATH)
-	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -233,7 +232,6 @@ def world(output_folder, today, full,
 		print("Please specify the output")
 
 	os.remove(DATA_PATH)
-	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -319,7 +317,6 @@ def country(country, output_folder, full, liste, total_deaths, total_cases, case
 					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3]])
 
 	os.remove(DATA_PATH)
-	os;remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -382,7 +379,6 @@ def country_to_csv (country, output_folder, full, liste):
 						writer.writerow(line)
 
 	os.remove(DATA_PATH)
-	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -554,7 +550,6 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 
 
 	os.remove(DATA_PATH)
-	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
@@ -683,7 +678,6 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 		os.system("python3 run.py map -h")
 
 	os.remove(DATA_PATH)
-	os.remove(DATA_BEGINNING)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
