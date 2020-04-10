@@ -93,21 +93,21 @@ Exemples :
 * `-c`, `--country` : Execute the command for the country
 * `-f`, `--full` : Execute the command for all the countries
 * `-l`, `--liste` : Execute the command for a list of countries
-* `-a`, `--total_deaths` : Process the cumulative deaths
-* `-b`, `--cases_of_the_day` : Process the cases of the day
-* `-d`, `--deaths_of_the_day` : Process the deaths of the day
-* `-e`, `--total_cases` : Process the cumulative cases
+* `-td`, `--total_deaths` : Process the cumulative deaths
+* `-cd`, `--cases_of_the_day` : Process the cases of the day
+* `-dd`, `--deaths_of_the_day` : Process the deaths of the day
+* `-tc`, `--total_cases` : Process the cumulative cases
 * `-h`, `--help` : Show this message and exit.
 
 Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (données d'exemple):
 
 |Options|`-c`|`-f`|`-l`|
 |:-:|:-:|:-:|:-:|
-|`-a`|country,total_deaths</br>France,7560|country,total_deaths</br>France,7560</br>Italy,15362</br>...|country,total_deaths</br>France,7560</br>Italy,15362|
-|`-b`|country,cases_of_the_day</br>France,4267|country,cases_of_the_day</br>France,4267</br>Italy,4805</br>...|country,cases_of_the_day</br>France,4267</br>Italy,4805|
-|`-d`|country,deaths_of_the_day</br>France,1053|country,deaths_of_the_day</br>France,1053</br>Italy,681</br>...|country,deaths_of_the_day</br>France,1053</br>Italy,681|
-|`-e`|country,total_cases</br>France,68605|country,total_cases</br>France,68605</br>Italy,124632</br>...|country,total_cases</br>France,68605</br>Italy,124632|
-|`-a`, `-b`, </br> `-d` ou `-e`</br> non spécifiés|country,cases_of_the_day,deaths_of_the_day,total_cases,total_deaths</br>France,4267,1053,68605,7560|country,cases_of_the_day,deaths_of_the_day,total_cases,total_deaths</br>France,4267,1053,68605,7560</br>Italy,4805,681,124632,15362</br>...|country,cases_of_the_day,deaths_of_the_day,total_cases,total_deaths</br>France,4267,1053,68605,7560</br>Italy,4805,681,124632,15362|
+|`-td`|country,total_deaths</br>France,7560|country,total_deaths</br>France,7560</br>Italy,15362</br>...|country,total_deaths</br>France,7560</br>Italy,15362|
+|`-cd`|country,cases_of_the_day</br>France,4267|country,cases_of_the_day</br>France,4267</br>Italy,4805</br>...|country,cases_of_the_day</br>France,4267</br>Italy,4805|
+|`-dd`|country,deaths_of_the_day</br>France,1053|country,deaths_of_the_day</br>France,1053</br>Italy,681</br>...|country,deaths_of_the_day</br>France,1053</br>Italy,681|
+|`-tc`|country,total_cases</br>France,68605|country,total_cases</br>France,68605</br>Italy,124632</br>...|country,total_cases</br>France,68605</br>Italy,124632|
+|`-td`, `-cd`, </br> `-dd` ou `-tc`</br> non spécifiés|country,cases_of_the_day,deaths_of_the_day,total_cases,total_deaths</br>France,4267,1053,68605,7560|country,cases_of_the_day,deaths_of_the_day,total_cases,total_deaths</br>France,4267,1053,68605,7560</br>Italy,4805,681,124632,15362</br>...|country,cases_of_the_day,deaths_of_the_day,total_cases,total_deaths</br>France,4267,1053,68605,7560</br>Italy,4805,681,124632,15362|
 
 ## `world`
 

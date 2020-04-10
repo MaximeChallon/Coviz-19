@@ -354,19 +354,19 @@ def world(output_folder, today, full,
 	"--liste", 
 	default=[],
 	help="Execute the command for a list of countries")
-@click.option("-a", 
+@click.option("-td", 
 	"--total_deaths", 
 	is_flag=True,
 	help="Process the cumulative deaths")
-@click.option("-b", 
+@click.option("-cd", 
 	"--cases_of_the_day", 
 	is_flag=True,
 	help="Process the cases of the day")
-@click.option("-d", 
+@click.option("-dd", 
 	"--deaths_of_the_day", 
 	is_flag=True,
 	help="Process the deaths of the day")
-@click.option("-e", 
+@click.option("-tc", 
 	"--total_cases", 
 	is_flag=True,
 	help="Process the cumulative cases")
