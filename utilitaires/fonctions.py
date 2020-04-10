@@ -56,7 +56,7 @@ def get_data_today(data):
 		dictionnary_data_today = {}
 		for line in f_o:
 			if line[0] == TODAY:
-				dictionnary_data_today[line[1]] = [line[2], line[3], line[4], line[5]]
+				dictionnary_data_today[line[1]] = [line[2], line[3], line[4], line[5],line[6], line[7], line[8], line[9]]
 	if len(dictionnary_data_today) == 0:
 		with open(data, 'r') as f:
 			f_o = csv.reader(f)
@@ -64,7 +64,7 @@ def get_data_today(data):
 			dictionnary_data_today = {}
 			for line in f_o:
 				if line[0] == YESTERDAY_CUT:
-					data = [line[2], line[3], line[4], line[5]]
+					data = [line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9]]
 					dictionnary_data_today[line[1]] = data
 		print("Only yesterday's data are available now.")
 		return dictionnary_data_today
@@ -160,6 +160,8 @@ def get_csv_today(output_folder, csv_path, index, country, full, liste):
 				header = "total_cases"
 			elif index == 3:
 				header = "total_deaths"
+			elif index == 4:
+				header = "cases_of_the_day_per_10000"
 			writer.writerow(["country", header])
 			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
 				print(country + ' on process...')

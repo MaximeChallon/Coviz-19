@@ -97,6 +97,7 @@ Exemples :
 * `-cd`, `--cases_of_the_day` : Process the cases of the day
 * `-dd`, `--deaths_of_the_day` : Process the deaths of the day
 * `-tc`, `--total_cases` : Process the cumulative cases
+* `-cdpi`, `--cases_of_the_day_per_10000_inhabitants` : Process the cases of the day per 10000 inhabitants
 * `-h`, `--help` : Show this message and exit.
 
 Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (données d'exemple):
