@@ -162,8 +162,9 @@ Plusieurs options sont disponibles:
 * `-ptc`, `--plot_total_cases` : Create a PNG plot with the data of cumulative cases of the given country(ies)
 * `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot with the data of the cases of the day of the given country(ies)
 * `-pcdpi`, `plot_cases_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the cases of the day per 10000 inhabitants of the given country(ies)
+* `-pddpi`, `plot_deaths_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the deaths of the day per 10000 inhabitants of the given country(ies)
 * `-h`, `--help` : Show this message and exit.
 
 Exemples:
 
-* 
+* `python3 run.py plot -pddpi -c United\ States` ![python3 run.py plot -pddpi -c United\ States](doc/img/plot_deaths_of_the_day_per_10000_inhabitants.png)
