@@ -23,6 +23,10 @@ Pour la carte et les graphiques, les jeux de données disponibles sont:
 * deaths_of_the_day
 * total_cases
 * total_deaths
+* cases_of_the_day_per_10000
+* deaths_of_the_day_per_10000
+* total_cases_per_10000
+* total_deaths_per_10000
 
 Les options suivantes sont disponibles pour `map`:
 
@@ -30,6 +34,7 @@ Les options suivantes sont disponibles pour `map`:
 * `-mtc`, `--map_total_cases` : Create a Leaflet layer with the cumulative cases data
 * `-mdd`, `--map_deaths_of_the_day` : Create a Leaflet layer with the deaths_of_the_day data
 * `-mcd`, `--map_cases_of_the_day` : Create a Leaflet layer with the cases_of_the_day data
+* `-mcdpi`, `--map_cases_of_the_day_per_10000_inhabitants` : Create a Leaflet layer with the cases_of_the_day data per 10000 inhabitants
 * `-ptd`, `--plot_total_deaths` : Create a Vega plot with the cumulative deaths data
 * `-ptc`, `--plot_total_cases` : Create a Vega plot with the cumulative cases data
 * `-pdd`, `--plot_deaths_of_the_day` : Create a Vega plot with the deaths_of_the_day data

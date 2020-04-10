@@ -790,6 +790,10 @@ def country(output_folder, country,
 	'--map_cases_of_the_day',
 	is_flag=True,
 	help="Create a Leaflet layer with the cases_of_the_day data")
+@click.option('-mcdpi',
+	'--map_cases_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a Leaflet layer with the cases_of_the_day data per 10000 inhabitants")
 @click.option('-ptd',
 	'--plot_total_deaths',
 	is_flag=True,
@@ -806,7 +810,6 @@ def country(output_folder, country,
 	'--plot_cases_of_the_day',
 	is_flag=True,
 	help="Create a Vega plot with the cases_of_the_day data")
-
 @click.option('-pcdpi',
 	'--plot_cases_of_the_day_per_10000_inhabitants',
 	is_flag=True,
@@ -827,6 +830,7 @@ def country(output_folder, country,
 	'--plot_min',
 	help="Define the value of the minimal value to process in the Vega plots")
 def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day, map_cases_of_the_day,
+	map_cases_of_the_day_per_10000_inhabitants,
 	plot_cases_of_the_day, plot_total_cases, plot_total_deaths, plot_deaths_of_the_day, 
 	plot_cases_of_the_day_per_10000_inhabitants, plot_deaths_of_the_day_per_10000_inhabitants, plot_total_cases_per_10000_inhabitants, plot_total_deaths_per_10000_inhabitants,
 	plot_min):
@@ -843,6 +847,14 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 	:type map_deaths_of_the_day: bool
 	:param map_cases_of_the_day: if given, create a Leaflet map with the world's cases of the day data
 	:type map_cases_of_the_day: bool
+	:param map_cases_of_the_day_per_10000_inhabitants: if given, create a Leaflet map with the world's cases of the day data per 10000 inhabitants of the given country(ies)
+	:type map_cases_of_the_day: bool
+	:param map_deaths_of_the_day_per_10000_inhabitants: if given, create a Leaflet map with the world's deaths of the day dataper 10000 inhabitants of the given country(ies)
+	:type map_deaths_of_the_day: bool
+	:param map_total_cases_per_10000_inhabitants: if given, create a Leaflet map with the world's cumulative cases data per 10000 inhabitants of the given country(ies)
+	:type map_total_cases_per_10000_inhabitants: bool
+	:param map_total_deaths_per_10000_inhabitants: if given, create a Leaflet map with the world's cumulative deaths data per 10000 inhabitants of the given country(ies)
+	:type map_total_deaths_per_10000_inhabitants: bool
 	:param plot_total_deaths: if given, create a Vega plot for each country with the world's cumulative deaths data
 	:type plot_total_deaths: bool
 	:param plot_total_cases: if given, create a Vega plot for each country with the world's cumulative cases data
@@ -872,7 +884,7 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 	if not plot_min:
 		plot_min = 5
 
-	if map_deaths_of_the_day or map_cases_of_the_day or map_total_deaths or map_total_cases:
+	if map_deaths_of_the_day or map_cases_of_the_day or map_total_deaths or map_total_cases or map_cases_of_the_day_per_10000_inhabitants or map_deaths_of_the_day_per_10000_inhabitants or map_total_cases_per_10000_inhabitants or map_total_deaths_per_10000_inhabitants:
 		if map_total_cases:
 			if plot_cases_of_the_day:
 				map_chloro(index_layer=4, index_plot=2, min_plot=float(plot_min), output_folder=output_folder)
@@ -953,8 +965,28 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases and not plot_cases_of_the_day_per_10000_inhabitants and not plot_deaths_of_the_day_per_10000_inhabitants and not plot_total_cases_per_10000_inhabitants and not plot_total_deaths_per_10000_inhabitants:
 				map_chloro(index_layer=2, index_plot=2, min_plot=plot_min, output_folder=output_folder)
 
-	if not map_deaths_of_the_day and not map_cases_of_the_day and not map_total_deaths and not map_total_cases:
-		prfloat("Please give the data you want on the map")
+		elif map_cases_of_the_day_per_10000_inhabitants:
+			if plot_cases_of_the_day:
+				map_chloro(index_layer=6, index_plot=2, min_plot=plot_min, output_folder=output_folder)
+			elif plot_deaths_of_the_day:
+				map_chloro(index_layer=6, index_plot=3, min_plot=plot_min, output_folder=output_folder)
+			elif plot_total_cases:
+				map_chloro(index_layer=6, index_plot=4, min_plot=plot_min, output_folder=output_folder)
+			elif plot_total_deaths:
+				map_chloro(index_layer=6, index_plot=5, min_plot=plot_min, output_folder=output_folder)
+			elif plot_cases_of_the_day_per_10000_inhabitants:
+				map_chloro(index_layer=6, index_plot=6, min_plot=float(plot_min), output_folder=output_folder)
+			elif plot_deaths_of_the_day_per_10000_inhabitants:
+				map_chloro(index_layer=6, index_plot=7, min_plot=float(plot_min), output_folder=output_folder)
+			elif plot_total_cases_per_10000_inhabitants:
+				map_chloro(index_layer=6, index_plot=8, min_plot=float(plot_min), output_folder=output_folder)
+			elif plot_total_deaths_per_10000_inhabitants:
+				map_chloro(index_layer=6, index_plot=9, min_plot=float(plot_min), output_folder=output_folder)
+			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases and not plot_cases_of_the_day_per_10000_inhabitants and not plot_deaths_of_the_day_per_10000_inhabitants and not plot_total_cases_per_10000_inhabitants and not plot_total_deaths_per_10000_inhabitants:
+				map_chloro(index_layer=6, index_plot=2, min_plot=plot_min, output_folder=output_folder)
+
+	if not map_deaths_of_the_day and not map_cases_of_the_day and not map_total_deaths and not map_total_cases and not map_cases_of_the_day_per_10000_inhabitants and not map_deaths_of_the_day_per_10000_inhabitants and not map_total_cases_per_10000_inhabitants and not map_total_deaths_per_10000_inhabitants:
+		print("Please give the data you want on the map")
 		os.system("python3 run.py map -h")
 
 	os.remove(DATA_PATH)

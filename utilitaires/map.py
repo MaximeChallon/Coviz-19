@@ -31,10 +31,10 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
         titre_layer = "Nombre de décès total recensés"
         titre_fichier = "deces_total"
     elif index_layer == 6:
-        titre_layer = "Nombre de cas recensés dans la journée d'hier pour 10000 habitants"
+        titre_layer = "Nombre de cas recensés la veillepour 10000 habitants"
         titre_fichier = "nouveaux_cas_10000"
     elif index_layer == 7:
-        titre_layer = "Nombre de décès recensés dans la journée d'hier pour 10000 habitants"
+        titre_layer = "Nombre de décès recensés la veille pour 10000 habitants"
         titre_fichier = "nouveaux_deces_10000"
     elif index_layer == 8:
         titre_layer = "Nombre total de cas pour 10000 habitants"
