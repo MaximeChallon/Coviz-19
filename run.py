@@ -886,7 +886,9 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 				map_chloro(index_layer=4, index_plot=6, min_plot=float(plot_min), output_folder=output_folder)
 			elif plot_deaths_of_the_day_per_10000_inhabitants:
 				map_chloro(index_layer=4, index_plot=7, min_plot=float(plot_min), output_folder=output_folder)
-
+			elif plot_total_cases_per_10000_inhabitants:
+				map_chloro(index_layer=4, index_plot=8, min_plot=float(plot_min), output_folder=output_folder)
+				
 			elif not plot_cases_of_the_day and not plot_deaths_of_the_day and not plot_total_deaths and not plot_total_cases:
 				map_chloro(index_layer=4, index_plot=4, min_plot=float(plot_min), output_folder=output_folder)
 		elif map_total_deaths:
