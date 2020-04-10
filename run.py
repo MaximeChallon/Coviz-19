@@ -689,6 +689,9 @@ def country(output_folder, country,
 		elif deaths_of_the_day_per_10000_inhabitants:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day_per_10000_inhabitants.png' 
 			simple_plot_country(img_path, 7, country, full=False, liste=[], output_folder=output_folder)
+		elif total_cases_per_10000_inhabitants:
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases_per_10000_inhabitants.png' 
+			simple_plot_country(img_path, 8, country, full=False, liste=[], output_folder=output_folder)
 		
 		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data:
 			print("Please choose a dataset")
