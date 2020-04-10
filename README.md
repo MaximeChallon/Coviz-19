@@ -130,6 +130,7 @@ De nombreuses options sont disponibles:
 * `-pcdpi`, `plot_cases_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the cases of the day per 10000 inhabitants
 * `-pddpi`, `plot_deaths_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the deaths of the day per 10000 inhabitants
 * `-ptcpi`, `plot_total_cases_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative cases per 10000 inhabitants)
+* `-ptdpi`, `plot_total_deaths_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative deaths per 10000 inhabitants
 * `-h`, `--help` : Show this message and exit.
 
 Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en CSV (données d'exemple):
@@ -148,6 +149,7 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en C
 |`-pcdpi`|inutile||
 |`-pddpi`|inutile||
 |`-ptcpi`|inutile||
+|`-ptdpi`|inutile||
 
 ## `plot`
 
