@@ -176,6 +176,7 @@ def get_csv_today(output_folder, csv_path, index, country, full, liste):
 
 
 def simple_plot_country(img_path, index, country, full, liste, output_folder):
+	print("Creating " + img_path + "...")
 	img_path1 = output_folder + '/' + img_path
 	fig = plt.figure()
 	fig, ax = plt.subplots(1,figsize=MORE_30D)
