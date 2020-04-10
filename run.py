@@ -159,6 +159,22 @@ def plot(output_folder, country, full, liste,
 	'--csv_cases_of_the_day',
 	is_flag=True,
 	help='Create a CSV file as output with the cases of the day')
+@click.option('-ccdpi',
+	'--csv_cases_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a CSV file with the data of the cases of the day per 10000 inhabitants of the given country(ies)")
+@click.option('-cddpi',
+	'--csv_deaths_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a CSV file with the data of the deaths of the day per 10000 inhabitants of the given country(ies)")
+@click.option('-ctcpi',
+	'--csv_total_cases_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a CSV file with the data of the cumulative cases per 10000 inhabitants of the given country(ies)")
+@click.option('-ctdpi',
+	'--csv_total_deaths_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a CSV file with the data of the cumulative deaths per 10000 inhabitants of the given country(ies)")
 @click.option('-pf',
 	'--plot_full',
 	is_flag=True,
@@ -196,7 +212,8 @@ def plot(output_folder, country, full, liste,
 	is_flag=True,
 	help="Create a PNG plot with the data of the cumulative deaths per 10000 inhabitants of the given country(ies)")
 def world(output_folder, today, full, 
-	csv_full, csv_deaths_of_the_day, csv_total_deaths, csv_total_cases, csv_cases_of_the_day, 
+	csv_full, csv_deaths_of_the_day, csv_total_deaths, csv_total_cases, csv_cases_of_the_day,
+	csv_cases_of_the_day_per_10000_inhabitants, csv_deaths_of_the_day_per_10000_inhabitants, csv_total_cases_per_10000_inhabitants, csv_total_deaths_per_10000_inhabitants, 
 	plot_full, plot_deaths_of_the_day, plot_cases_of_the_day, plot_total_deaths, plot_total_cases,
 	plot_cases_of_the_day_per_10000_inhabitants, plot_deaths_of_the_day_per_10000_inhabitants, plot_total_cases_per_10000_inhabitants, plot_total_deaths_per_10000_inhabitants):
 	"""
@@ -219,6 +236,14 @@ def world(output_folder, today, full,
 	:param csv_total_cases: if given, create a CSV file as output with the cumulative cases's data
 	:type csv_total_cases: bool
 	:param plot_full: if given, create 4 PNG plots
+	:param csv_cases_of_the_day_per_10000_inhabitants: if given, CSV file with data of the cases of the day per 10000 inhabitants of the given country(ies)
+	:type csv_cases_of_the_day: bool
+	:param csv_deaths_of_the_day_per_10000_inhabitants: if given, CSV file with data of the deaths of the day per 10000 inhabitants of the given country(ies)
+	:type csv_deaths_of_the_day: bool
+	:param csv_total_cases_per_10000_inhabitants: if given, CSV file with data of the cumulative cases per 10000 inhabitants of the given country(ies)
+	:type csv_total_cases_per_10000_inhabitants: bool
+	:param csv_total_deaths_per_10000_inhabitants: if given, CSV file with data of the cumulative deaths per 10000 inhabitants of the given country(ies)
+	:type csv_total_deaths_per_10000_inhabitants: bool
 	:type plot_full: bool
 	:param plot_deaths_of_the_day: if given, create a PNG image as output for the deaths of the day
 	:type plot_deaths_of_the_day: bool
@@ -274,6 +299,8 @@ def world(output_folder, today, full,
 		get_csv_world(output_folder, output_folder + "/world_total_cases.csv", 2, world_dictionnary, "World")
 	elif csv_cases_of_the_day:
 		get_csv_world(output_folder, output_folder + "/world_cases_of_the_day.csv", 0, world_dictionnary, "World")
+	elif csv_cases_of_the_day_per_10000_inhabitants:
+		get_csv_world(output_folder, output_folder + "/world_cases_of_the_day_per_10000_inhabitants.csv", 4, world_dictionnary, "World")
 	elif plot_full:
 		simple_plot_world("Creating plot with deaths of the day...", "/world_deaths_of_the_day.png", 1, "Nombre de décès quotidiens", output_folder, world_dictionnary)
 		simple_plot_world("Creating plot with cases of the day...", "/world_cases_of_the_day.png", 0, "Nombre de cas quotidiens", output_folder, world_dictionnary)
