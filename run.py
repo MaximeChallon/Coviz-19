@@ -421,15 +421,15 @@ def country(country, output_folder, full, liste,
 	elif cases_of_the_day_per_10000_inhabitants:
 		get_csv_today(output_folder, '/today_cases_of_the_day_per_10000_inhabitants.csv', 4, country=country, full=full, liste=liste)
 	else: # create a CSV with all the data (total_deaths, total_cases, cases_of_the_day, deaths_of_the_day)
-		csv_path = output_folder + '/deaths_of_the_day.csv'
+		csv_path = output_folder + '/today_all_data.csv'
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
 			print('Writing headers...')
-			writer.writerow(["country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+			writer.writerow(["country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
 			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
 				print(country + ' on process...')
 				if country in get_data_today(DATA_PATH):
-					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3]])
+					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3], get_data_today(DATA_PATH)[country][4], get_data_today(DATA_PATH)[country][5], get_data_today(DATA_PATH)[country][6], get_data_today(DATA_PATH)[country][7]])
 
 	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
