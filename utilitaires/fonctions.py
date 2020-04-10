@@ -138,6 +138,8 @@ def get_csv_world(output_folder, csv_path, index, world_dictionnary, country):
 			header = "deaths_of_the_day_per_10000"
 		elif index == 6:
 			header = "total_cases_per_10000"
+		elif index == 7:
+			header = "total_deaths_per_10000"
 		writer.writerow(["country", "date", header])
 		print("Writing the body...")
 		for day in world_dictionnary:
