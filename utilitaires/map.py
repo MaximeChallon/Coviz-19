@@ -39,6 +39,9 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     elif index_layer == 8:
         titre_layer = "Nombre total de cas pour 10000 habitants"
         titre_fichier = "cas_total_10000"
+    elif index_layer == 9:
+        titre_layer = "Nombre total de décès pour 10000 habitants"
+        titre_fichier = "deces_total_10000"
 
     # gestion des titres pour les graphiques
     if index_plot == 2:
@@ -62,6 +65,9 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     elif index_plot == 8:
         x_plot = "Jours depuis un total de " + str(min_plot) + "  cas pour 10000 habitants"
         y_plot = "Nombre de cas recensés pour 10000 habitants"
+    elif index_plot == 9:
+        x_plot = "Jours depuis un total de " + str(min_plot) + "  décès pour 10000 habitants"
+        y_plot = "Nombre de décès recensés pour 10000 habitants"
     
     
     print("Processing your given dataset...")
