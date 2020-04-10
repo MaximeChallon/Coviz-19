@@ -643,6 +643,9 @@ def country(output_folder, country,
 		elif deaths_of_the_day_per_10000_inhabitants:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day_per_10000_inhabitants.csv'
 			get_csv_world(output_folder, csv_path, 5, world_dictionnary, country)
+		elif total_cases_per_10000_inhabitants:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases_per_10000_inhabitants.csv'
+			get_csv_world(output_folder, csv_path, 6, world_dictionnary, country)
 		
 		elif full_data:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
