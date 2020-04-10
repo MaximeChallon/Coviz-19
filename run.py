@@ -659,16 +659,16 @@ def country(output_folder, country,
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
-		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data:
+		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data and not cases_of_the_day_per_10000_inhabitants and not deaths_of_the_day_per_10000_inhabitants and not total_cases_per_10000_inhabitants and not total_deaths_per_10000_inhabitants:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
 				print("Writing headers...")
-				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
 				print("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
-					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3]])
+					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
 	elif plot:
 		if total_deaths:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.png' 
