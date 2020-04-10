@@ -127,6 +127,7 @@ De nombreuses options sont disponibles:
 * `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot from the cases of the day
 * `-ptd`, `--plot_total_deaths` : Create a PNG plot from the cumulative deaths
 * `-ptc`, `--plot_total_cases` : Create a PNG plot from the cumulative cases
+* `-pcdpi`, `plot_cases_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the cases of the day per 10000 inhabitants
 * `-ptcpi`, `plot_total_cases_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative cases per 10000 inhabitants)
 * `-h`, `--help` : Show this message and exit.
 
@@ -143,6 +144,7 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en C
 |`-pcd`|inutile|![-f -pcd](doc/img/world_cases_of_the_day.png)|
 |`-ptd`|inutile|![-f -ptd](doc/img/world_total_deaths.png)|
 |`-ptc`|inutile|![-f -ptc](doc/img/world_total_cases.png)|
+|`-pcdpi`|inutile||
 |`-ptcpi`|inutile||
 
 ## `plot`
