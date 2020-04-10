@@ -75,6 +75,10 @@ Les options suivantes sont disponibles:
 * `-tc`, `--total_cases` : Process the cumulative cases data
 * `-cd`, `--cases_of_the_day` : Process the cases of the day data
 * `-dd`, `--deaths_of_the_day` : Process the deaths of the day data
+* `-cdpi`, `--cases_of_the_day_per_10000_inhabitants` : Process the cases of the day per 10000 inhabitants
+* `-ddpi`, `--deaths_of_the_day_per_10000_inhabitants` : Process the deaths of the day per 10000 inhabitants
+* `-tcpi`, `--total_cases_per_10000_inhabitants` : Process the cumulative cases per 10000 inhabitants
+* `-tdpi`, `--total_deaths_per_10000_inhabitants` : Process the cumulative deaths per 10000 inhabitants
 * `-fd`, `--full_data` : Process all the available data
 * `-c`, `--csv_o` : Create a CSV file in output
 * `-p`, `--plot` : Create a PNG plot in output, with beginning and end of quarantine dates

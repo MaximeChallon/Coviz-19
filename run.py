@@ -540,6 +540,22 @@ def country_to_csv (country, output_folder, full, liste):
 	'--deaths_of_the_day',
 	is_flag=True,
 	help="Process the deaths of the day data")
+@click.option("-cdpi", 
+	"--cases_of_the_day_per_10000_inhabitants", 
+	is_flag=True,
+	help="Process the cases of the day per 10000 inhabitants")
+@click.option("-ddpi", 
+	"--deaths_of_the_day_per_10000_inhabitants", 
+	is_flag=True,
+	help="Process the deaths of the day per 10000 inhabitants")
+@click.option("-tcpi", 
+	"--total_cases_per_10000_inhabitants", 
+	is_flag=True,
+	help="Process the cumulative cases per 10000 inhabitants")
+@click.option("-tdpi", 
+	"--total_deaths_per_10000_inhabitants", 
+	is_flag=True,
+	help="Process the cumulative deaths per 10000 inhabitants")
 @click.option('-fd',
 	'--full_data',
 	is_flag=True,
@@ -556,7 +572,10 @@ def country_to_csv (country, output_folder, full, liste):
 	'--full_outputs',
 	is_flag=True,
 	help="Create CSV files and PNG plots in output")
-def country(output_folder, country, total_deaths, total_cases, cases_of_the_day, deaths_of_the_day, full_data, full_outputs, csv_o, plot):
+def country(output_folder, country, 
+	total_deaths, total_cases, cases_of_the_day, deaths_of_the_day,
+	cases_of_the_day_per_10000_inhabitants, deaths_of_the_day_per_10000_inhabitants, total_deaths_per_10000_inhabitants, total_cases_per_10000_inhabitants,
+	full_data, full_outputs, csv_o, plot):
 	"""
 	For the given country, create CSV files or PNG plots for the given data.
 	\f
@@ -572,6 +591,14 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 	:type cases_of_the_day: bool
 	:param deaths_of_the_day: if given, the deaths of the day data are process
 	:type deaths_of_the_day: bool
+	:param cases_of_the_day_per_10000_inhabitants: if given, create a CSV for the cases of the day per 10000 inhabitants
+	:type cases_of_the_day_per_10000_inhabitants: bool
+	:param deaths_of_the_day_per_10000_inhabitants: if given, create a CSV for the deaths of the day per 10000 inhabitants
+	:type deaths_of_the_day_per_10000_inhabitants: bool
+	:param total_cases_per_10000_inhabitants: if given, create a CSV for the cumulative cases per 10000 inhabitants
+	:type total_cases_per_10000_inhabitants: bool
+	:param total_deaths_per_10000_inhabitants: if given, create a CSV for the cumulative deaths per 10000 inhabitants
+	:type total_deaths_per_10000_inhabitants: bool
 	:param full_data: if given, process all the available data of the country
 	:type full_data: bool
 	:param full_outputs: if given, create CSV and PNG files
@@ -610,6 +637,9 @@ def country(output_folder, country, total_deaths, total_cases, cases_of_the_day,
 		elif deaths_of_the_day:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.csv'
 			get_csv_world(output_folder, csv_path, 1, world_dictionnary, country)
+		elif cases_of_the_day_per_10000_inhabitants:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day_per_10000_inhabitants.csv'
+			get_csv_world(output_folder, csv_path, 4, world_dictionnary, country)
 		elif full_data:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
