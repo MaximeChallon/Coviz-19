@@ -100,7 +100,7 @@ def get_world_data(data, country):
 		dictionnary_data_world = {}
 		for line in f_o:
 			if line[1] == country:
-				dictionnary_data_world[line[0]] = line[2] + ',' + line[3] + ',' + line[4] + ',' + line[5]
+				dictionnary_data_world[line[0]] = line[2] + ',' + line[3] + ',' + line[4] + ',' + line[5] + ',' + line[6] + ',' + line[7] + ',' + line[8] + ',' + line[9]
 	return dictionnary_data_world
 
 
@@ -110,7 +110,7 @@ def simple_plot_world(message, name_img, index, y_label, output_folder, world_di
 	fig = plt.figure(figsize=MORE_30D)
 	plt.xticks(rotation=90)
 	ax = plt.subplot()
-	ax.plot([day for day in world_dictionnary], [int(world_dictionnary[day].split(',')[index]) for day in world_dictionnary], COLOR, linewidth=2.5)
+	ax.plot([day for day in world_dictionnary], [float(world_dictionnary[day].split(',')[index]) for day in world_dictionnary], COLOR, linewidth=2.5)
 	ax.set_xlabel('Date')
 	ax.set_ylabel(y_label)
 	ax.yaxis.grid(True)

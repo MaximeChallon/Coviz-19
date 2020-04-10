@@ -81,21 +81,21 @@ def plot(output_folder, country, full, liste,
 	:param liste: list of countries to be process
 	:type liste: list
 	:param plot_total_deaths: PNG plot with data of the cumulative deaths of the given country(ies)
-	:type plot_total_deaths: img
+	:type plot_total_deaths: bool
 	:param plot_deaths_of_the_day: PNG plot with data of the deaths of the day of the given country(ies)
-	:type plot_deaths_of_the_day: img
+	:type plot_deaths_of_the_day: bool
 	:param plot_total_cases: PNG plot with data of the cumulative cases of the given country(ies)
-	:type plot_total_cases: img
+	:type plot_total_cases: bool
 	:param plot_cases_of_the_day: PNG plot with data of the cases of the day of the given country(ies)
-	:type plot_cases_of_the_day: img
+	:type plot_cases_of_the_day: bool
 	:param plot_cases_of_the_day_per_10000_inhabitants: PNG plot with data of the cases of the day per 10000 inhabitants of the given country(ies)
-	:type plot_cases_of_the_day: img
+	:type plot_cases_of_the_day: bool
 	:param plot_deaths_of_the_day_per_10000_inhabitants: PNG plot with data of the deaths of the day per 10000 inhabitants of the given country(ies)
-	:type plot_deaths_of_the_day: img
+	:type plot_deaths_of_the_day: bool
 	:param plot_total_cases_per_10000_inhabitants: PNG plot with data of the cumulative cases per 10000 inhabitants of the given country(ies)
-	:type plot_total_cases_per_10000_inhabitants: img
+	:type plot_total_cases_per_10000_inhabitants: bool
 	:param plot_total_deaths_per_10000_inhabitants: PNG plot with data of the cumulative deaths per 10000 inhabitants of the given country(ies)
-	:type plot_total_deaths_per_10000_inhabitants: img
+	:type plot_total_deaths_per_10000_inhabitants: bool
 	:return: nothing
 	:rtype: None
 	"""
@@ -179,9 +179,26 @@ def plot(output_folder, country, full, liste,
 	'--plot_total_cases',
 	is_flag=True,
 	help='Create a PNG plot from the cumulative cases')
+@click.option('-pcdpi',
+	'--plot_cases_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cases of the day per 10000 inhabitants of the given country(ies)")
+@click.option('-pddpi',
+	'--plot_deaths_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the deaths of the day per 10000 inhabitants of the given country(ies)")
+@click.option('-ptcpi',
+	'--plot_total_cases_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cumulative cases per 10000 inhabitants of the given country(ies)")
+@click.option('-ptdpi',
+	'--plot_total_deaths_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cumulative deaths per 10000 inhabitants of the given country(ies)")
 def world(output_folder, today, full, 
 	csv_full, csv_deaths_of_the_day, csv_total_deaths, csv_total_cases, csv_cases_of_the_day, 
-	plot_full, plot_deaths_of_the_day, plot_cases_of_the_day, plot_total_deaths, plot_total_cases):
+	plot_full, plot_deaths_of_the_day, plot_cases_of_the_day, plot_total_deaths, plot_total_cases,
+	plot_cases_of_the_day_per_10000_inhabitants, plot_deaths_of_the_day_per_10000_inhabitants, plot_total_cases_per_10000_inhabitants, plot_total_deaths_per_10000_inhabitants):
 	"""
 	Create a CSV file or a PNG image from the world's data of today or all the available dates.
 	\f
@@ -211,6 +228,14 @@ def world(output_folder, today, full,
 	:type plot_total_deaths: bool
 	:param plot_total_cases: if given, create a PNG image as output for the total of cases
 	:type plot_total_cases: bool
+	:param plot_cases_of_the_day_per_10000_inhabitants: if given, PNG plot with data of the cases of the day per 10000 inhabitants of the given country(ies)
+	:type plot_cases_of_the_day: bool
+	:param plot_deaths_of_the_day_per_10000_inhabitants: if given, PNG plot with data of the deaths of the day per 10000 inhabitants of the given country(ies)
+	:type plot_deaths_of_the_day: bool
+	:param plot_total_cases_per_10000_inhabitants: if given, PNG plot with data of the cumulative cases per 10000 inhabitants of the given country(ies)
+	:type plot_total_cases_per_10000_inhabitants: bool
+	:param plot_total_deaths_per_10000_inhabitants: if given, PNG plot with data of the cumulative deaths per 10000 inhabitants of the given country(ies)
+	:type plot_total_deaths_per_10000_inhabitants: bool
 	:return: nothing
 	:rtype: None
 	"""
@@ -236,11 +261,11 @@ def world(output_folder, today, full,
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
 			print("Writing headers...")
-			writer.writerow(["date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+			writer.writerow(["date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
 			print("Writing the body...")
 			for day in world_dictionnary:
 				data_split = world_dictionnary[day].split(',')
-				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3]])
+				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
 	elif csv_deaths_of_the_day:
 		get_csv_world(output_folder, output_folder + "/world_deaths_of_the_day.csv", 1, world_dictionnary, "World")
 	elif csv_total_deaths:
@@ -262,8 +287,12 @@ def world(output_folder, today, full,
 		simple_plot_world("Creating plot with total deaths...", "/world_total_deaths.png", 3, "Nombre total de décès", output_folder, world_dictionnary)
 	elif plot_total_cases:
 		simple_plot_world("Creating plot with total cases...", "/world_total_cases.png", 2, "Nombre total de cas", output_folder, world_dictionnary)
+	elif plot_total_cases_per_10000_inhabitants:
+		simple_plot_world("Creating plot with total cases per 10000 inhabitants...", "/world_total_cases_per_10000_inhabitants.png", 6, "Nombre total de cas pour 10000 habitants", output_folder, world_dictionnary)
+	
 	else:
 		print("Please specify the output")
+		print(os.system('python3 run.py world -h'))
 
 	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
