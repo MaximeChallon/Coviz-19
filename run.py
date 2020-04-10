@@ -669,6 +669,7 @@ def country(output_folder, country,
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
+	
 	elif plot:
 		if total_deaths:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.png' 
@@ -682,9 +683,14 @@ def country(output_folder, country,
 		elif deaths_of_the_day:
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
+		elif cases_of_the_day_per_10000_inhabitants:
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day_per_10000_inhabitants.png' 
+			simple_plot_country(img_path, 6, country, full=False, liste=[], output_folder=output_folder)
+		
 		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data:
 			print("Please choose a dataset")
 			os.system('python3 run.py country -h')
+	
 	elif full_outputs:
 		if total_deaths:
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.csv'
