@@ -740,16 +740,16 @@ def country(output_folder, country,
 			get_csv_world(output_folder, csv_path, 7, world_dictionnary, country)
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths_per_10000_inhabitants.png' 
 			simple_plot_country(img_path, 9, country, full=False, liste=[], output_folder=output_folder)
-		elif full_data or (not full_data and not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day):
+		elif full_data or (not full_data and not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not cases_of_the_day_per_10000_inhabitants and not deaths_of_the_day_per_10000_inhabitants and not total_cases_per_10000_inhabitants and not total_deaths_per_10000_inhabitants):
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
 				print("Writing headers...")
-				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths"])
+				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
 				print("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
-					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3]])
+					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths.png' 
 			simple_plot_country(img_path, 5, country, full=False, liste=[], output_folder=output_folder)
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases.png' 
@@ -758,7 +758,14 @@ def country(output_folder, country,
 			simple_plot_country(img_path, 2, country, full=False, liste=[], output_folder=output_folder)
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
-
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day_per_10000_inhabitants.png' 
+			simple_plot_country(img_path, 6, country, full=False, liste=[], output_folder=output_folder)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day_per_10000_inhabitants.png' 
+			simple_plot_country(img_path, 7, country, full=False, liste=[], output_folder=output_folder)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_cases_per_10000_inhabitants.png' 
+			simple_plot_country(img_path, 8, country, full=False, liste=[], output_folder=output_folder)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths_per_10000_inhabitants.png' 
+			simple_plot_country(img_path, 9, country, full=False, liste=[], output_folder=output_folder)
 
 	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
