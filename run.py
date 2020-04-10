@@ -720,6 +720,13 @@ def country(output_folder, country,
 			get_csv_world(output_folder, csv_path, 1, world_dictionnary, country)
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_deaths_of_the_day.png' 
 			simple_plot_country(img_path, 3, country, full=False, liste=[], output_folder=output_folder)
+		elif cases_of_the_day_per_10000_inhabitants:
+			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day_per_10000_inhabitants.csv'
+			get_csv_world(output_folder, csv_path, 4, world_dictionnary, country)
+			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_cases_of_the_day_per_10000_inhabitants.png' 
+			simple_plot_country(img_path, 6, country, full=False, liste=[], output_folder=output_folder)
+		
+
 		elif full_data or (not full_data and not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day):
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
