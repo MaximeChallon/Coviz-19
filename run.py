@@ -50,7 +50,13 @@ def main():
 	'--plot_cases_of_the_day',
 	is_flag=True,
 	help="Create a PNG plot with the data of the cases of the day of the given country(ies)")
-def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_the_day, plot_total_cases, plot_cases_of_the_day):
+@click.option('-pcdpi',
+	'--plot_cases_of_the_day_per_10000_inhabitants',
+	is_flag=True,
+	help="Create a PNG plot with the data of the cases of the day per 10000 inhabitants of the given country(ies)")
+def plot(output_folder, country, full, liste, 
+	plot_total_deaths, plot_deaths_of_the_day, plot_total_cases, plot_cases_of_the_day,
+	plot_cases_of_the_day_per_10000_inhabitants):
 	"""
 	Create PNG plot for the data of the given country(ies)
 	\f
@@ -70,6 +76,8 @@ def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_
 	:type plot_total_cases: img
 	:param plot_cases_of_the_day: PNG plot with data of the cases of the day of the given country(ies)
 	:type plot_cases_of_the_day: img
+	:param plot_cases_of_the_day_per_10000_inhabitants: PNG plot with data of the cases of the day per 10000 inhabitants of the given country(ies)
+	:type plot_cases_of_the_day: img
 	:return: nothing
 	:rtype: None
 	"""
@@ -88,7 +96,9 @@ def plot(output_folder, country, full, liste, plot_total_deaths, plot_deaths_of_
 	elif plot_total_cases:
 		simple_plot_country(index=4, img_path='plot_total_cases.png', country=country, full=full, liste=liste, output_folder=output_folder)
 	elif plot_cases_of_the_day:
-		simple_plot_country(index=2, img_path='plot_total_cases.png', country=country, full=full, liste=liste, output_folder=output_folder)
+		simple_plot_country(index=2, img_path='plot_cases_of_the_day.png', country=country, full=full, liste=liste, output_folder=output_folder)
+	elif plot_cases_of_the_day_per_10000_inhabitants:
+		simple_plot_country(index=6, img_path='plot_cases_of_the_day_per_10000_inhabitants.png', full=full, liste=liste, country=country, output_folder=output_folder)
 
 	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))

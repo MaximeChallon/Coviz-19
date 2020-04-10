@@ -193,7 +193,7 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 		for data in dictionnaire_for_plotting[country]:
 			date, data = data
 			dates_country.append(date)
-			data_country.append(int(data))
+			data_country.append(float(data))
 		ax.plot(dates_country, data_country, label=country, linewidth=2.5)
 
 		# ajout des points de confinement et de déconfinement
