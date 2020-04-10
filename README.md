@@ -100,6 +100,7 @@ Exemples :
 * `-cdpi`, `--cases_of_the_day_per_10000_inhabitants` : Process the cases of the day per 10000 inhabitants
 * `-ddpi`, `--deaths_of_the_day_per_10000_inhabitants` : Process the deaths of the day per 10000 inhabitants
 * `-tcpi`, `--total_cases_per_10000_inhabitants` : Process the cumulative cases per 10000 inhabitants
+* `-tdpi`, `--total_deaths_per_10000_inhabitants` : Process the cumulative deaths per 10000 inhabitants
 * `-h`, `--help` : Show this message and exit.
 
 Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (données d'exemple):
@@ -114,6 +115,7 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir (don
 |`-cdpi`|country,cases_of_the_day_per_10000</br>France,0.02|country,cases_of_the_day_per_10000</br>France,0.03</br>Italy,0.02</br>...|country,cases_of_the_day_per_10000</br>France,0.02</br>Italy,0.03|
 |`-ddpi`|country,deaths_of_the_day_per_10000</br>France,0.02|country,deaths_of_the_day_per_10000</br>France,0.03</br>Italy,0.02</br>...|country,deaths_of_the_day_per_10000</br>France,0.02</br>Italy,0.03|
 |`-tcpi`|country,total_cases_per_10000</br>France,0.02|country,total_cases_per_10000</br>France,0.03</br>Italy,0.02</br>...|country,total_cases_per_10000</br>France,0.02</br>Italy,0.03|
+|`-tdpi`|country,total_deaths_per_10000</br>France,0.02|country,total_deaths_per_10000</br>France,0.03</br>Italy,0.02</br>...|country,total_deaths_per_10000</br>France,0.02</br>Italy,0.03|
 
 ## `world`
 

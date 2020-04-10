@@ -382,12 +382,15 @@ def world(output_folder, today, full,
 	"--total_cases_per_10000_inhabitants", 
 	is_flag=True,
 	help="Process the cumulative cases per 10000 inhabitants")
+@click.option("-tdpi", 
+	"--total_deaths_per_10000_inhabitants", 
+	is_flag=True,
+	help="Process the cumulative deaths per 10000 inhabitants")
 def country(country, output_folder, full, liste, 
 	total_deaths, total_cases, cases_of_the_day, deaths_of_the_day,
-	cases_of_the_day_per_10000_inhabitants, deaths_of_the_day_per_10000_inhabitants, total_cases_per_10000_inhabitants):
+	cases_of_the_day_per_10000_inhabitants, deaths_of_the_day_per_10000_inhabitants, total_cases_per_10000_inhabitants, total_deaths_per_10000_inhabitants):
 	"""
 	Create a CSV file with today's data for today's deaths, total deaths, today's cases, total cases for the country(ies) given in parameter.
-	If -a, -b, -d or -e are not precised, they are all process.
 	\f
 	:param country: name of a country, with a capital letter at the beginning
 	:type country: str
@@ -411,6 +414,8 @@ def country(country, output_folder, full, liste,
 	:type deaths_of_the_day_per_10000_inhabitants: bool
 	:param total_cases_per_10000_inhabitants: if given, create a CSV for the cumulative cases per 10000 inhabitants
 	:type total_cases_per_10000_inhabitants: bool
+	:param total_deaths_per_10000_inhabitants: if given, create a CSV for the cumulative deaths per 10000 inhabitants
+	:type total_deaths_per_10000_inhabitants: bool
 	:return: nothing
 	:rtype: None
 	"""
@@ -436,7 +441,8 @@ def country(country, output_folder, full, liste,
 		get_csv_today(output_folder, '/today_deaths_of_the_day_per_10000_inhabitants.csv', 5, country=country, full=full, liste=liste)
 	elif total_cases_per_10000_inhabitants:
 		get_csv_today(output_folder, '/today_total_cases_per_10000_inhabitants.csv', 6, country=country, full=full, liste=liste)
-	
+	elif total_deaths_per_10000_inhabitants:
+		get_csv_today(output_folder, '/today_total_deaths_per_10000_inhabitants.csv', 7, country=country, full=full, liste=liste)
 	else: # create a CSV with all the data 
 		csv_path = output_folder + '/today_all_data.csv'
 		with open(csv_path, 'w') as f:
