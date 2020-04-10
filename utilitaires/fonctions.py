@@ -162,6 +162,8 @@ def get_csv_today(output_folder, csv_path, index, country, full, liste):
 				header = "total_deaths"
 			elif index == 4:
 				header = "cases_of_the_day_per_10000"
+			elif index == 5:
+				header = "deaths_of_the_day_per_10000"
 			writer.writerow(["country", header])
 			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
 				print(country + ' on process...')

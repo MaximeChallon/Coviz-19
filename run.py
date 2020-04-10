@@ -374,9 +374,13 @@ def world(output_folder, today, full,
 	"--cases_of_the_day_per_10000_inhabitants", 
 	is_flag=True,
 	help="Process the cases of the day per 10000 inhabitants")
+@click.option("-ddpi", 
+	"--deaths_of_the_day_per_10000_inhabitants", 
+	is_flag=True,
+	help="Process the deaths of the day per 10000 inhabitants")
 def country(country, output_folder, full, liste, 
 	total_deaths, total_cases, cases_of_the_day, deaths_of_the_day,
-	cases_of_the_day_per_10000_inhabitants):
+	cases_of_the_day_per_10000_inhabitants, deaths_of_the_day_per_10000_inhabitants):
 	"""
 	Create a CSV file with today's data for today's deaths, total deaths, today's cases, total cases for the country(ies) given in parameter.
 	If -a, -b, -d or -e are not precised, they are all process.
@@ -399,6 +403,8 @@ def country(country, output_folder, full, liste,
 	:type cases_of_the_day: bool
 	:param cases_of_the_day_per_10000_inhabitants: if given, create a CSV for the cases of the day per 10000 inhabitants
 	:type cases_of_the_day_per_10000_inhabitants: bool
+	:param deaths_of_the_day_per_10000_inhabitants: if given, create a CSV for the deaths of the day per 10000 inhabitants
+	:type deaths_of_the_day_per_10000_inhabitants: bool
 	:return: nothing
 	:rtype: None
 	"""
@@ -420,7 +426,10 @@ def country(country, output_folder, full, liste,
 		get_csv_today(output_folder, '/today_deaths_of_the_day.csv', 1, country=country, full=full, liste=liste)
 	elif cases_of_the_day_per_10000_inhabitants:
 		get_csv_today(output_folder, '/today_cases_of_the_day_per_10000_inhabitants.csv', 4, country=country, full=full, liste=liste)
-	else: # create a CSV with all the data (total_deaths, total_cases, cases_of_the_day, deaths_of_the_day)
+	elif deaths_of_the_day_per_10000_inhabitants:
+		get_csv_today(output_folder, '/today_deaths_of_the_day_per_10000_inhabitants.csv', 5, country=country, full=full, liste=liste)
+	
+	else: # create a CSV with all the data 
 		csv_path = output_folder + '/today_all_data.csv'
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
