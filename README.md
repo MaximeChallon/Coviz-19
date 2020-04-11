@@ -176,6 +176,10 @@ Exemples :
 * deaths_of_the_day
 * total_cases
 * total_deaths
+* cases_of_the_day_per_10000
+* deaths_of_the_day_per_10000
+* total_cases_per_10000
+* total_deaths_per_10000
 
 Pour spécifier le(s) pays dont on souhaite les données depuis le 31 décembre 2019, utiliser les options suivantes:
 
