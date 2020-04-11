@@ -54,6 +54,47 @@ Les possibilités étant nombreuses, voici quelques exemples:
 * `python3 run.py map -mtd -ptd -pmin 5` ![`python3 run.py map -mtd -ptd -pmin 5`](doc/img/map_mtd_ptd.png)
 * `python3 run.py map -mcd -ptc -pmin 100` ![`python3 run.py map -mcd -ptc -pmin 100`](doc/img/map-mcd-ptc.png)
 
+## `animation`
+
+`animation` permet de générer un graphique animé GIF en fonction du pays et des données souhaitées.
+
+Les jeux de données disponibles sont:
+
+* cases_of_the_day
+* deaths_of_the_day
+* total_cases
+* total_deaths
+* cases_of_the_day_per_10000
+* deaths_of_the_day_per_10000
+* total_cases_per_10000
+* total_deaths_per_10000
+
+Les arguments sont:
+
+* COUNTRY : name of a country, with a capital letter at the beginning
+* OUTPUT_FOLDER : name of the folder which will have the CSVs
+* MIN_CASES : number minimum of cases or deaths to put in the plot
+* MAX_DAYS_AHEAD : number of days of prediction
+* MIN_POINTS : minimum of points in the plot
+* ROLLING_MEAN_WINDOW : size of the window for the rolling average
+
+Plusieurs options sont disponibles:
+
+* `-td`, `--total_deaths` : Process the cumulative deaths data
+* `-tc`, `--total_cases` : Process the cumulative cases data
+* `-cd`, `--cases_of_the_day` : Process the cases of the day data
+* `-dd`, `--deaths_of_the_day` : Process the deaths of the day data
+* `-cdpi`, `--cases_of_the_day_per_10000_inhabitants` : Process the cases of the day per 10000 inhabitants
+* `-ddpi`, `--deaths_of_the_day_per_10000_inhabitants` : Process the deaths of the day per 10000 inhabitants
+* `-tcpi`, `--total_cases_per_10000_inhabitants` : Process the cumulative cases per 10000 inhabitants
+* `-tdpi`, `--total_deaths_per_10000_inhabitants` : Process the cumulative deaths per 10000 inhabitants
+* `-h`, `--help` : Show this message and exit.
+
+
+Exemples:
+
+* `python3 run.py animation United\ States -td` ![python3 run.py animation United\ States -td](doc/img/United_States_total_deaths.gif)
+
 ## `csv_country`
 
 `csv_country` permet de générer des fichiers CSV pour un plusieurs pays avec les informations suivantes:

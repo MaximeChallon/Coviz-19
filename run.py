@@ -1145,7 +1145,7 @@ def animate(output_folder, country, min_cases, max_days_ahead, min_points, rolli
 	"""
 	Create a GIF plot with the given country and data.
 	:param min_cases: number minimum of cases or deaths to put in the plot
-    :type min_cases: float
+	:type min_cases: float
     :param max_days_ahead: number of days of prediction
     :type max_days_ahead: int
     :param min_points: minimum of points in the plot
@@ -1153,7 +1153,7 @@ def animate(output_folder, country, min_cases, max_days_ahead, min_points, rolli
     :param rolling_mean_window: size of the window for the rolling average
     :type rolling_mean_window: int
     \f
-	:param output_folder: name of the folder which will have the CSVs
+    :param output_folder: name of the folder which will have the CSVs
 	:type output_folder: str
 	:param country: name of a country, with a capital letter at the beginning
 	:type country: str
