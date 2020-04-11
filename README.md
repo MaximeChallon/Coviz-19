@@ -1,6 +1,10 @@
-[toc]
+# Table des matières
+1. [Installation](#Installation)
+2. [Lancement](#Lancement)
+3. [Commandes](#Commandes)
+    1. [`map`](#map)
 
-# Installation
+# Installation <a name="Installation"></a>
 
 Cloner ce dépôt et disposer de Python3.
 S'assurer de disposer des librairies du [`requirements.txt`](requirements.txt). `pip install -r requirements.txt` pour tout installer.
