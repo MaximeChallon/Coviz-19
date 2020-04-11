@@ -131,7 +131,7 @@ def plot(output_folder, country, full, liste,
 		simple_plot_country(index=8, img_path='plot_total_cases_per_10000_inhabitants.png', full=full, liste=liste, country=country, output_folder=output_folder)
 
 	os.remove(DATA_PATH)
-	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 #####################################################################
 ######################### world command #############################
@@ -297,9 +297,9 @@ def world(output_folder, today, full,
 		csv_path = output_folder + "/world_full.csv"
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
-			prfloat("Writing headers...")
+			print("Writing headers...")
 			writer.writerow(["date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-			prfloat("Writing the body...")
+			print("Writing the body...")
 			for day in world_dictionnary:
 				data_split = world_dictionnary[day].split(',')
 				writer.writerow([day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -345,11 +345,11 @@ def world(output_folder, today, full,
 	elif plot_total_deaths_per_10000_inhabitants:
 		simple_plot_world("Creating plot with total deaths per 10000 inhabitants...", "/world_total_deaths_per_10000_inhabitants.png", 7, "Nombre total de décès pour 10000 habitants", output_folder, world_dictionnary)
 	else:
-		prfloat("Please specify the output")
-		prfloat(os.system('python3 run.py world -h'))
+		print("Please specify the output")
+		print(os.system('python3 run.py world -h'))
 
 	os.remove(DATA_PATH)
-	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 #####################################################################
 ######################### today command #############################
@@ -462,15 +462,15 @@ def country(country, output_folder, full, liste,
 		csv_path = output_folder + '/today_all_data.csv'
 		with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
-			prfloat('Writing headers...')
+			print('Writing headers...')
 			writer.writerow(["country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
 			for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-				prfloat(country + ' on process...')
+				print(country + ' on process...')
 				if country in get_data_today(DATA_PATH):
 					writer.writerow([country, get_data_today(DATA_PATH)[country][0], get_data_today(DATA_PATH)[country][1], get_data_today(DATA_PATH)[country][2], get_data_today(DATA_PATH)[country][3], get_data_today(DATA_PATH)[country][4], get_data_today(DATA_PATH)[country][5], get_data_today(DATA_PATH)[country][6], get_data_today(DATA_PATH)[country][7]])
 
 	os.remove(DATA_PATH)
-	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 #####################################################################
 ###################### csv_country command ##########################
@@ -677,9 +677,9 @@ def country(output_folder, country,
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				prfloat("Writing headers...")
+				print("Writing headers...")
 				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				prfloat("Writing the body...")
+				print("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -687,9 +687,9 @@ def country(output_folder, country,
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				prfloat("Writing headers...")
+				print("Writing headers...")
 				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				prfloat("Writing the body...")
+				print("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -720,7 +720,7 @@ def country(output_folder, country,
 			img_path = country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_total_deaths_per_10000_inhabitants.png' 
 			simple_plot_country(img_path, 9, country, full=False, liste=[], output_folder=output_folder)
 		elif not total_deaths and not total_cases and not cases_of_the_day and not deaths_of_the_day and not full_data and not cases_of_the_day_per_10000_inhabitants and not deaths_of_the_day_per_10000_inhabitants and not total_cases_per_10000_inhabitants and not total_deaths_per_10000_inhabitants:
-			prfloat("Please choose a dataset")
+			print("Please choose a dataset")
 			os.system('python3 run.py country -h')
 	
 	elif full_outputs:
@@ -768,9 +768,9 @@ def country(output_folder, country,
 			csv_path = output_folder + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '_full_data.csv'
 			with open(csv_path, 'w') as f:
 				writer = csv.writer(f)
-				prfloat("Writing headers...")
+				print("Writing headers...")
 				writer.writerow(["country", "date", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "cases_of_the_day_per_10000", "deaths_of_the_day_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				prfloat("Writing the body...")
+				print("Writing the body...")
 				for day in world_dictionnary:
 					data_split = world_dictionnary[day].split(',')
 					writer.writerow([country, day, data_split[0], data_split[1], data_split[2], data_split[3], data_split[4], data_split[5], data_split[6], data_split[7]])
@@ -792,7 +792,7 @@ def country(output_folder, country,
 			simple_plot_country(img_path, 9, country, full=False, liste=[], output_folder=output_folder)
 
 	os.remove(DATA_PATH)
-	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
 
 #####################################################################
@@ -1095,13 +1095,33 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 
 
 @main.command('animation')
-def animate():
+@click.argument("output_folder",
+	default="out")
+@click.argument("country")
+@click.argument("min_cases",
+				default=5)
+@click.argument("max_days_ahead",
+				default=10)
+@click.option("-cd",
+			  "--cases_of_the_day",
+			  is_flag=True,
+			  help="Process the cases of the day's data")
+def animate(output_folder, country, min_cases, max_days_ahead,
+			cases_of_the_day):
 	start_time = time.time()
-
 	os.system(DATA)
 	calcul_par_10000_hbts()
 
-	animation_plot(country='France',  to_plot='total_deaths', save=True, output_folder='out')
+	if cases_of_the_day:
+		to_plot = 'new_cases'
+
+	plt_title = "Evolution des " + to_plot + " dans le temps, et meilleure suite logique\nPays: " + country
+	plt_xlabel = f"Jours depuis " + str(min_cases) + to_plot
+	plt_ylabel = to_plot
+
+	animation_plot(country=country, min_points=5, rolling_mean_window=2,
+				   plt_title=plt_title, plt_xlabel=plt_xlabel, plt_ylabel=plt_ylabel,
+				   to_plot=to_plot, output_folder=output_folder, min_cases=min_cases, max_days_ahead=max_days_ahead)
 
 	os.remove('utilitaires/data/data_json.json')
 	os.remove(DATA_PATH)
@@ -1109,4 +1129,4 @@ def animate():
 
 
 if __name__ == "__main__":
-    main()
+	main()
