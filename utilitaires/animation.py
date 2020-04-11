@@ -10,31 +10,34 @@ import json
 import matplotlib
 
 matplotlib.use('TkAgg')
-plt.style.use('seaborn-pastel')
-DOTS_COLOR = 'black'
+plt.style.use('ggplot')
 
 matplotlib.rc('font', family='sans-serif')
 matplotlib.rc('font', serif='Helvetica Neue')
 matplotlib.rc('text', usetex='false')
 
 
-def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'):
-    """Create the animation.
-
-    Parameters
-    ----------
-    country: str
-        Country to plot.
-    region: str
-        Region of the given contry, currently supported only for Italy ('all', NAME or mNAME for excluding NAME region)
-    to_plot: str, default 'confirmed'
-        'confirmed' for confirmed cases, or 'deaths' for confirmed deaths.
-    save: bool, default False
-        Whether to save the plot.
-    output_folder: str, default 'out'
-        Path where to save the plot.
-    repeat: bool, default True
-        Whether to loop the animation or stop at last frame
+def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_window, to_plot, save, output_folder):
+    """
+    Create the animation plot in a GIF output for the given country and the given data.
+    :param country: name of the country to process
+    :type country: str
+    :param min_cases: number minimum of cases or deaths to put in the plot
+    :type min_cases: float
+    :param max_days_ahead: number of days of prediction
+    :type max_days_ahead: int
+    :param min_points: minimum of points in the plot
+    :type min_points: int
+    :param rolling_mean_window: size of the window for the rolling average
+    :type rolling_mean_window: int
+    :param to_plot: name of the column of data to process
+    :type to_plot: str
+    :param save: if True, the plot is saved
+    :type save: bool
+    :param output_folder: name of the outpu_folder
+    :type output_folder: str
+    :return: nothing
+    :rtype: None
     """
     print("Begin to process animated plot...")
 
@@ -47,33 +50,29 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
     df = pd.DataFrame(data[country])
 
     # sélection des données qui ont une valeur supérieure à min_cases
-    min_cases = 5
     df = df[df[to_plot] > float(min_cases)]
     df = df.reset_index(drop=True)
 
     print("Initialize plot...")
     # Plot limits
-    MAX_DAYS_AHEAD = 10
     y_max = df[to_plot].max() * 2
-    x_max = MAX_DAYS_AHEAD + len(df)
+    x_max = max_days_ahead + len(df)
 
-    # X axis for future dates which are not in the data)
+    # X axis for future dates which are not in the data
     x_future = [float(x) for x in list(np.linspace(0, x_max, num=x_max))]
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10, 7))
     ax = plt.axes(xlim=(0, len(x_future)), ylim=(0-(y_max*0.05), y_max))
-    scatter = ax.scatter([], [], s=15, color=DOTS_COLOR)
-    line, = ax.plot([], [], lw=2)
+    scatter = ax.scatter([], [], s=15, color="black", marker="D")
+    line, = ax.plot([], [], lw=2, color="red")
     date = ax.text(x_max - x_max*0.15, y_max + y_max*0.01, '')
     count = ax.text(x_max - x_max*0.23, y_max - y_max*0.05, '')
-    plt.title(f"Logistic best fit over time, {to_plot} cases\nCountry: {country}")
-    plt.xlabel(f"Days since {min_cases} {to_plot} cases")
-    plt.ylabel(f"# {to_plot}")
+    plt.title(f"Evolution des {to_plot} dans le temps, et meilleure suite logique\nPays: {country}")
+    plt.xlabel(f"Jours depuis {min_cases} {to_plot}")
+    plt.ylabel(f"{to_plot}")
 
     print("Fit the logistic curve...")
     def plot_animation():
-        MIN_POINTS = 5
-        ROLLING_MEAN_WINDOW = 2
         def init():
             """Initialize the plot for the animation."""
             line.set_data([], [])
@@ -84,11 +83,11 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
 
         def fit_until_index(i):
             """Fit the logistic curve using data up until the current time <i>."""
-            x = np.array([float(x) for x in range(len(df))])[:i+MIN_POINTS]
-            cases = df[to_plot].iloc[:i+MIN_POINTS]
+            x = np.array([float(x) for x in range(len(df))])[:i+min_points]
+            cases = df[to_plot].iloc[:i+min_points]
 
             # Apply smoothing via rolling average
-            cases = cases.rolling(ROLLING_MEAN_WINDOW, min_periods=1, center=False).mean()
+            cases = cases.rolling(rolling_mean_window, min_periods=1, center=False).mean()
 
             # Scale data for fitting
             m = MinMaxScaler()
@@ -103,16 +102,16 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
 
         def get_date(i):
             """Get the current date."""
-            return df['date'].values[i+MIN_POINTS-1]
+            return df['date'].values[i+min_points-1]
 
         def get_count(i):
             """Get the current case counts."""
-            return df[to_plot].values[i+MIN_POINTS-1]
+            return df[to_plot].values[i+min_points-1]
 
         def get_scatter_values(i):
             """Get actual values to plot as scatter points."""
-            x = np.array([float(x) for x in range(len(df))])[:i+MIN_POINTS]
-            y = df[to_plot].iloc[:i + MIN_POINTS]
+            x = np.array([float(x) for x in range(len(df))])[:i+min_points]
+            y = df[to_plot].iloc[:i + min_points]
             return x, y
 
         def animate(i):
@@ -129,7 +128,7 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
 
             # Update texts
             date.set_text(get_date(i))
-            count.set_text(f"# cases: {get_count(i)}")
+            count.set_text(f"{to_plot}: {get_count(i)}")
 
             return [scatter, line, date, count],\
 
@@ -138,7 +137,7 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
         print("Create the GIF plot...")
         return animation.FuncAnimation(fig, animate,
                                        init_func=init,
-                                       frames=len(df)+1-MIN_POINTS,
+                                       frames=len(df)+1-min_points,
                                        interval=100)
     anim = plot_animation()
     if save:
