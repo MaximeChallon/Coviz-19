@@ -3,8 +3,14 @@
 2. [Lancement](#Lancement)
 3. [Commandes](#Commandes)
     1. [`map`](#map)
+    2. [`animation`](#animation)
+    3. [`plot`](#plot)
+    4. [`country`](#country)
+    5. [`csv_country`](#csv_country)
+    6. [`today`](#today)
+    7. [`world`](#world)
 
-# Installation <a name="Installation"></a>
+# Installation
 
 Cloner ce dépôt et disposer de Python3.
 S'assurer de disposer des librairies du [`requirements.txt`](requirements.txt). `pip install -r requirements.txt` pour tout installer.
@@ -94,28 +100,41 @@ Plusieurs options sont disponibles:
 * `-tdpi`, `--total_deaths_per_10000_inhabitants` : Process the cumulative deaths per 10000 inhabitants
 * `-h`, `--help` : Show this message and exit.
 
-
 Exemples:
 
 * `python3 run.py animation United\ States -td` ![python3 run.py animation United\ States -td](doc/img/United_States_total_deaths.gif)
 
-## `csv_country`
+## `plot`
 
-`csv_country` permet de générer des fichiers CSV pour un plusieurs pays avec les informations suivantes:
+`plot` permet de générer des graphiques en fonction des pays, un pays par graphique, ou plusieurs pays par graphique, en fonction d'un indicateur parmi les suivants:
 
-* date 
-* country
 * cases_of_the_day
 * deaths_of_the_day
 * total_cases
 * total_deaths
+* cases_of_the_day_per_10000
+* deaths_of_the_day_per_10000
+* total_cases_per_10000
+* total_deaths_per_10000
 
-Pour spécifier le(s) pays dont on souhaite les données depuis le 31 décembre 2019, utiliser les options suivantes:
+Plusieurs options sont disponibles:
 
 * `-c`, `--country` TEXT : Execute the command for the country
 * `-f`, `--full` : Execute the command for all the countries
 * `-l`, `--liste` LIST : Execute the command for a list of countries
+* `-ptd`, `--plot_total_deaths` : Create a PNG plot with the data of cumulative deaths of the given country(ies)
+* `-pdd`, `--plot_deaths_of_the_day` : Create a PNG plot with the data of the deaths of the day of the given country(ies)
+* `-ptc`, `--plot_total_cases` : Create a PNG plot with the data of cumulative cases of the given country(ies)
+* `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot with the data of the cases of the day of the given country(ies)
+* `-pcdpi`, `--plot_cases_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the cases of the day per 10000 inhabitants of the given country(ies)
+* `-pddpi`, `--plot_deaths_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the deaths of the day per 10000 inhabitants of the given country(ies)
+* `-ptcpi`, `--plot_total_cases_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative cases per 10000 inhabitants of the given country(ies)
+* `-ptdpi`, `--plot_total_deaths_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative deaths per 10000 inhabitants of the given country(ies)
 * `-h`, `--help` : Show this message and exit.
+
+Exemples:
+
+* `python3 run.py plot -pddpi -c United\ States` ![python3 run.py plot -pddpi -c United\ States](doc/img/plot_deaths_of_the_day_per_10000_inhabitants.png)
 
 ## `country`
 
@@ -146,6 +165,24 @@ Exemples :
 
 * `python3 run.py country dossier France -td -p` ![`python3 run.py country dossier France -td -p`](doc/img/France_total_deaths.png)
 * `python3 run.py country dossier United\ States -cd -p` ![`python3 run.py country dossier United\ States -cd -p`](doc/img/United_States_cases_of_the_day.png)
+
+## `csv_country`
+
+`csv_country` permet de générer des fichiers CSV pour un plusieurs pays avec les informations suivantes:
+
+* date 
+* country
+* cases_of_the_day
+* deaths_of_the_day
+* total_cases
+* total_deaths
+
+Pour spécifier le(s) pays dont on souhaite les données depuis le 31 décembre 2019, utiliser les options suivantes:
+
+* `-c`, `--country` TEXT : Execute the command for the country
+* `-f`, `--full` : Execute the command for all the countries
+* `-l`, `--liste` LIST : Execute the command for a list of countries
+* `-h`, `--help` : Show this message and exit.
 
 ## `today`
 
@@ -227,35 +264,3 @@ Voici un tableau récapitulatif des résultats qu'il est possible d'obtenir en C
 |`-pddpi`|inutile||
 |`-ptcpi`|inutile||
 |`-ptdpi`|inutile||
-
-## `plot`
-
-`plot` permet de générer des graphiques en fonction des pays, un pays par graphique, ou plusieurs pays par graphique, en fonction d'un indicateur parmi les suivants:
-
-* cases_of_the_day
-* deaths_of_the_day
-* total_cases
-* total_deaths
-* cases_of_the_day_per_10000
-* deaths_of_the_day_per_10000
-* total_cases_per_10000
-* total_deaths_per_10000
-
-Plusieurs options sont disponibles:
-
-* `-c`, `--country` TEXT : Execute the command for the country
-* `-f`, `--full` : Execute the command for all the countries
-* `-l`, `--liste` LIST : Execute the command for a list of countries
-* `-ptd`, `--plot_total_deaths` : Create a PNG plot with the data of cumulative deaths of the given country(ies)
-* `-pdd`, `--plot_deaths_of_the_day` : Create a PNG plot with the data of the deaths of the day of the given country(ies)
-* `-ptc`, `--plot_total_cases` : Create a PNG plot with the data of cumulative cases of the given country(ies)
-* `-pcd`, `--plot_cases_of_the_day` : Create a PNG plot with the data of the cases of the day of the given country(ies)
-* `-pcdpi`, `--plot_cases_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the cases of the day per 10000 inhabitants of the given country(ies)
-* `-pddpi`, `--plot_deaths_of_the_day_per_10000_inhabitants` : Create a PNG plot with the data of the deaths of the day per 10000 inhabitants of the given country(ies)
-* `-ptcpi`, `--plot_total_cases_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative cases per 10000 inhabitants of the given country(ies)
-* `-ptdpi`, `--plot_total_deaths_per_10000_inhabitants` : Create a PNG plot with the data of the cumulative deaths per 10000 inhabitants of the given country(ies)
-* `-h`, `--help` : Show this message and exit.
-
-Exemples:
-
-* `python3 run.py plot -pddpi -c United\ States` ![python3 run.py plot -pddpi -c United\ States](doc/img/plot_deaths_of_the_day_per_10000_inhabitants.png)
