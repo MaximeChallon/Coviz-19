@@ -67,13 +67,14 @@ def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_
 
     fig = plt.figure(figsize=(10, 7))
     ax = plt.axes(xlim=(0, len(x_future)), ylim=(0-(y_max*0.05), y_max))
-    scatter = ax.scatter([], [], s=15, color="black", marker="D")
-    line, = ax.plot([], [], lw=2, color="red")
+    scatter = ax.scatter([], [], s=15, color="black", marker="D", label="Original Data")
+    line, = ax.plot([], [], lw=2, color="red", label="Fitted Curve")
     date = ax.text(x_max - x_max*0.15, y_max + y_max*0.01, '')
     count = ax.text(x_max - x_max*0.23, y_max - y_max*0.05, '')
     plt.title(plt_title)
     plt.xlabel(plt_xlabel)
     plt.ylabel(plt_ylabel)
+    plt.legend(loc="upper left", title="Legend", title_fontsize=14, fontsize=12)
 
     print("Fit the logistic curve...")
     def plot_animation():
@@ -145,6 +146,6 @@ def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_
                                        interval=100)
     anim = plot_animation()
     os.mkdir(output_folder)
-    path = output_folder + "/gif.gif"
+    path = output_folder + "/" + country + "_" + to_plot + ".gif"
     anim.save(path, writer='imagemagick', fps=1.5)
     plt.close()

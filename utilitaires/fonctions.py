@@ -430,7 +430,7 @@ def calcul_par_10000_hbts():
 
 def fit_predict(x, y, f, x_pred=None):
 	"""Fit a function and predict on some input"""
-	popt, pcov = opt.curve_fit(f, x, y, maxfev=100000)
+	popt, pcov = opt.curve_fit(f, x, y, maxfev=1000000)
 	if x_pred is None:
 		x_pred = x
 	return f(x_pred, *popt)
