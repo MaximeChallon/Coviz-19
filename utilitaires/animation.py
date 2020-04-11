@@ -132,7 +132,7 @@ def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_
 
             # Update texts
             date.set_text(get_date(i))
-            count.set_text(f"{to_plot}: {get_count(i)}")
+            count.set_text(f"{to_plot.replace('_', ' ')}: {get_count(i)}")
 
             return [scatter, line, date, count],\
 

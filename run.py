@@ -1095,31 +1095,102 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 
 
 @main.command('animation')
+@click.argument("country")
 @click.argument("output_folder",
 	default="out")
-@click.argument("country")
 @click.argument("min_cases",
+				type=click.FLOAT,
 				default=5)
 @click.argument("max_days_ahead",
 				default=10)
-@click.option("-cd",
-			  "--cases_of_the_day",
-			  is_flag=True,
-			  help="Process the cases of the day's data")
-def animate(output_folder, country, min_cases, max_days_ahead,
-			cases_of_the_day):
+@click.argument("min_points",
+				default=5)
+@click.argument("rolling_mean_window",
+				default=2)
+@click.option('-td',
+	'--total_deaths',
+	is_flag=True,
+	help="Process the cumulative deaths data")
+@click.option('-tc',
+	'--total_cases',
+	is_flag=True,
+	help="Process the cumulative cases data")
+@click.option('-cd',
+	'--cases_of_the_day',
+	is_flag=True,
+	help="Process the cases of the day data")
+@click.option('-dd',
+	'--deaths_of_the_day',
+	is_flag=True,
+	help="Process the deaths of the day data")
+@click.option("-cdpi",
+	"--cases_of_the_day_per_10000_inhabitants",
+	is_flag=True,
+	help="Process the cases of the day per 10000 inhabitants")
+@click.option("-ddpi",
+	"--deaths_of_the_day_per_10000_inhabitants",
+	is_flag=True,
+	help="Process the deaths of the day per 10000 inhabitants")
+@click.option("-tcpi",
+	"--total_cases_per_10000_inhabitants",
+	is_flag=True,
+	help="Process the cumulative cases per 10000 inhabitants")
+@click.option("-tdpi",
+	"--total_deaths_per_10000_inhabitants",
+	is_flag=True,
+	help="Process the cumulative deaths per 10000 inhabitants")
+def animate(output_folder, country, min_cases, max_days_ahead, min_points, rolling_mean_window,
+			cases_of_the_day, deaths_of_the_day, total_cases, total_deaths,
+			cases_of_the_day_per_10000_inhabitants, deaths_of_the_day_per_10000_inhabitants, total_cases_per_10000_inhabitants, total_deaths_per_10000_inhabitants):
+	"""
+	\f
+	:param output_folder: name of the folder which will have the CSVs
+	:type output_folder: str
+	:param country: name of a country, with a capital letter at the beginning
+	:type country: str
+	:param total_deaths: if given, the total deaths data are process
+	:type total_deaths: bool
+	:param total_cases: if given, the total cases data are process
+	:type total_cases: bool
+	:param cases_of_the_day: if given, the cases of the day data are process
+	:type cases_of_the_day: bool
+	:param deaths_of_the_day: if given, the deaths of the day data are process
+	:type deaths_of_the_day: bool
+	:param cases_of_the_day_per_10000_inhabitants: if given, create a CSV for the cases of the day per 10000 inhabitants
+	:type cases_of_the_day_per_10000_inhabitants: bool
+	:param deaths_of_the_day_per_10000_inhabitants: if given, create a CSV for the deaths of the day per 10000 inhabitants
+	:type deaths_of_the_day_per_10000_inhabitants: bool
+	:param total_cases_per_10000_inhabitants: if given, create a CSV for the cumulative cases per 10000 inhabitants
+	:type total_cases_per_10000_inhabitants: bool
+	:param total_deaths_per_10000_inhabitants: if given, create a CSV for the cumulative deaths per 10000 inhabitants
+	:type total_deaths_per_10000_inhabitants: bool
+	"""
 	start_time = time.time()
 	os.system(DATA)
 	calcul_par_10000_hbts()
 
 	if cases_of_the_day:
 		to_plot = 'new_cases'
+	if deaths_of_the_day:
+		to_plot = 'new_deaths'
+	if total_cases:
+		to_plot = "total_cases"
+	if total_deaths:
+		to_plot = "total_deaths"
+	if cases_of_the_day_per_10000_inhabitants:
+		to_plot = 'new_cases_per_10000'
+	if deaths_of_the_day_per_10000_inhabitants:
+		to_plot = 'new_deaths_per_10000'
+	if total_cases_per_10000_inhabitants:
+		to_plot = "total_cases_per_10000"
+	if total_deaths_per_10000_inhabitants:
+		to_plot = "total_deaths_per_10000"
 
-	plt_title = "Evolution des " + to_plot + " dans le temps, et meilleure suite logique\nPays: " + country
-	plt_xlabel = f"Jours depuis " + str(min_cases) + to_plot
-	plt_ylabel = to_plot
+	plt_title = "Evolution des " + to_plot.replace('_', ' ') + " dans le temps, et meilleure suite logique\nPays: " + country
+	plt_xlabel = f"Jours depuis " + str(min_cases) + ' ' + to_plot.replace('_', ' ')
+	plt_ylabel = to_plot.replace('_', ' ')
 
-	animation_plot(country=country, min_points=5, rolling_mean_window=2,
+	animation_plot(country=country, min_points=min_points, rolling_mean_window=rolling_mean_window,
 				   plt_title=plt_title, plt_xlabel=plt_xlabel, plt_ylabel=plt_ylabel,
 				   to_plot=to_plot, output_folder=output_folder, min_cases=min_cases, max_days_ahead=max_days_ahead)
 
