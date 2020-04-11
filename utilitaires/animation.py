@@ -1,32 +1,24 @@
-"""Create an animation of the best-fit logistic curve over time."""
 import os
-
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import animation
 from sklearn.preprocessing import MinMaxScaler
-
 from utilitaires.fonctions import *
 from utilitaires.constantes import *
 import json
 import matplotlib
 
 matplotlib.use('TkAgg')
-
-plt.style.use('dark_background')
-DOTS_COLOR = 'white'
-
-# Uncomment this for dark style
-# plt.style.use('seaborn-pastel')
-# DOTS_COLOR = 'black'
+plt.style.use('seaborn-pastel')
+DOTS_COLOR = 'black'
 
 matplotlib.rc('font', family='sans-serif')
 matplotlib.rc('font', serif='Helvetica Neue')
 matplotlib.rc('text', usetex='false')
 
 
-def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out', repeat=False):
+def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'):
     """Create the animation.
 
     Parameters
@@ -44,21 +36,22 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
     repeat: bool, default True
         Whether to loop the animation or stop at last frame
     """
+    print("Begin to process animated plot...")
+
     data_to_json()
 
-    if country:
-        target = country + ".json"
-        url = 'utilitaires/data/data_json.json'
-
+    print("Loading data...")
+    # récupération des données
+    url = 'utilitaires/data/data_json.json'
     data = get_json_from_url(url)
+    df = pd.DataFrame(data[country])
 
-    if country:
-        df = pd.DataFrame(data[country])
-
+    # sélection des données qui ont une valeur supérieure à min_cases
     min_cases = 5
     df = df[df[to_plot] > float(min_cases)]
     df = df.reset_index(drop=True)
 
+    print("Initialize plot...")
     # Plot limits
     MAX_DAYS_AHEAD = 10
     y_max = df[to_plot].max() * 2
@@ -77,6 +70,7 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
     plt.xlabel(f"Days since {min_cases} {to_plot} cases")
     plt.ylabel(f"# {to_plot}")
 
+    print("Fit the logistic curve...")
     def plot_animation():
         MIN_POINTS = 5
         ROLLING_MEAN_WINDOW = 2
@@ -141,11 +135,11 @@ def animation_plot(country,  to_plot='new_cases', save=True, output_folder='out'
 
         fig.tight_layout()
 
+        print("Create the GIF plot...")
         return animation.FuncAnimation(fig, animate,
                                        init_func=init,
                                        frames=len(df)+1-MIN_POINTS,
-                                       interval=100,
-                                       repeat=repeat, repeat_delay=1)
+                                       interval=100)
     anim = plot_animation()
     if save:
         os.mkdir(output_folder)

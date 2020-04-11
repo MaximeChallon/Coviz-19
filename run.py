@@ -1,5 +1,6 @@
 import click
 from utilitaires.fonctions import *
+from utilitaires.animation import *
 import os
 import time
 import csv
@@ -1089,6 +1090,20 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 		print("Please give the data you want on the map")
 		os.system("python3 run.py map -h")
 
+	os.remove(DATA_PATH)
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
+
+
+@main.command('animation')
+def animate():
+	start_time = time.time()
+
+	os.system(DATA)
+	calcul_par_10000_hbts()
+
+	animation_plot(country='France',  to_plot='total_deaths', save=True, output_folder='out')
+
+	os.remove('utilitaires/data/data_json.json')
 	os.remove(DATA_PATH)
 	print("Execution time : %s seconds ---" % (time.time() - start_time))
 

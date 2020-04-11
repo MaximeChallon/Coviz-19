@@ -5,8 +5,10 @@ import datetime
 import matplotlib.pyplot as plt
 import json
 import pandas as pd
+import scipy.optimize as opt
+import numpy as np
 
-
+DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
 DATA_PATH = "utilitaires/data/data_full.csv"
 
 
@@ -28,6 +30,15 @@ def clean_folder():
 
 	try:
 		os.system('rm -r out/')
+	except:
+		pass
+
+	try:
+		os.remove('utilitaires/data/data_full.csv')
+	except:
+		pass
+	try:
+		os.remove('utilitaires/data/data_json.json')
 	except:
 		pass
 
@@ -367,6 +378,7 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 
 	json_file.close()
 
+
 def calcul_par_10000_hbts():
 	"""
 	Increase the ourworldindata's data with the population's data
@@ -409,4 +421,54 @@ def calcul_par_10000_hbts():
 					writer.writerow([line[1], line[2], line[3], line[4], line[5], 0, 0, 0, 0])
 	
 	os.remove('utilitaires/data/test.csv')
-	os.remove(DATA_BEGINNING)	
+	os.remove(DATA_BEGINNING)
+
+#################################################################
+################ pour l'animation ###############################
+#################################################################
+
+
+def fit_predict(x, y, f, x_pred=None):
+	"""Fit a function and predict on some input"""
+	popt, pcov = opt.curve_fit(f, x, y, maxfev=100000)
+	if x_pred is None:
+		x_pred = x
+	return f(x_pred, *popt)
+
+
+def logistic(x, a, c, d):
+	"""Fit a logistic function."""
+	return a / (1. + np.exp(-c * (x - d)))
+
+
+def get_json_from_url(path):
+	"""Get a json from a URL."""
+	with open(path, 'r') as f:
+		datas = json.load(f)
+	return datas
+
+
+def data_to_json():
+	DATA_FULL = 'utilitaires/data/data_full.csv'
+	dico = {}
+	print("Transform data to JSON format...")
+	for pays in get_list_countries_available(DATA_FULL):
+		liste_pays = []
+		with open(DATA_FULL, "r") as f:
+			f_o = csv.reader(f)
+			for line in f_o:
+				if line[1] == pays and pays != 'International':
+					dico_pays_date = {"date": line[0],
+					"new_cases" : float(line[2]),
+					"new_deaths" : float(line[3]),
+					"total_cases" : float(line[4]),
+					"total_deaths" : float(line[5]),
+					"new_cases_per_10000" : float(line[6]),
+					"new_deaths_per_10000" : float(line[7]),
+					"total_cases_per_10000" : float(line[8]),
+					"total_deaths_per_10000" : float(line[9])
+					}
+					liste_pays.append(dico_pays_date)
+		dico[pays] = liste_pays
+	with open("utilitaires/data/data_json.json", "w") as f:
+		f.write(json.dumps(dico))
