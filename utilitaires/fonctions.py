@@ -8,9 +8,6 @@ import pandas as pd
 import scipy.optimize as opt
 import numpy as np
 
-DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
-DATA_PATH = "utilitaires/data/data_full.csv"
-
 
 def clean_folder():
 	"""

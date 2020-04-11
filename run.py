@@ -13,11 +13,6 @@ import pandas as pd
 # avant réalisation d'une commande, nettoyage du dossier des fichiers et dossiers inutiles ou périmés
 clean_folder()
 
-# définition de quelques constantes sur les données
-DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
-DATA_BEGINNING = 'full_data.csv'
-DATA_PATH = 'utilitaires/data/data_full.csv'
-
 @click.group(context_settings={'help_option_names':['-h','--help']})
 def main():
     pass

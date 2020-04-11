@@ -1,5 +1,10 @@
 import datetime
 
+# données
+DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
+DATA_BEGINNING = 'full_data.csv'
+DATA_PATH = 'utilitaires/data/data_full.csv'
+
 # dates
 TODAY = datetime.datetime.today().strftime('%Y-%m-%d')
 YESTERDAY = datetime.datetime.today()-datetime.timedelta(1)
