@@ -894,7 +894,7 @@ def map(output_folder, map_total_deaths, map_total_cases, map_deaths_of_the_day,
 	calcul_par_10000_hbts()
 
 	if not plot_min:
-		plot_min = 5
+		plot_min = 0
 
 	if map_deaths_of_the_day or map_cases_of_the_day or map_total_deaths or map_total_cases or map_cases_of_the_day_per_10000_inhabitants or map_deaths_of_the_day_per_10000_inhabitants or map_total_cases_per_10000_inhabitants or map_total_deaths_per_10000_inhabitants:
 		if map_total_cases:
