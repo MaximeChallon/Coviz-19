@@ -641,7 +641,7 @@ def country(output_folder, country,
 		next(f_o)
 		for line in f_o:
 			if line[1] == country:
-				world_dictionnary[line[0]]=get_world_data(DATA_PATH, country)[line[0]]
+				world_dictionnary[line[0]] = get_world_data(DATA_PATH, country)[line[0]]
 
 	if csv_o:
 		if total_deaths:
