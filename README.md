@@ -35,6 +35,7 @@ Les options suivantes sont disponibles pour `map`:
 * `-mdd`, `--map_deaths_of_the_day` : Create a Leaflet layer with the deaths_of_the_day data
 * `-mcd`, `--map_cases_of_the_day` : Create a Leaflet layer with the cases_of_the_day data
 * `-mcdpi`, `--map_cases_of_the_day_per_10000_inhabitants` : Create a Leaflet layer with the cases_of_the_day data per 10000 inhabitants
+* `-mddpi`, `--map_deaths_of_the_day_per_10000_inhabitants` : Create a Leaflet layer with the deaths_of_the_day data per 10000 inhabitants
 * `-ptd`, `--plot_total_deaths` : Create a Vega plot with the cumulative deaths data
 * `-ptc`, `--plot_total_cases` : Create a Vega plot with the cumulative cases data
 * `-pdd`, `--plot_deaths_of_the_day` : Create a Vega plot with the deaths_of_the_day data
