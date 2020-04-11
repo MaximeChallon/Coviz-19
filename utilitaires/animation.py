@@ -17,7 +17,7 @@ matplotlib.rc('font', serif='Helvetica Neue')
 matplotlib.rc('text', usetex='false')
 
 
-def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_window, to_plot, save, output_folder):
+def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_window, to_plot, output_folder, plt_title, plt_xlabel, plt_ylabel):
     """
     Create the animation plot in a GIF output for the given country and the given data.
     :param country: name of the country to process
@@ -32,10 +32,14 @@ def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_
     :type rolling_mean_window: int
     :param to_plot: name of the column of data to process
     :type to_plot: str
-    :param save: if True, the plot is saved
-    :type save: bool
     :param output_folder: name of the outpu_folder
     :type output_folder: str
+    :param plt_title: title of the plot
+    :type plt_title: str
+    :param plt_xlabel: title of the x ax
+    :type plt_xlabel: str
+    :param plt_ylabel: title of the y ax
+    :type plt_ylabel: str
     :return: nothing
     :rtype: None
     """
@@ -67,9 +71,9 @@ def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_
     line, = ax.plot([], [], lw=2, color="red")
     date = ax.text(x_max - x_max*0.15, y_max + y_max*0.01, '')
     count = ax.text(x_max - x_max*0.23, y_max - y_max*0.05, '')
-    plt.title(f"Evolution des {to_plot} dans le temps, et meilleure suite logique\nPays: {country}")
-    plt.xlabel(f"Jours depuis {min_cases} {to_plot}")
-    plt.ylabel(f"{to_plot}")
+    plt.title(plt_title)
+    plt.xlabel(plt_xlabel)
+    plt.ylabel(plt_ylabel)
 
     print("Fit the logistic curve...")
     def plot_animation():
@@ -140,8 +144,7 @@ def animation_plot(country, min_cases, max_days_ahead, min_points, rolling_mean_
                                        frames=len(df)+1-min_points,
                                        interval=100)
     anim = plot_animation()
-    if save:
-        os.mkdir(output_folder)
-        path = output_folder + "/gif.gif"
-        anim.save(path, writer='imagemagick', fps=1.5)
+    os.mkdir(output_folder)
+    path = output_folder + "/gif.gif"
+    anim.save(path, writer='imagemagick', fps=1.5)
     plt.close()
