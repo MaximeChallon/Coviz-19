@@ -11,6 +11,11 @@ DATA_PATH = "utilitaires/data/data_full.csv"
 
 
 def clean_folder():
+	"""
+	Fonction permettant de supprimer les dossiers et fichiers inutiles
+	:return: nothing
+	:rtype:None
+	"""
 	try:
 		os.remove('full_data.csv')
 	except:
@@ -28,6 +33,13 @@ def clean_folder():
 
 
 def get_list_countries_available(data):
+	"""
+	Create a list with all the countries available, i.e. all the countries present in the DATA_PATH file
+	:param data: the name of a file
+	:type data: str
+	:return: the list of the available countries
+	:rtype: list
+	"""
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
 		next(f_o)
@@ -39,6 +51,13 @@ def get_list_countries_available(data):
 
 
 def get_all_dates_available(data):
+	"""
+	Create a list with all the dates available, i.e. all the dates present in the DATA_PATH file
+	:param data: the name of a file
+	:type data: str
+	:return: the list of the available dates
+	:rtype: list
+	"""
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
 		next(f_o)
@@ -50,6 +69,14 @@ def get_all_dates_available(data):
 
 
 def get_data_today(data):
+	"""
+	Create a dictionnary with the data of today (or yesterday according to the updating of the data
+	:param data: name of the data file
+	:type data: str
+	:return: dictionnary_toda_today: country in key, data in values
+	:rtype: dict
+	"""
+	# création du dictionnaire avec les données de la date du jour
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
 		next(f_o)
@@ -57,6 +84,9 @@ def get_data_today(data):
 		for line in f_o:
 			if line[0] == TODAY:
 				dictionnary_data_today[line[1]] = [line[2], line[3], line[4], line[5],line[6], line[7], line[8], line[9]]
+	
+	# si le dictionnaire est vide (donc si la date du jour n'est pas encore disponible), remplissage du dictionnaire
+	# avec les données de la veille
 	if len(dictionnary_data_today) == 0:
 		with open(data, 'r') as f:
 			f_o = csv.reader(f)
@@ -73,7 +103,17 @@ def get_data_today(data):
 
 
 def get_list_countries_to_process(country, full, liste):
-	# list of countries to process
+	"""
+	Create a list with all the countries to process
+	:param country: name of one country
+	:type country: str
+	:param full: if given, all the available countries are process
+	:type full: bool
+	:param liste: list of countries
+	:type liste: list
+	:return:list_countries_to_process
+	:rtype: list
+	"""
 	list_countries_to_process = []
 	if country in get_list_countries_available(DATA_PATH):
 		list_countries_to_process.append(country)
@@ -94,6 +134,15 @@ def get_list_countries_to_process(country, full, liste):
 
 
 def get_world_data(data, country):
+	"""
+	Create a dictionnary with the countries's data
+	:param data: name of the data file
+	:type data: str
+	:param country: name of one country
+	:type country: str
+	:return: dictionnary_world_data
+	:rtype: dict
+	"""
 	with open(data, 'r') as f:
 		f_o = csv.reader(f)
 		next(f_o)
@@ -105,8 +154,27 @@ def get_world_data(data, country):
 
 
 def simple_plot_world(message, name_img, index, y_label, output_folder, world_dictionnary):
+	"""
+	Process the world's plots with the world_dictionnary
+	:param message: message to get to the user in tne bash
+	:type message: str
+	:param name_img: name of the output image
+	:type name_img: str
+	:param index: index of the data in the world_dictionnary
+	:type index: int
+	:param y_label: title of the y ax
+	:type y_label: str
+	:param output_folder: name of the folder where put the output image
+	;type output_folder: str
+	:param world_dictionnary: dictionnary with the world's data
+	:type world_dictionnary: dict
+	:return: nothing
+	:rtype:None
+	"""
 	print(message)
+	# create the image path
 	img_path = output_folder + name_img
+	# creating the plot
 	fig = plt.figure(figsize=MORE_30D)
 	plt.xticks(rotation=90)
 	ax = plt.subplot()
@@ -121,9 +189,25 @@ def simple_plot_world(message, name_img, index, y_label, output_folder, world_di
 
 
 def get_csv_world(output_folder, csv_path, index, world_dictionnary, country):
+	"""
+	Create a CSV file with the given data
+	:param output_folder: name of the output folder
+	:type output_folder: str
+	:param csv_path: name of the output CSV file
+	:type csv_path: str
+	:param index: index of the data in the world_dictionnary
+	:type index: int
+	:param world_dictionnary: dictionnary with all the data
+	:type world_dictionnary: dict
+	:param country: name of one country
+	:type country: str
+	:return: nothing
+	:rtype: None
+	"""
 	with open(csv_path, 'w') as f:
 		writer = csv.writer(f)
 		print("Writing headers...")
+		# gestion des premières lignes du CSV en fonction de l'index donné
 		if index == 0:
 			header = "cases_of_the_day"
 		elif index == 1 :
@@ -140,6 +224,7 @@ def get_csv_world(output_folder, csv_path, index, world_dictionnary, country):
 			header = "total_cases_per_10000"
 		elif index == 7:
 			header = "total_deaths_per_10000"
+		# écriture du fichier CSV
 		writer.writerow(["country", "date", header])
 		print("Writing the body...")
 		for day in world_dictionnary:
@@ -148,6 +233,23 @@ def get_csv_world(output_folder, csv_path, index, world_dictionnary, country):
 
 
 def get_csv_today(output_folder, csv_path, index, country, full, liste):
+	"""
+	Create a CSV file with the data of today
+	:param output_folder: name of the output folder
+	:type output_folder: str
+	:param csv_path: name of the output CSV file
+	:type csv_path: str
+	:param index: index of the data in the DATA_PATH file
+	:type index: int
+	:param country: name of one country
+	:type country: str
+	:param full: process all the countries available
+	:type full: bool
+	:param liste: list of countries to process
+	:type liste: list
+	:return: nothing
+	:rtype: None
+	"""
 	csv_path = output_folder + '/' + csv_path
 	with open(csv_path, 'w') as f:
 			writer = csv.writer(f)
@@ -176,8 +278,29 @@ def get_csv_today(output_folder, csv_path, index, country, full, liste):
 
 
 def simple_plot_country(img_path, index, country, full, liste, output_folder):
+	"""
+	Create a PNG plot with the given data for one or many countries
+	:param output_folder: name of the output folder
+	:type output_folder: str
+	:param img_path: name of the output PNG plot
+	:type img_path: str
+	:param index: index of the data in the DATA_PATH file
+	:type index: int
+	:param country: name of one country
+	:type country: str
+	:param full: process all the countries available
+	:type full: bool
+	:param liste: list of countries to process
+	:type liste: list
+	:return: nothing
+	:rtype: None
+	"""
 	print("Creating " + img_path + "...")
+
+	# création du chemin du futur fichier png
 	img_path1 = output_folder + '/' + img_path
+
+	# initialisation de la figure plt
 	fig = plt.figure()
 	fig, ax = plt.subplots(1,figsize=MORE_30D)
 	plt.xticks(rotation=90)
@@ -186,6 +309,8 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 	json_file = open('utilitaires/data/data_confinement.json')
 	confinement = json.load(json_file)
 
+	# création d'un dictionnaire qui comprendra en clé les pays et en valeur une liste de listes composéés
+	# du couple date et donnée demandée
 	dictionnaire_for_plotting = {}
 	for country in get_list_countries_to_process(country=country, full=full, liste=liste):
 		list_country = []
@@ -198,6 +323,7 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 		dictionnaire_for_plotting[country] = list_country
 
 
+	# création de listes vides pour gérer les dates de confinement et de déconfinement des pays
 	dates_conf = []
 	dates_deconf = []
 	value_at_date_conf = []
@@ -224,11 +350,11 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 					dates_deconf.append(date)
 					value_at_date_deconf.append(data_country[dates_country.index(date)])
 	
+	# création des marqueurs si les listes de confinement et de déconfinement ont une valeur
 	if dates_conf != []:
 		ax.scatter(dates_conf, value_at_date_conf, s=140, c="r", marker='X', label="Confinement")
 	if dates_deconf != []:
 		ax.scatter(dates_deconf, value_at_date_deconf, s=140, c="g", marker='X', label="Déconfinement")
-
 
 	ax.set_xlabel('Date', fontsize=16)
 	ax.set_ylabel(img_path.replace('.png', '').replace('out/', '').replace('_', ' '), fontsize=16)
@@ -242,6 +368,9 @@ def simple_plot_country(img_path, index, country, full, liste, output_folder):
 	json_file.close()
 
 def calcul_par_10000_hbts():
+	"""
+	Increase the ourworldindata's data with the population's data
+	"""
 	DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
 	DATA_BEGINNING = 'full_data.csv'
 	try:
@@ -249,15 +378,20 @@ def calcul_par_10000_hbts():
 	except:
 		pass
 	
+	# lecture des deux fichiers csv d'entrée
 	csv_pop = pd.read_csv('utilitaires/data/data_population.csv')
 	df_pop = pd.DataFrame(csv_pop)
 	
 	csv_df = pd.read_csv(DATA_BEGINNING)
 	df_fd = pd.DataFrame(csv_df)
 	
+	# réalisation d'une left join entre ces deux fichiers pour ajouter une colonne population
+	# à df_fd
 	result = pd.merge(df_fd, df_pop, on='location', how='left')
 	result.to_csv('utilitaires/data/test.csv' , columns =['date','location','new_cases','new_deaths','total_cases','total_deaths','Population'])
 	
+	# grâce à cette nouvelle colonne, écriture dans test.csv de 10 colonnes (date, pays, données d'origine
+	# nouvelles données calculées par rapport à la population)
 	with open('utilitaires/data/test.csv', 'r') as f:
 		r = csv.reader(f)
 		next(r)

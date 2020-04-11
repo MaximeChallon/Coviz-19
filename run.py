@@ -9,8 +9,10 @@ import matplotlib.pyplot as plt
 import folium
 import pandas as pd
 
+# avant réalisation d'une commande, nettoyage du dossier des fichiers et dossiers inutiles ou périmés
 clean_folder()
 
+# définition de quelques constantes sur les données
 DATA = 'wget https://covid.ourworldindata.org/data/ecdc/full_data.csv'
 DATA_BEGINNING = 'full_data.csv'
 DATA_PATH = 'utilitaires/data/data_full.csv'
@@ -19,6 +21,9 @@ DATA_PATH = 'utilitaires/data/data_full.csv'
 def main():
     pass
 
+#####################################################################
+########################## plot command #############################
+#####################################################################
 
 @main.command("plot")
 @click.argument("output_folder",
@@ -127,6 +132,9 @@ def plot(output_folder, country, full, liste,
 	os.remove(DATA_PATH)
 	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
+#####################################################################
+######################### world command #############################
+#####################################################################
 
 @main.command("world")
 @click.argument("output_folder",
@@ -272,6 +280,9 @@ def world(output_folder, today, full,
 	# managing the folders...
 	os.system('mkdir ' + output_folder)
 
+	# récupération dans le dictionnaire world_dictionnary des données soit du jour si elles existent pour le pays,
+	# soit de la veille: cela est dû à la fréquence et à l'heure des mises à jour des données sur le site source
+	# des données
 	world_dictionnary = {}
 	if today:
 		try:
@@ -339,6 +350,9 @@ def world(output_folder, today, full,
 	os.remove(DATA_PATH)
 	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
+#####################################################################
+######################### today command #############################
+#####################################################################
 
 @main.command("today")
 @click.argument("output_folder",
@@ -457,6 +471,9 @@ def country(country, output_folder, full, liste,
 	os.remove(DATA_PATH)
 	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
 
+#####################################################################
+###################### csv_country command ##########################
+#####################################################################
 
 @main.command("csv_country")
 @click.argument("output_folder", 
@@ -498,7 +515,7 @@ def country_to_csv (country, output_folder, full, liste):
 	os.system('mkdir ' + output_folder + '/countries')
 
 	for country in get_list_countries_to_process(country=country, full=full, liste=liste):
-		prfloat(country + ' on process...')
+		print(country + ' on process...')
 		# creation of one folder for each country
 		os.system('mkdir ' + folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_'))
 		csv_path = folder_path + '/' + country.replace(' ', '_').replace('\'', '_').replace('(', '_').replace(')', '_') + '/' +  country.replace(')', '_').replace('(', '_').replace(' ', '_').replace('\'', '_') + '.csv'
@@ -508,17 +525,20 @@ def country_to_csv (country, output_folder, full, liste):
 			next(f_o)
 			with open(csv_path, 'a') as f_e:
 				writer = csv.writer(f_e)
-				prfloat("Writing headers...")
+				print("Writing headers...")
 				writer.writerow(["date", "country", "cases_of_the_day", "deaths_of_the_day", "total_cases", "total_deaths", "new_cases_per_10000", "new_deaths_per_10000","total_cases_per_10000", "total_deaths_per_10000"])
-				prfloat("Writing body...")
+				print("Writing body...")
 				for line in f_o:
 					# écriture des lignes que quand le nombre de cas est supérieur à PLOT_MIN_CASES
 					if line[1] == country and line[4] >= PLOT_MIN_CASES:
 						writer.writerow(line)
 
 	os.remove(DATA_PATH)
-	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
+	print("Execution time : %s seconds ---" % (time.time() - start_time))
 
+#####################################################################
+######################## country command ############################
+#####################################################################
 
 @main.command("country")
 @click.argument("output_folder", 
@@ -616,6 +636,9 @@ def country(output_folder, country,
 	# managing the folders...
 	os.system('mkdir ' + output_folder)	
 
+	# récupération dans le dictionnaire world_dictionnary des données soit du jour si elles existent pour le pays,
+	# soit de la veille: cela est dû à la fréquence et à l'heure des mises à jour des données sur le site source
+	# des données
 	world_dictionnary = {}
 	with open(DATA_PATH, 'r') as f:
 		f_o = csv.reader(f)
@@ -769,6 +792,11 @@ def country(output_folder, country,
 
 	os.remove(DATA_PATH)
 	prfloat("Execution time : %s seconds ---" % (time.time() - start_time))
+
+
+#####################################################################
+########################## map command ##############################
+#####################################################################
 
 
 @main.command('map')

@@ -7,12 +7,27 @@ import pandas as pd
 import re
 
 def map_chloro(index_layer, index_plot, min_plot, output_folder):
+    """
+    Create a Leaflet chloropeth map with Folium and Vega libraries. Each country has his own plot for the given data.
+    :param index_layer: index of the data in the DATA_PATH csv
+    :type index_layer: int
+    :param index_plot: index of the data in the DATA_PATH csv
+    :type index_plot: int
+    :param min_plot: the minimal value of y axes for which the data will be process
+    :type min_plot: float
+    :param output_folder: name of the folder where to save the map
+    :type output_folder: str
+    :return: nothing
+    :rtype: None
+    """
     print('Loading capitals data...')
+
     # open the json file with the json data of capitals
     capitals_json = open('utilitaires/data/data_capitals.geojson')
     capitals = json.load(capitals_json)
     
     print("Loading countries data...")
+
     # open the json file with dates of quarantine
     country_json = open('utilitaires/data/data_country.geojson')
     pays = json.load(country_json)
@@ -71,6 +86,8 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     
     
     print("Processing your given dataset...")
+
+    # création d'un fichier csv temporaire contenant les données pour la carte selon l'index_layer
     with open(DATA_PATH, 'r') as f:
     	f_o = csv.reader(f)
     	next(f_o)
@@ -78,15 +95,17 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     		writer = csv.writer(f_csv)
     		writer.writerow(["Country", "Chiffre"])
     		for line in f_o:
-          # data.csv prend en valeur la date de la veille avec le nombre de décès total, hors World: ça
-          # permet de faire le fonds de carte de couleur en fonction du dernier chiffre du nombre de décès
+          # data.csv prend en valeur la date de la veille avec le nombre correspondant, hors World
     			if line[0] == str(YESTERDAY_CUT) and line[1] != 'World':
     				writer.writerow([line[1], line[index_layer]])
     
+    # ouverture et lecture du fichier csv créé
     data = f'data.csv'
     world_data = pd.read_csv(data)
     
     print("Creating the countries's layer of the map...")
+
+    # initialisation de la carte et des paramètres généraux
     map = folium.Map(location=[48, 0], zoom_start=3)
     
     # création du fonds de carte coloré en fonction des valeurs de la veille
@@ -104,14 +123,18 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
     
     
     print("Processing plots for each country...")
+
     # création d'un point par pays (sur la capitale) pour accueillir les graphiques ensuite
     for pays in capitals["features"]:
+        # création d'une liste vide qui accueillera un dictionnaire par jour pour le pays donné
         data_country = []
         # création d'un booléen pour savoir si le pays aura un graphique
         data_plot = False
         with open(DATA_PATH, 'r') as f_e:
             f_o = csv.reader(f_e)
             next(f_o)
+            # la variable i permet non pas d'afficher le jour précis sur l'axe x, mais le numéro du jour en fonction
+            # de la réalisation du paramètre min_plot
             i = 1
             for line in f_o:
                 if pays['properties']['country'] == line[1] and float(line[index_plot]) >= float(min_plot):
@@ -124,7 +147,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
                     i += 1
                     data_plot = True
     
-    	# créer le fichier json
+    	# créer le fichier json nécessaire à Vega pour faire les graphiques
         if data_plot:
             with open('country.json', "w") as f:
                 data = {
@@ -221,13 +244,16 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
                     ],
                     "width": 800
                   }
+                # écriture du dictionnaire dans un fichier json
                 f.write(json.dumps(data))
 
+            # ouverture et lecture de ce nouveau fichier json...
             with open('country.json', 'r') as f:
                 data_json = json.load(f)
 
             custom_icon = folium.features.CustomIcon(icon_image='utilitaires/img/coro.png', icon_size=(14, 14))
 
+            # ... pour le donner à folium.Vega dans le marker placé sur la capitale de chaque pays
             folium.Marker(location=pays['geometry']['coordinates'],
                           popup=folium.Popup(max_width=900).add_child(
                               folium.Vega(data_json, width=900, height=450)),
@@ -237,6 +263,7 @@ def map_chloro(index_layer, index_plot, min_plot, output_folder):
             os.remove('country.json')
 
     print("Creating the HTML file...")
+    
     folium.LayerControl().add_to(map)
 
     os.mkdir(output_folder)
